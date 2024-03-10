@@ -1,4 +1,4 @@
-import ProjectEditForm from "@/components/project/ProjectEditForm";
+import ProjectsPanel from "@/components/project/ProjectsPanel";
 import { Project } from "@/server-actions/projectsActions";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -11,7 +11,7 @@ export default async function Dashboard() {
   } = await supabase.auth.getSession();
   const user = session?.user;
 
-  const { data: projects, error } = await supabase
+  const { data, error } = await supabase
     .from("projects")
     .select("*")
     .order("created_at", { ascending: true });
@@ -35,19 +35,7 @@ export default async function Dashboard() {
           </form>
         </div>
       </div>
-      <div className="container mx-auto p-6 sm:p-12">
-        <ProjectEditForm />
-      </div>
-      <div className="container mx-auto p-6 sm:p-12">
-        {projects?.map((project: Project) => (
-          <div
-            key={project.id}
-            className="mb-4 p-4 bg-gray-800 rounded-lg shadow"
-          >
-            <h2>{project.name}</h2>
-          </div>
-        ))}
-      </div>
+      <ProjectsPanel projects={data !== null ? (data as Project[]) : []} />
     </div>
   );
 }
