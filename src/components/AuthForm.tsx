@@ -12,7 +12,7 @@ export default function AuthForm() {
       view="magic_link"
       showLinks={false}
       providers={[]}
-      redirectTo="http://localhost:3000/auth/callback"
+      redirectTo={process.env.APP_URL_BASE + "/auth/callback"}
       appearance={{
         className: {
           button: "bg-white-400 text-gray-900 hover:bg-gray-600",
