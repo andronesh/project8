@@ -6,19 +6,24 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 export default function AuthForm() {
   const supabase = createClientComponentClient();
 
+  const redirectUrl = process.env.APP_URL_BASE + "/auth/callback";
+
   return (
-    <Auth
-      supabaseClient={supabase}
-      view="magic_link"
-      showLinks={false}
-      providers={[]}
-      redirectTo={process.env.APP_URL_BASE + "/auth/callback"}
-      appearance={{
-        className: {
-          button: "bg-white-400 text-gray-900 hover:bg-gray-600",
-          input: "bg-gray-700 border-gray-600 text-white",
-        },
-      }}
-    />
+    <>
+      <div>redirect will be to {redirectUrl} </div>
+      <Auth
+        supabaseClient={supabase}
+        view="magic_link"
+        showLinks={false}
+        providers={[]}
+        redirectTo={redirectUrl}
+        appearance={{
+          className: {
+            button: "bg-white-400 text-gray-900 hover:bg-gray-600",
+            input: "bg-gray-700 border-gray-600 text-white",
+          },
+        }}
+      />
+    </>
   );
 }
