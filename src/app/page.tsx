@@ -8,7 +8,7 @@ export default function Home() {
           Hello, please Log In to continue
         </h1>
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-          <AuthForm />
+          <AuthForm appBaseUrl={process.env.APP_URL_BASE} />
         </div>
       </div>
     </div>
