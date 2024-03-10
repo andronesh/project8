@@ -40,7 +40,10 @@ export default async function Dashboard() {
       </div>
       <div className="container mx-auto p-6 sm:p-12">
         {projects?.map((project: Project) => (
-          <div key={project.id}>
+          <div
+            key={project.id}
+            className="mb-4 p-4 bg-gray-800 rounded-lg shadow"
+          >
             <h2>{project.name}</h2>
           </div>
         ))}
