@@ -1,20 +1,40 @@
 "use client";
 
+import { Issue } from "@/server-actions/issuesActions";
 import { Project } from "@/server-actions/projectsActions";
-import ProjectEditForm from "./ProjectEditForm";
-import { useState } from "react";
-import IssuesPanel from "../issue/IssuesPanel";
+import { useEffect, useState } from "react";
+import IssueEditForm from "./IssueEditForm";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type Props = {
-  projects: Project[];
+  project: Project;
 };
 
-export default function ProjectsPanel({ projects }: Props) {
-  const [selectedProject, selectProject] = useState<Project>();
+export default function IssuesPanel({ project }: Props) {
+  const [issues, setIssues] = useState<Issue[]>([]);
+  const [selectedIssue, selectIssue] = useState<Issue>();
   const [editFormVisible, setEditFormVisible] = useState(false);
 
-  const initProjectCreation = () => {
-    selectProject(undefined);
+  useEffect(() => {
+    refreshIssuesList();
+  }, [project]);
+
+  // TODO move to more safe place
+  const refreshIssuesList = () => {
+    setEditFormVisible(false);
+    const supabase = createClientComponentClient(); // TODO should it be singletone or what?
+    supabase
+      .from("issues")
+      .select("*")
+      .match({ project_id: project.id })
+      .order("created_at", { ascending: true })
+      .then((result) => {
+        setIssues(result.data as unknown as Issue[]);
+      });
+  };
+
+  const initIssueCreation = () => {
+    selectIssue(undefined);
     setEditFormVisible(true);
   };
 
@@ -29,7 +49,7 @@ export default function ProjectsPanel({ projects }: Props) {
           <div className="sticky top-0 w-full">
             <div
               className="flex items-center justify-center mb-2 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:cursor-pointer hover:bg-gray-700"
-              onClick={() => initProjectCreation()}
+              onClick={() => initIssueCreation()}
             >
               <p className="text-2xl text-gray-400 dark:text-gray-500">
                 <svg
@@ -49,47 +69,32 @@ export default function ProjectsPanel({ projects }: Props) {
                 </svg>
               </p>
             </div>
-            {projects?.map((project: Project) => (
+            {issues?.map((issue: Issue) => (
               <div
-                key={project.id}
-                className={`flex justify-between mb-2 p-4 ${
-                  selectedProject?.id === project.id
+                key={issue.id}
+                className={`mb-2 p-4 ${
+                  selectedIssue?.id === issue.id
                     ? "bg-blue-900"
                     : "bg-gray-800 hover:bg-gray-700"
                 } rounded-lg shadow hover:cursor-pointer`}
                 onClick={() => {
-                  selectProject(project);
+                  selectIssue(issue);
+                  setEditFormVisible(true);
                 }}
               >
-                <h2>{project.name}</h2>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                  onClick={() => setEditFormVisible(true)}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-                  />
-                </svg>
+                <h2>{issue.title}</h2>
               </div>
             ))}
           </div>
         </aside>
         <main role="main" className="w-full sm:w-2/3 md:w-3/4 px-2">
           {editFormVisible && (
-            <ProjectEditForm
-              project={selectedProject}
+            <IssueEditForm
+              project={project}
+              issue={selectedIssue}
+              onSaved={refreshIssuesList}
               onCancel={cancelEditForm}
             />
-          )}
-          {selectedProject && !editFormVisible && (
-            <IssuesPanel project={selectedProject} />
           )}
         </main>
       </div>
