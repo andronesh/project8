@@ -12,13 +12,13 @@ type Props = {
 
 export default function ProjectEditForm({ project, onCancel }: Props) {
   const [formData, setFormData] = useState({
-    id: project?.id,
+    id: project?.id.toString(),
     name: project?.name,
   });
 
   useEffect(() => {
     setFormData({
-      id: project ? project.id : "",
+      id: project ? project.id.toString() : "",
       name: project ? project.name : "",
     });
   }, [project]);

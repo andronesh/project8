@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export type Project = {
-  id: string;
+  id: number;
   name: string;
 };
 
@@ -16,14 +16,10 @@ export async function createProject(formData: FormData) {
     return false;
   }
 
-  const id = crypto.randomUUID();
-
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
-  const { data, error } = await supabase
-    .from("projects")
-    .insert([{ id, name }]);
+  const { data, error } = await supabase.from("projects").insert([{ name }]);
 
   if (error) {
     console.error('Failed to save project with name"' + name + '"', error);
