@@ -20,7 +20,7 @@ export default async function Dashboard() {
 
   return (
     <div className="h-full bg-gray-900 text-gray-300">
-      <div className="container mx-auto p-6 sm:p-12">
+      <div className="container mx-auto p-6 pb-0">
         <div className="flex justify-between items-start">
           <h1 className="text-4xl md:text-4xl text-white mb-6">
             Project<b>8</b>
