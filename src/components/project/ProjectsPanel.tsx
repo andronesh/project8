@@ -110,10 +110,9 @@ export default function ProjectsPanel({ projects }: Props) {
               </div>
               <ul className="py-2 space-y-2">
                 {projects?.map((project: Project) => (
-                  <li>
+                  <li key={project.id}>
                     <div
                       // href={`/projects/${project.id}`}
-                      key={project.id}
                       onClick={() => {
                         selectProject(project);
                       }}
