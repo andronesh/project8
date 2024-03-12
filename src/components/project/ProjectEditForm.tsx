@@ -27,7 +27,7 @@ export default function ProjectEditForm({ project, onCancel }: Props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
-    <div className="w-full max-w-sm p-4 pt-0 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+    <div className="w-full p-4 pt-0 bg-white border border-gray-200 dark:bg-gray-700 dark:border-gray-600 rounded-lg shadow">
       <form
         className="space-y-4"
         action={project ? updateProject : createProject}
