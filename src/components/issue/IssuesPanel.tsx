@@ -45,7 +45,7 @@ export default function IssuesPanel({ project }: Props) {
   return (
     <div className="container mx-auto">
       <div className="flex flex-row flex-wrap">
-        <aside className="w-full sm:w-1/3 md:w-1/4 px-2">
+        <aside className="w-full px-2 sm:w-2/3 md:w-3/4">
           <div className="sticky top-0 w-full">
             <div
               className="flex items-center justify-center mb-2 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:cursor-pointer hover:bg-gray-700"
@@ -72,7 +72,7 @@ export default function IssuesPanel({ project }: Props) {
             {issues?.map((issue: Issue) => (
               <div
                 key={issue.id}
-                className={`mb-2 p-4 ${
+                className={`mb-2 px-3 py-1 ${
                   selectedIssue?.id === issue.id
                     ? "bg-blue-900"
                     : "bg-gray-800 hover:bg-gray-700"
@@ -87,7 +87,7 @@ export default function IssuesPanel({ project }: Props) {
             ))}
           </div>
         </aside>
-        <main role="main" className="w-full sm:w-2/3 md:w-3/4 px-2">
+        <main role="main" className="w-full px-2 sm:w-1/3 md:w-1/4">
           {editFormVisible && (
             <IssueEditForm
               project={project}
