@@ -1,10 +1,10 @@
 "use client";
 
-import { Issue } from "@/server-actions/issuesActions";
 import { Project } from "@/server-actions/projectsActions";
 import { useEffect, useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Issue } from "@/types";
 
 type Props = {
   project: Project;
@@ -45,7 +45,7 @@ export default function IssuesPanel({ project }: Props) {
   return (
     <div className="container mx-auto">
       <div className="flex flex-row flex-wrap">
-        <aside className="w-full px-2 sm:w-2/3 md:w-3/4">
+        <aside className="w-full px-2 sm:w-1/2 md:w-1/2">
           <div className="sticky top-0 w-full">
             <div
               className="flex items-center justify-center mb-2 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:cursor-pointer hover:bg-gray-700"
@@ -72,7 +72,7 @@ export default function IssuesPanel({ project }: Props) {
             {issues?.map((issue: Issue) => (
               <div
                 key={issue.id}
-                className={`mb-2 px-3 py-1 ${
+                className={`flex flex-row mb-2 px-3 py-1 ${
                   selectedIssue?.id === issue.id
                     ? "bg-blue-900"
                     : "bg-gray-800 hover:bg-gray-700"
@@ -82,12 +82,14 @@ export default function IssuesPanel({ project }: Props) {
                   setEditFormVisible(true);
                 }}
               >
-                <h2>{issue.title}</h2>
+                <h2 className={"w-full"}>{issue.title}</h2>
+                <span className={"pl-2"}>[{issue.status}]</span>
+                <span className={"pl-2"}>[{issue.type}]</span>
               </div>
             ))}
           </div>
         </aside>
-        <main role="main" className="w-full px-2 sm:w-1/3 md:w-1/4">
+        <main role="main" className="w-full px-2 sm:w-1/2 md:w-1/2">
           {editFormVisible && (
             <IssueEditForm
               project={project}

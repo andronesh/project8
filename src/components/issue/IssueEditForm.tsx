@@ -1,5 +1,6 @@
-import { Issue, createIssue } from "@/server-actions/issuesActions";
+import { createIssue, updateIssue } from "@/server-actions/issuesActions";
 import { Project } from "@/server-actions/projectsActions";
+import { Issue, IssueStatus, IssueType } from "@/types";
 import { useEffect, useState } from "react";
 
 type Props = {
@@ -12,6 +13,8 @@ type Props = {
 export default function IssueEditForm(props: Props) {
   const [formData, setFormData] = useState({
     id: props.issue?.id.toString(),
+    type: props.issue ? props.issue.type : IssueType.TASK,
+    status: props.issue ? props.issue.status : IssueStatus.CREATED,
     title: props.issue?.title,
     project_id: props.issue ? props.issue.project_id : props.project.id,
   });
@@ -19,6 +22,8 @@ export default function IssueEditForm(props: Props) {
   useEffect(() => {
     setFormData({
       id: props.issue ? props.issue.id.toString() : "",
+      type: props.issue ? props.issue.type : IssueType.TASK,
+      status: props.issue ? props.issue.status : IssueStatus.CREATED,
       title: props.issue ? props.issue.title : "",
       project_id: props.issue ? props.issue.project_id : props.project.id,
     });
@@ -29,9 +34,22 @@ export default function IssueEditForm(props: Props) {
 
   const saveIssue = async () => {
     if (props.issue) {
-      // TODO update
+      const result = await updateIssue(
+        props.issue.id,
+        formData.type,
+        formData.status,
+        formData.title!
+      );
+      if (result) {
+        props.onSaved();
+      }
     } else {
-      const result = await createIssue(formData.title!, formData.project_id);
+      const result = await createIssue(
+        formData.type,
+        formData.status,
+        formData.title!,
+        formData.project_id
+      );
       if (result) {
         props.onSaved();
       }
@@ -39,7 +57,7 @@ export default function IssueEditForm(props: Props) {
   };
 
   return (
-    <div className="w-full max-w-sm p-4 pt-0 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+    <div className="w-full p-4 pt-0 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
       <div className="space-y-4">
         <input
           type="text"
@@ -73,6 +91,65 @@ export default function IssueEditForm(props: Props) {
             required
           />
         </div>
+        <div className="flex flex-row justify-evenly">
+          <div className="flex flex-row justify-evenly items-center">
+            <label
+              htmlFor="type"
+              className="p-2.5 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Type
+            </label>
+            <select
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              {Object.keys(IssueType)
+                .filter((key) => {
+                  return isNaN(Number(key));
+                })
+                .map((type) => (
+                  <option
+                    value={type}
+                    selected={type === formData.type.toString()}
+                  >
+                    {type}
+                  </option>
+                ))}
+            </select>
+          </div>
+          <div className="flex flex-row justify-evenly items-center">
+            <label
+              htmlFor="status"
+              className="p-2.5 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              {Object.keys(IssueStatus)
+                .filter((key) => {
+                  return isNaN(Number(key));
+                })
+                .map((status) => (
+                  <option
+                    value={status}
+                    selected={status === formData.status.toString()}
+                  >
+                    {status}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+
         <div className="flex flex-row justify-evenly">
           <div className="flex">
             <button
