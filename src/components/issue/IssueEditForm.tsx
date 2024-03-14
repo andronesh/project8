@@ -112,6 +112,7 @@ export default function IssueEditForm(props: Props) {
                 })
                 .map((type) => (
                   <option
+                    key={type}
                     value={type}
                     selected={type === formData.type.toString()}
                   >
@@ -140,6 +141,7 @@ export default function IssueEditForm(props: Props) {
                 })
                 .map((status) => (
                   <option
+                    key={status}
                     value={status}
                     selected={status === formData.status.toString()}
                   >
