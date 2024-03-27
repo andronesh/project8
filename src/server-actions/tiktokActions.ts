@@ -58,3 +58,33 @@ export async function getTiktokLinks(recipes: boolean): Promise<TiktokLink[]> {
 
   return data ? data.map(convertTiktokLinkEntityToDto) : [];
 }
+
+export async function insertLink(
+  url?: string,
+  thumbnail?: string,
+  isRecipe?: boolean,
+  descriptionImage?: string,
+  tgSavedAt?: string
+) {
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+
+  const { data, error } = await supabase.from("tiktok_links").insert([
+    {
+      url,
+      thumbnail,
+      is_recipe: isRecipe,
+      description_image: descriptionImage,
+      tg_saved_at: tgSavedAt,
+    },
+  ]);
+
+  console.info("link inserted", data);
+
+  if (error) {
+    console.error('Failed to save tiktok link with url"' + url + '"', error);
+    return false;
+  }
+
+  return true;
+}

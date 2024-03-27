@@ -48,5 +48,5 @@ create table if not exists tiktok_links (
   thumbnail text,
   is_recipe boolean,
   description_image text,
-  tg_saved_at timestamp with time zone
+  tg_saved_at text
 )

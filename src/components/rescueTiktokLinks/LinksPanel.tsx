@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment, useEffect, useState } from "react";
 import { TiktokLink, getTiktokLinks } from "@/server-actions/tiktokActions";
+import TiktokLinkEditForm from "./TiktokLinkEditForm";
 
 export default function LinksPanel() {
   const [recipesOnly, setRecipesOnly] = useState(false);
   const [linksList, setLinksList] = useState<TiktokLink[]>([]);
+  const [isEditFormOpen, setEditFormOpen] = useState(false);
 
   useEffect(() => {
     fetchLinks();
@@ -18,6 +21,14 @@ export default function LinksPanel() {
       .catch((err) => {
         console.error("failed to fetch TT links", err);
       });
+  };
+
+  const initLinkCreation = () => {
+    setEditFormOpen(true);
+  };
+
+  const cancelEditForm = () => {
+    setEditFormOpen(false);
   };
 
   return (
@@ -36,6 +47,12 @@ export default function LinksPanel() {
               Recipes
             </span>
           </label>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={initLinkCreation}
+          >
+            add new
+          </button>
         </div>
         {linksList.map((link: TiktokLink) => (
           <div key={link.id} className="m-2">
@@ -43,6 +60,51 @@ export default function LinksPanel() {
           </div>
         ))}
       </div>
+      <Transition appear show={isEditFormOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-10"
+          onClose={() => setEditFormOpen(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="rounded-lg shadow w-full max-w-xl transform overflow-hidden transition-all">
+                  <TiktokLinkEditForm
+                    // link={undefined}
+                    onCancel={cancelEditForm}
+                    onSaved={() => {
+                      // TODO show toast alert
+                      fetchLinks();
+                      cancelEditForm();
+                    }}
+                  />
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
     </>
   );
 }
