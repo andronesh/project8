@@ -35,3 +35,18 @@ create table if not exists issues (
   project_id int references projects,
   parent_id int references issues
 )
+
+create table if not exists tiktok_links (
+  id serial primary key,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone,
+  url text,
+  owner_name text,
+  owner_username text,
+  video_id int,
+  description text,
+  thumbnail text,
+  is_recipe boolean,
+  description_image text,
+  tg_saved_at timestamp with time zone
+)
