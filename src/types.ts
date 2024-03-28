@@ -1,17 +1,17 @@
 export enum IssueType {
-  TASK,
-  IDEA,
-  STORY,
-  BUG,
-  CONCERN,
+  TASK = "TASK",
+  IDEA = "IDEA",
+  STORY = "STORY",
+  BUG = "BUG",
+  CONCERN = "CONCERN",
 }
 
 export enum IssueStatus {
-  CREATED,
-  STARTED,
-  PAUSED,
-  DONE,
-  CLOSED,
+  CREATED = "CREATED",
+  STARTED = "STARTED",
+  PAUSED = "PAUSED",
+  DONE = "DONE",
+  CLOSED = "CLOSED",
 }
 
 export type Issue = {
