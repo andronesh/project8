@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import { Issue } from "@/types";
 import { getIssuesForProject } from "@/database/dao/issuesDAO";
+import IssueCompact from "./IssueCompact";
 
 type Props = {
   project: Project;
@@ -68,22 +69,15 @@ export default function IssuesPanel({ project }: Props) {
               </p>
             </div>
             {issues?.map((issue: Issue) => (
-              <div
+              <IssueCompact
                 key={issue.id}
-                className={`flex flex-row mb-2 px-3 py-1 ${
-                  selectedIssue?.id === issue.id
-                    ? "bg-blue-900"
-                    : "bg-gray-800 hover:bg-gray-700"
-                } rounded-lg shadow hover:cursor-pointer`}
+                issue={issue}
+                isSelected={selectedIssue?.id === issue.id}
                 onClick={() => {
                   selectIssue(issue);
                   setEditFormVisible(true);
                 }}
-              >
-                <h2 className={"w-full"}>{issue.title}</h2>
-                <span className={"pl-2"}>[{issue.status}]</span>
-                <span className={"pl-2"}>[{issue.type}]</span>
-              </div>
+              />
             ))}
           </div>
         </aside>
