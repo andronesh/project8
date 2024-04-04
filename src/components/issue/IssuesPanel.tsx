@@ -87,6 +87,7 @@ export default function IssuesPanel({ project }: Props) {
               project={project}
               issue={selectedIssue}
               onSaved={refreshIssuesList}
+              onRemoved={refreshIssuesList}
               onCancel={cancelEditForm}
             />
           )}

@@ -44,6 +44,16 @@ export async function updateIssue(
       return true;
     });
 }
+
+export async function deleteIssue(id: number) {
+  return db
+    .delete(issues)
+    .where(eq(issues.id, id))
+    .then((result) => {
+      return true;
+    });
+}
+
 export const getIssuesForProject = async (
   projectId: number
 ): Promise<Issue[]> => {

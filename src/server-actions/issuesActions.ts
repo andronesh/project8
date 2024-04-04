@@ -81,3 +81,20 @@ export async function updateIssue(
 
   return true;
 }
+
+export async function removeIssue(id: number) {
+  const userId = await getAuthedUserId();
+  if (!userId) {
+    console.error("User is not authenticated");
+    return false;
+  }
+
+  try {
+    await issuesDAO.deleteIssue(id);
+  } catch (error) {
+    console.error(`Failed to delete issue with id=${id}`, error);
+    return false;
+  }
+
+  return true;
+}

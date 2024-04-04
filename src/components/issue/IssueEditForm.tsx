@@ -1,3 +1,4 @@
+import { deleteIssue } from "@/database/dao/issuesDAO";
 import { createIssue, updateIssue } from "@/server-actions/issuesActions";
 import { Project } from "@/server-actions/projectsActions";
 import { Issue, IssueStatus, IssueType } from "@/types";
@@ -7,6 +8,7 @@ type Props = {
   project: Project;
   issue: Issue | undefined;
   onSaved: () => void;
+  onRemoved: () => void;
   onCancel: () => void;
 };
 
@@ -56,6 +58,15 @@ export default function IssueEditForm(props: Props) {
       );
       if (result) {
         props.onSaved();
+      }
+    }
+  };
+
+  const removeIssue = async () => {
+    if (props.issue) {
+      const result = await deleteIssue(props.issue.id);
+      if (result) {
+        props.onRemoved();
       }
     }
   };
@@ -184,7 +195,10 @@ export default function IssueEditForm(props: Props) {
           </div>
           {props.issue && (
             <div className="flex">
-              <button className="w-full text-red-400 hover:bg-red-700 hover:text-white font-bold py-2 px-4 rounded">
+              <button
+                className="w-full text-red-400 hover:bg-red-700 hover:text-white font-bold py-2 px-4 rounded"
+                onClick={removeIssue}
+              >
                 Delete
               </button>
             </div>
