@@ -2,8 +2,9 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-import { TiktokLink, getTiktokLinks } from "@/server-actions/tiktokActions";
+import { TiktokLink } from "@/server-actions/tiktokActions";
 import TiktokLinkEditForm from "./TiktokLinkEditForm";
+import { getTiktokLinks } from "@/database/dao/titoLinksDAO";
 
 export default function LinksPanel() {
   const [recipesOnly, setRecipesOnly] = useState(false);
@@ -56,7 +57,7 @@ export default function LinksPanel() {
         </div>
         {linksList.map((link: TiktokLink) => (
           <div key={link.id} className="m-2">
-            <img src={link.descriptionImage} />
+            {link.descriptionImage && <img src={link.descriptionImage} />}
           </div>
         ))}
       </div>

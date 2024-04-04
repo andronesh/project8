@@ -23,9 +23,9 @@ export type Issue = {
   type: IssueType;
   status: IssueStatus;
   title: string;
-  description: string;
+  description: string | null;
 
   // assignee uuid references auth.users,
   project_id: number;
-  parent_id: number;
+  // parent_id: number;
 };

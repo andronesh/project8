@@ -3,8 +3,8 @@
 import { Project } from "@/server-actions/projectsActions";
 import { useEffect, useState } from "react";
 import IssueEditForm from "./IssueEditForm";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Issue } from "@/types";
+import { getIssuesForProject } from "@/database/dao/issuesDAO";
 
 type Props = {
   project: Project;
@@ -22,14 +22,12 @@ export default function IssuesPanel({ project }: Props) {
   // TODO move to more safe place
   const refreshIssuesList = () => {
     setEditFormVisible(false);
-    const supabase = createClientComponentClient(); // TODO should it be singletone or what?
-    supabase
-      .from("issues")
-      .select("*")
-      .match({ project_id: project.id })
-      .order("created_at", { ascending: true })
+    getIssuesForProject(project.id)
       .then((result) => {
-        setIssues(result.data as unknown as Issue[]);
+        setIssues(result);
+      })
+      .catch((error) => {
+        console.error(`Failed to get issues for "${project.name}"`, error);
       });
   };
 
