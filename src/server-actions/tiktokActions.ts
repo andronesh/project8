@@ -18,10 +18,10 @@ export type TiktokLink = {
 
 export async function insertLink(
   url?: string,
-  thumbnail?: string,
+  thumbnail?: string | null,
   isRecipe?: boolean,
-  descriptionImage?: string,
-  tgSavedAt?: string
+  descriptionImage?: string | null,
+  tgSavedAt?: string | null
 ) {
   try {
     await insertTiktokLink(

@@ -13,21 +13,25 @@ type Props = {
 export default function TiktokLinkEditForm(props: Props) {
   const [formData, setFormData] = useState({
     id: props.link?.id.toString(),
-    url: props.link?.url.toString(),
-    thumbnail: props.link?.thumbnail.toString(),
+    url: props.link?.url ? props.link.url : "",
+    thumbnail: props.link?.thumbnail ? props.link.thumbnail : null,
     isRecipe: props.link ? props.link.isRecipe : false,
-    descriptionImage: props.link?.descriptionImage.toString(),
-    tgSavedAt: props.link?.tgSavedAt,
+    descriptionImage: props.link?.descriptionImage
+      ? props.link.descriptionImage
+      : null,
+    tgSavedAt: props.link?.tgSavedAt ? props.link.tgSavedAt : "",
   });
 
   useEffect(() => {
     setFormData({
       id: props.link?.id.toString(),
-      url: props.link?.url.toString(),
-      thumbnail: props.link?.thumbnail.toString(),
+      url: props.link?.url ? props.link.url : "",
+      thumbnail: props.link?.thumbnail ? props.link.thumbnail : null,
       isRecipe: props.link ? props.link.isRecipe : false,
-      descriptionImage: props.link?.descriptionImage.toString(),
-      tgSavedAt: props.link?.tgSavedAt,
+      descriptionImage: props.link?.descriptionImage
+        ? props.link.descriptionImage
+        : null,
+      tgSavedAt: props.link?.tgSavedAt ? props.link.tgSavedAt : "",
     });
   }, [props.link]);
 

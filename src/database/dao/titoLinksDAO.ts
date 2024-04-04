@@ -7,10 +7,10 @@ import { TiktokLink } from "@/server-actions/tiktokActions";
 
 export async function insertTiktokLink(
   url?: string,
-  thumbnail?: string,
+  thumbnail?: string | null,
   isRecipe?: boolean,
-  descriptionImage?: string,
-  tgSavedAt?: string
+  descriptionImage?: string | null,
+  tgSavedAt?: string | null
 ) {
   return db
     .insert(tiktokLinks)

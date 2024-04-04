@@ -7,7 +7,7 @@ type Props = {
   name: string;
   label: string;
   initValue?: string | undefined;
-  onChange?: (newValue: string | undefined) => void;
+  onChange?: (newValue: string | null) => void;
   className?: string;
 };
 
