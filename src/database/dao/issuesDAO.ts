@@ -4,7 +4,43 @@ import { eq } from "drizzle-orm";
 import { db } from "..";
 import { issues } from "../schema";
 import { Issue } from "@/types";
+import { IssueStatus, IssueType } from "@/types";
 
+export async function insertIssue(
+  created_by: string,
+  type: IssueType,
+  status: IssueStatus,
+  title: string,
+  project_id: number
+) {
+  return db
+    .insert(issues)
+    .values({
+      created_by,
+      type,
+      status,
+      title,
+      project_id,
+    })
+    .then((result) => {
+      return true;
+    });
+}
+
+export async function updateIssue(
+  id: number,
+  type: IssueType,
+  status: IssueStatus,
+  title: string
+) {
+  return db
+    .update(issues)
+    .set({ type, status, title })
+    .where(eq(issues.id, id))
+    .then((result) => {
+      return true;
+    });
+}
 export const getIssuesForProject = async (
   projectId: number
 ): Promise<Issue[]> => {

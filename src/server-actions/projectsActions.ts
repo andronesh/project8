@@ -1,5 +1,6 @@
 "use server";
 
+import * as projectsDAO from "@/database/dao/projectsDAO";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -16,26 +17,25 @@ export async function createProject(formData: FormData) {
     return false;
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  try {
+    await projectsDAO.insertProject(name);
 
-  const { data, error } = await supabase.from("projects").insert([{ name }]);
+    revalidatePath("/dashboard");
 
-  if (error) {
+    return true;
+  } catch (error) {
     console.error('Failed to save project with name"' + name + '"', error);
     return false;
   }
-
-  console.info("New project created:", data);
-
-  revalidatePath("/dashboard");
-
-  return true;
 }
 
 export async function updateProject(formData: FormData) {
-  const id = formData.get("id")?.toString().trim();
+  const id = Number(formData.get("id")?.toString().trim());
   const name = formData.get("name")?.toString().trim();
+
+  if (!id || isNaN(id)) {
+    return false;
+  }
 
   if (!name || name.length === 0) {
     return false;
@@ -52,19 +52,13 @@ export async function updateProject(formData: FormData) {
     return false;
   }
 
-  const { data, error } = await supabase
-    .from("projects")
-    .update({ name })
-    .match({ id });
+  try {
+    await projectsDAO.updateProject(id, name);
+    revalidatePath("/dashboard");
 
-  if (error) {
+    return true;
+  } catch (error) {
     console.error("Failed to update project with id = " + id, error);
     return false;
   }
-
-  console.info("New project created:", data);
-
-  revalidatePath("/dashboard");
-
-  return true;
 }

@@ -1,7 +1,6 @@
 "use server";
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { insertTiktokLink } from "@/database/dao/titoLinksDAO";
 
 export type TiktokLink = {
   id: number;
@@ -24,22 +23,15 @@ export async function insertLink(
   descriptionImage?: string,
   tgSavedAt?: string
 ) {
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-
-  const { data, error } = await supabase.from("tiktok_links").insert([
-    {
+  try {
+    await insertTiktokLink(
       url,
       thumbnail,
-      is_recipe: isRecipe,
-      description_image: descriptionImage,
-      tg_saved_at: tgSavedAt,
-    },
-  ]);
-
-  console.info("link inserted", data);
-
-  if (error) {
+      isRecipe,
+      descriptionImage,
+      tgSavedAt
+    );
+  } catch (error) {
     console.error('Failed to save tiktok link with url"' + url + '"', error);
     return false;
   }

@@ -4,6 +4,7 @@ import { IssueStatus, IssueType } from "@/types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import * as issuesDAO from "@/database/dao/issuesDAO";
 
 export async function createIssue(
   type: IssueType,
@@ -31,22 +32,22 @@ export async function createIssue(
     return false;
   }
 
-  const dataToSave = {
-    created_by: session.user.id,
-    type,
-    status,
-    title,
-    project_id,
-  };
-
-  const { data, error } = await supabase.from("issues").insert([dataToSave]);
-
-  if (error) {
-    console.error("Failed to save issue " + JSON.stringify(dataToSave), error);
+  try {
+    await issuesDAO.insertIssue(
+      session.user.id,
+      type,
+      status,
+      title,
+      project_id
+    );
+  } catch (error) {
+    console.error(
+      "Failed to save issue " +
+        JSON.stringify({ type, status, title, project_id }),
+      error
+    );
     return false;
   }
-
-  console.info("New issue created: " + JSON.stringify(dataToSave), data);
 
   revalidatePath("/dashboard");
 
@@ -79,12 +80,9 @@ export async function updateIssue(
     return false;
   }
 
-  const { data, error } = await supabase
-    .from("issues")
-    .update({ title, type, status })
-    .match({ id });
-
-  if (error) {
+  try {
+    await issuesDAO.updateIssue(id, type, status, title);
+  } catch (error) {
     console.error("Failed to update issue with id=" + id, error);
     return false;
   }
