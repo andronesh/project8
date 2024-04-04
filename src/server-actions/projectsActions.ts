@@ -1,9 +1,8 @@
 "use server";
 
 import * as projectsDAO from "@/database/dao/projectsDAO";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { getAuthedUserId } from "./authActions";
 
 export type Project = {
   id: number;
@@ -41,13 +40,8 @@ export async function updateProject(formData: FormData) {
     return false;
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session?.user) {
+  const userId = await getAuthedUserId();
+  if (!userId) {
     console.error("User is not authenticated");
     return false;
   }

@@ -1,10 +1,9 @@
 "use server";
 
 import { IssueStatus, IssueType } from "@/types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
 import * as issuesDAO from "@/database/dao/issuesDAO";
+import { getAuthedUserId } from "./authActions";
 
 export async function createIssue(
   type: IssueType,
@@ -20,26 +19,14 @@ export async function createIssue(
     return false;
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session?.user) {
+  const userId = await getAuthedUserId();
+  if (!userId) {
     console.error("User is not authenticated");
     return false;
   }
 
   try {
-    await issuesDAO.insertIssue(
-      session.user.id,
-      type,
-      status,
-      title,
-      project_id
-    );
+    await issuesDAO.insertIssue(userId, type, status, title, project_id);
   } catch (error) {
     console.error(
       "Failed to save issue " +
@@ -68,14 +55,8 @@ export async function updateIssue(
     return false;
   }
 
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (!session?.user) {
+  const userId = await getAuthedUserId();
+  if (!userId) {
     console.error("User is not authenticated");
     return false;
   }
