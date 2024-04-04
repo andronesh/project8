@@ -9,6 +9,7 @@ export async function createIssue(
   type: IssueType,
   status: IssueStatus,
   title: string,
+  description: string | null,
   project_id: number
 ) {
   if (!title || title.length === 0) {
@@ -26,7 +27,14 @@ export async function createIssue(
   }
 
   try {
-    await issuesDAO.insertIssue(userId, type, status, title, project_id);
+    await issuesDAO.insertIssue(
+      userId,
+      type,
+      status,
+      title,
+      description,
+      project_id
+    );
   } catch (error) {
     console.error(
       "Failed to save issue " +
@@ -45,7 +53,8 @@ export async function updateIssue(
   id: number,
   type: IssueType,
   status: IssueStatus,
-  title: string
+  title: string,
+  description: string | null
 ) {
   if (!id) {
     return false;
@@ -62,7 +71,7 @@ export async function updateIssue(
   }
 
   try {
-    await issuesDAO.updateIssue(id, type, status, title);
+    await issuesDAO.updateIssue(id, type, status, title, description);
   } catch (error) {
     console.error("Failed to update issue with id=" + id, error);
     return false;

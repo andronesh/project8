@@ -11,6 +11,7 @@ export async function insertIssue(
   type: IssueType,
   status: IssueStatus,
   title: string,
+  description: string | null,
   project_id: number
 ) {
   return db
@@ -20,6 +21,7 @@ export async function insertIssue(
       type,
       status,
       title,
+      description,
       project_id,
     })
     .then((result) => {
@@ -31,11 +33,12 @@ export async function updateIssue(
   id: number,
   type: IssueType,
   status: IssueStatus,
-  title: string
+  title: string,
+  description: string | null
 ) {
   return db
     .update(issues)
-    .set({ type, status, title })
+    .set({ type, status, title, description })
     .where(eq(issues.id, id))
     .then((result) => {
       return true;

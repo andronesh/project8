@@ -16,6 +16,7 @@ export default function IssueEditForm(props: Props) {
     type: props.issue ? props.issue.type : IssueType.TASK,
     status: props.issue ? props.issue.status : IssueStatus.CREATED,
     title: props.issue?.title,
+    description: props.issue?.description ? props.issue.description : "",
     project_id: props.issue ? props.issue.project_id : props.project.id,
   });
 
@@ -25,6 +26,7 @@ export default function IssueEditForm(props: Props) {
       type: props.issue ? props.issue.type : IssueType.TASK,
       status: props.issue ? props.issue.status : IssueStatus.CREATED,
       title: props.issue ? props.issue.title : "",
+      description: props.issue?.description ? props.issue.description : "",
       project_id: props.issue ? props.issue.project_id : props.project.id,
     });
   }, [props.issue]);
@@ -38,7 +40,8 @@ export default function IssueEditForm(props: Props) {
         props.issue.id,
         formData.type,
         formData.status,
-        formData.title!
+        formData.title!,
+        formData.description ? formData.description : null
       );
       if (result) {
         props.onSaved();
@@ -48,6 +51,7 @@ export default function IssueEditForm(props: Props) {
         formData.type,
         formData.status,
         formData.title!,
+        formData.description ? formData.description : null,
         formData.project_id
       );
       if (result) {
@@ -150,6 +154,22 @@ export default function IssueEditForm(props: Props) {
                 ))}
             </select>
           </div>
+        </div>
+        <div>
+          <label
+            htmlFor="description"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={4}
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          ></textarea>
         </div>
 
         <div className="flex flex-row justify-evenly">
