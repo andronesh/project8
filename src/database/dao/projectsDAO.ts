@@ -19,7 +19,7 @@ export async function insertProject(name: string): Promise<boolean> {
 export async function updateProject(id: number, name: string) {
   return db
     .update(projects)
-    .set({ name })
+    .set({ name, updatedAt: new Date() })
     .where(eq(projects.id, id))
     .then((result) => {
       return true;

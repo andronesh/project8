@@ -38,7 +38,7 @@ export async function updateIssue(
 ) {
   return db
     .update(issues)
-    .set({ type, status, title, description })
+    .set({ type, status, title, description, updatedAt: new Date() })
     .where(eq(issues.id, id))
     .then((result) => {
       return true;
