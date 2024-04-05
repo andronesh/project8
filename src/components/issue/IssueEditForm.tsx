@@ -19,7 +19,7 @@ export default function IssueEditForm(props: Props) {
     status: props.issue ? props.issue.status : IssueStatus.CREATED,
     title: props.issue?.title,
     description: props.issue?.description ? props.issue.description : "",
-    project_id: props.issue ? props.issue.project_id : props.project.id,
+    projectId: props.issue ? props.issue.projectId : props.project.id,
   });
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function IssueEditForm(props: Props) {
       status: props.issue ? props.issue.status : IssueStatus.CREATED,
       title: props.issue ? props.issue.title : "",
       description: props.issue?.description ? props.issue.description : "",
-      project_id: props.issue ? props.issue.project_id : props.project.id,
+      projectId: props.issue ? props.issue.projectId : props.project.id,
     });
   }, [props.issue]);
 
@@ -54,7 +54,7 @@ export default function IssueEditForm(props: Props) {
         formData.status,
         formData.title!,
         formData.description ? formData.description : null,
-        formData.project_id
+        formData.projectId
       );
       if (result) {
         props.onSaved();
@@ -83,9 +83,9 @@ export default function IssueEditForm(props: Props) {
         />
         <input
           type="text"
-          id="project_id"
-          name="project_id"
-          value={formData.project_id}
+          id="projectId"
+          name="projectId"
+          value={formData.projectId}
           className="hidden"
         />
         <div>

@@ -10,13 +10,13 @@ export async function createIssue(
   status: IssueStatus,
   title: string,
   description: string | null,
-  project_id: number
+  projectId: number
 ) {
   if (!title || title.length === 0) {
     return false;
   }
 
-  if (!project_id) {
+  if (!projectId) {
     return false;
   }
 
@@ -33,12 +33,12 @@ export async function createIssue(
       status,
       title,
       description,
-      project_id
+      projectId
     );
   } catch (error) {
     console.error(
       "Failed to save issue " +
-        JSON.stringify({ type, status, title, project_id }),
+        JSON.stringify({ type, status, title, projectId }),
       error
     );
     return false;

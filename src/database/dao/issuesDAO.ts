@@ -7,22 +7,22 @@ import { Issue } from "@/types";
 import { IssueStatus, IssueType } from "@/types";
 
 export async function insertIssue(
-  created_by: string,
+  createdBy: string,
   type: IssueType,
   status: IssueStatus,
   title: string,
   description: string | null,
-  project_id: number
+  projectId: number
 ) {
   return db
     .insert(issues)
     .values({
-      created_by,
+      createdBy,
       type,
       status,
       title,
       description,
-      project_id,
+      projectId,
     })
     .then((result) => {
       return true;
@@ -60,6 +60,6 @@ export const getIssuesForProject = async (
   return await db
     .select()
     .from(issues)
-    .where(eq(issues.project_id, projectId))
-    .orderBy(issues.created_at);
+    .where(eq(issues.projectId, projectId))
+    .orderBy(issues.createdAt);
 };

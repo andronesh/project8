@@ -14,10 +14,10 @@ import {
 
 export const projects = pgTable("projects", {
   id: serial("id").primaryKey(),
-  created_at: timestamp("created_at")
+  createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updated_at: timestamp("updated_at"),
+  updatedAt: timestamp("updated_at"),
   name: varchar("name", { length: 250 }).notNull(),
 });
 
@@ -39,17 +39,17 @@ export const issueStatus = pgEnum("issue_status", [
 
 export const issues = pgTable("issues", {
   id: serial("id").primaryKey(),
-  created_at: timestamp("created_at")
+  createdAt: timestamp("created_at")
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updated_at: timestamp("updated_at"),
-  created_by: uuid("created_by").notNull(), // TODO add ref to users table
+  updatedAt: timestamp("updated_at"),
+  createdBy: uuid("created_by").notNull(), // TODO add ref to users table
 
   type: issueType("type").default(IssueType.TASK).notNull(),
   status: issueStatus("status").default(IssueStatus.CREATED).notNull(),
   title: varchar("title", { length: 250 }).notNull(),
   description: text("description"),
-  project_id: integer("project_id")
+  projectId: integer("project_id")
     .references(() => projects.id)
     .notNull(),
 });

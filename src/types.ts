@@ -18,7 +18,7 @@ export type Issue = {
   id: number;
   // created_at timestamp with time zone default now(),
   // updated_at timestamp with time zone,
-  created_by: string;
+  createdBy: string;
 
   type: IssueType;
   status: IssueStatus;
@@ -26,6 +26,6 @@ export type Issue = {
   description: string | null;
 
   // assignee uuid references auth.users,
-  project_id: number;
+  projectId: number;
   // parent_id: number;
 };
