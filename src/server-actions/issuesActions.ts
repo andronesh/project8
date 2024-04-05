@@ -1,7 +1,6 @@
 "use server";
 
 import { IssueStatus, IssueType } from "@/types";
-import { revalidatePath } from "next/cache";
 import * as issuesDAO from "@/database/dao/issuesDAO";
 import { getAuthedUserId } from "./authActions";
 
@@ -44,8 +43,6 @@ export async function createIssue(
     return false;
   }
 
-  revalidatePath("/dashboard");
-
   return true;
 }
 
@@ -76,8 +73,6 @@ export async function updateIssue(
     console.error("Failed to update issue with id=" + id, error);
     return false;
   }
-
-  revalidatePath("/dashboard");
 
   return true;
 }
