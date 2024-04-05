@@ -22,7 +22,9 @@ export default function IssueCompact(props: Props) {
         </div>
       </div>
       {props.issue.description && (
-        <div className="text-mg text-gray-400">{props.issue.description}</div>
+        <div className="text-mg text-gray-400 truncate">
+          {props.issue.description}
+        </div>
       )}
     </div>
   );
