@@ -80,7 +80,7 @@ export default function ProjectsPanel({ projects }: Props) {
           ))}
         </ul>
       </div>
-      <div className="flex w-3/4">
+      <div className="flex w-3/4 pl-3">
         {selectedProject && <IssuesPanel project={selectedProject} />}
       </div>
       <Transition appear show={isEditFormOpen} as={Fragment}>
