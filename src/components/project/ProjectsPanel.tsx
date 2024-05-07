@@ -33,6 +33,7 @@ export default function ProjectsPanel({ projects }: Props) {
     <>
       <NavSidebar
         projects={projects}
+        selectedProject={selectedProject}
         onProjectSelected={selectProject}
         onProjectEditRequest={showEditForm}
         onProjectCreationRequest={initProjectCreation}

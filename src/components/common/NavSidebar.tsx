@@ -1,11 +1,12 @@
 import { Project } from "@/server-actions/projectsActions";
+import Link from "next/link";
 
 type Props = {
-  projects: Project[];
+  projects?: Project[];
   selectedProject?: Project | undefined;
-  onProjectSelected: (project: Project) => void;
-  onProjectCreationRequest: () => void;
-  onProjectEditRequest: (project: Project) => void;
+  onProjectSelected?: (project: Project) => void;
+  onProjectCreationRequest?: () => void;
+  onProjectEditRequest?: (project: Project) => void;
 };
 
 export default function NavSidebar(props: Props) {
@@ -41,8 +42,8 @@ export default function NavSidebar(props: Props) {
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
-              <a
-                href="#"
+              <Link
+                href="/dashboard"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -56,10 +57,13 @@ export default function NavSidebar(props: Props) {
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                 </svg>
                 <span className="ms-3">Dashboard</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Link
+                href="/dashboard"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 616"
@@ -69,57 +73,67 @@ export default function NavSidebar(props: Props) {
                 >
                   <path d="M32 32H480c17.7 0 32 14.3 32 32V96c0 17.7-14.3 32-32 32H32C14.3 128 0 113.7 0 96V64C0 46.3 14.3 32 32 32zm0 128H480V416c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V160zm128 80c0 8.8 7.2 16 16 16H336c8.8 0 16-7.2 16-16s-7.2-16-16-16H176c-8.8 0-16 7.2-16 16z" />
                 </svg>
-
                 <span className="flex-1 ms-3 whitespace-nowrap">Projects</span>
-                <span
-                  onClick={props.onProjectCreationRequest}
-                  className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-gray-50 dark:bg-gray-800 hover:cursor-pointer hover:bg-gray-700"
-                >
-                  <p className="text-2xl text-gray-400 dark:text-gray-500">
-                    <svg
-                      className="w-3.5 h-3.5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 18"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 1v16M1 9h16"
-                      />
-                    </svg>
-                  </p>
-                </span>
-              </div>
-              <ul className="py-2 space-y-2">
-                {props.projects?.map((project: Project) => (
-                  <li key={project.id}>
-                    <div
-                      // href={`/projects/${project.id}`}
-                      onClick={() => props.onProjectSelected(project)}
-                      className={`flex items-center justify-between w-full p-2 transition duration-75 rounded-lg pl-11 group  text-white  hover:cursor-pointer ${
-                        props.selectedProject?.id === project.id
-                          ? "bg-blue-900 hover:bg-blue-900"
-                          : "bg-gray-800 hover:bg-gray-700"
-                      }`}
-                    >
-                      <h2>{project.name}</h2>
+                {props.onProjectCreationRequest && (
+                  <span
+                    onClick={props.onProjectCreationRequest}
+                    className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium bg-gray-50 dark:bg-gray-800 hover:cursor-pointer hover:bg-gray-600 rounded-md"
+                  >
+                    <p className="text-2xl text-gray-400 dark:text-gray-500">
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512 512"
-                        fill="currentColor"
+                        className="w-3.5 h-3.5"
                         aria-hidden="true"
-                        className="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                        onClick={() => props.onProjectEditRequest(project)}
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 18 18"
                       >
-                        <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 1v16M1 9h16"
+                        />
                       </svg>
-                    </div>
-                  </li>
-                ))}
+                    </p>
+                  </span>
+                )}
+              </Link>
+              <ul className="py-2 space-y-2">
+                {props.projects &&
+                  props.projects?.map((project: Project) => (
+                    <li key={project.id}>
+                      <div
+                        // href={`/projects/${project.id}`}
+                        onClick={() =>
+                          props.onProjectSelected
+                            ? props.onProjectSelected(project)
+                            : null
+                        }
+                        className={`flex items-center justify-between w-full p-2 transition duration-75 rounded-lg pl-11 group  text-white  hover:cursor-pointer ${
+                          props.selectedProject?.id === project.id
+                            ? "bg-blue-900 hover:bg-blue-900"
+                            : "bg-gray-800 hover:bg-gray-700"
+                        }`}
+                      >
+                        <h2>{project.name}</h2>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512 512"
+                          fill="currentColor"
+                          aria-hidden="true"
+                          className="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                          onClick={() =>
+                            props.onProjectEditRequest
+                              ? props.onProjectEditRequest(project)
+                              : null
+                          }
+                        >
+                          <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
+                        </svg>
+                      </div>
+                    </li>
+                  ))}
               </ul>
             </li>
             <li>
