@@ -5,8 +5,10 @@ import { Fragment, useEffect, useState } from "react";
 import { TiktokLink } from "@/server-actions/tiktokActions";
 import TiktokLinkEditForm from "./TiktokLinkEditForm";
 import { getTiktokLinks } from "@/database/dao/titoLinksDAO";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 export default function LinksPanel() {
+  const [isLoading, setIsLoading] = useState(false);
   const [recipesOnly, setRecipesOnly] = useState(false);
   const [linksList, setLinksList] = useState<TiktokLink[]>([]);
   const [isEditFormOpen, setEditFormOpen] = useState(false);
@@ -16,12 +18,13 @@ export default function LinksPanel() {
   }, [recipesOnly]);
 
   const fetchLinks = () => {
-    // TODO display loading spinner
+    setIsLoading(true);
     getTiktokLinks(recipesOnly)
       .then(setLinksList)
       .catch((err) => {
         console.error("failed to fetch TT links", err);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const initLinkCreation = () => {
@@ -55,11 +58,13 @@ export default function LinksPanel() {
             add new
           </button>
         </div>
-        {linksList.map((link: TiktokLink) => (
-          <div key={link.id} className="m-2">
-            {link.descriptionImage && <img src={link.descriptionImage} />}
-          </div>
-        ))}
+        {isLoading && <LoadingSpinner className="px-20 my-5" />}
+        {!isLoading &&
+          linksList.map((link: TiktokLink) => (
+            <div key={link.id} className="m-2">
+              {link.descriptionImage && <img src={link.descriptionImage} />}
+            </div>
+          ))}
       </div>
       <Transition appear show={isEditFormOpen} as={Fragment}>
         <Dialog
