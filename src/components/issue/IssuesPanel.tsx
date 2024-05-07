@@ -6,12 +6,14 @@ import IssueEditForm from "./IssueEditForm";
 import { Issue } from "@/types";
 import { getIssuesForProject } from "@/database/dao/issuesDAO";
 import IssueCompact from "./IssueCompact";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 type Props = {
   project: Project;
 };
 
 export default function IssuesPanel({ project }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [selectedIssue, selectIssue] = useState<Issue>();
   const [editFormVisible, setEditFormVisible] = useState(false);
@@ -22,6 +24,7 @@ export default function IssuesPanel({ project }: Props) {
 
   // TODO move to more safe place
   const refreshIssuesList = () => {
+    setIsLoading(true);
     setEditFormVisible(false);
     getIssuesForProject(project.id)
       .then((result) => {
@@ -29,7 +32,8 @@ export default function IssuesPanel({ project }: Props) {
       })
       .catch((error) => {
         console.error(`Failed to get issues for "${project.name}"`, error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   const initIssueCreation = () => {
@@ -68,17 +72,19 @@ export default function IssuesPanel({ project }: Props) {
                 </svg>
               </p>
             </div>
-            {issues?.map((issue: Issue) => (
-              <IssueCompact
-                key={issue.id}
-                issue={issue}
-                isSelected={selectedIssue?.id === issue.id}
-                onClick={() => {
-                  selectIssue(issue);
-                  setEditFormVisible(true);
-                }}
-              />
-            ))}
+            {isLoading && <LoadingSpinner className="px-20 my-5" />}
+            {!isLoading &&
+              issues?.map((issue: Issue) => (
+                <IssueCompact
+                  key={issue.id}
+                  issue={issue}
+                  isSelected={selectedIssue?.id === issue.id}
+                  onClick={() => {
+                    selectIssue(issue);
+                    setEditFormVisible(true);
+                  }}
+                />
+              ))}
           </div>
         </aside>
         <main role="main" className="w-full px-2 sm:w-1/2 md:w-1/2">
