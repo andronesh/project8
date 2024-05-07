@@ -9,10 +9,10 @@ export default function LoadingSpinner(props: Props) {
         <path
           fill="none"
           stroke="currentColor"
-          stroke-width="30"
-          stroke-linecap="round"
-          stroke-dasharray="300 385"
-          stroke-dashoffset="0"
+          strokeWidth="30"
+          strokeLinecap="round"
+          strokeDasharray="300 385"
+          strokeDashoffset="0"
           d="M275 75c0 31-27 50-50 50-58 0-92-100-150-100-28 0-50 22-50 50s23 50 50 50c58 0 92-100 150-100 24 0 50 19 50 50Z"
         >
           <animate
