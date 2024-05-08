@@ -77,7 +77,7 @@ export default function ImagePasteZone(props: Props) {
     <div className={props.className}>
       <label
         htmlFor={props.name}
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        className="block mb-2 text-sm text-left font-medium text-white"
       >
         {props.label}
       </label>
@@ -87,7 +87,7 @@ export default function ImagePasteZone(props: Props) {
           name={props.name}
           id={props.name}
           onPaste={(e) => handlePaste(e.clipboardData)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+          className="border text-sm rounded-lg block w-full p-2 text-white bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500 focus:outline"
           placeholder="Insert image"
         />
       )}
