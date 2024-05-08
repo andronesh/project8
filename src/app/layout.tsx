@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + " bg-gray-900 text-gray-300"}>
         <NavSidebar />
-        <div className="p-4 sm:ml-64 h-screen">{children}</div>
+        <div className="p-2 sm:ml-44 h-screen">{children}</div>
       </body>
     </html>
   );

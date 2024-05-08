@@ -32,28 +32,27 @@ export default function ProjectsPanel({ projects }: Props) {
     <div className="flex">
       <div className="flex flex-col w-1/4">
         <div
-          className="flex items-center justify-center mb-2 p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:cursor-pointer hover:bg-gray-700"
+          className="flex items-center justify-center align-middle mb-2 pt-2 pb-1 px-2 rounded-lg bg-gray-800 text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
           onClick={() => initProjectCreation()}
         >
-          <p className="text-2xl text-gray-400 dark:text-gray-500">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
+          <svg
+            className="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 18 18"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M9 1v16M1 9h16"
+            />
+          </svg>
+          <p className="text-lg pl-2">New Project</p>
         </div>
-        <ul className="py-2 space-y-2">
+        <ul className="space-y-2">
           {projects?.map((project: Project) => (
             <li key={project.id}>
               <div
