@@ -1,6 +1,6 @@
 "use server";
 
-import { IssueStatus, IssueType } from "@/types";
+import { IssueStatus, IssueType, Section } from "@/types";
 import * as issuesDAO from "@/database/dao/issuesDAO";
 import { getAuthedUserId } from "./authActions";
 
@@ -9,7 +9,8 @@ export async function createIssue(
   status: IssueStatus,
   title: string,
   description: string | null,
-  projectId: number
+  projectId: number,
+  section?: Section
 ) {
   if (!title || title.length === 0) {
     return false;
@@ -32,7 +33,8 @@ export async function createIssue(
       status,
       title,
       description,
-      projectId
+      projectId,
+      section
     );
   } catch (error) {
     console.error(

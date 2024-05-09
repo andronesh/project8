@@ -1,9 +1,9 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { eq, and, isNull } from "drizzle-orm";
 import { db } from "..";
 import { issues } from "../schema";
-import { Issue } from "@/types";
+import { Issue, Section } from "@/types";
 import { IssueStatus, IssueType } from "@/types";
 
 export async function insertIssue(
@@ -12,7 +12,8 @@ export async function insertIssue(
   status: IssueStatus,
   title: string,
   description: string | null,
-  projectId: number
+  projectId: number,
+  section?: Section
 ) {
   return db
     .insert(issues)
@@ -23,6 +24,8 @@ export async function insertIssue(
       title,
       description,
       projectId,
+      sectionId: section ? section.id : null,
+      sectionTitle: section ? section.title : null,
     })
     .then((result) => {
       return true;
@@ -61,5 +64,21 @@ export const getIssuesForProject = async (
     .select()
     .from(issues)
     .where(eq(issues.projectId, projectId))
+    .orderBy(issues.createdAt);
+};
+
+export const getIssuesForProjectSection = async (
+  projectId: number,
+  sectionId: number | null
+): Promise<Issue[]> => {
+  return await db
+    .select()
+    .from(issues)
+    .where(
+      and(
+        eq(issues.projectId, projectId),
+        sectionId ? eq(issues.sectionId, sectionId) : isNull(issues.sectionId)
+      )
+    )
     .orderBy(issues.createdAt);
 };

@@ -10,6 +10,7 @@ import {
   text,
   integer,
   boolean,
+  smallserial,
 } from "drizzle-orm/pg-core";
 
 export const projects = pgTable("projects", {
@@ -19,6 +20,15 @@ export const projects = pgTable("projects", {
     .notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }),
   name: varchar("name", { length: 88 }).notNull(),
+});
+
+export const sections = pgTable("sections", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 88 }).notNull(),
+  position: smallserial("position"),
+  projectId: integer("project_id")
+    .references(() => projects.id)
+    .notNull(),
 });
 
 export const issueType = pgEnum("issue_type", [
@@ -52,6 +62,8 @@ export const issues = pgTable("issues", {
   projectId: integer("project_id")
     .references(() => projects.id)
     .notNull(),
+  sectionId: integer("section_id").references(() => sections.id),
+  sectionTitle: varchar("section_title", { length: 88 }),
 });
 
 export const tiktokLinks = pgTable("tiktok_links", {

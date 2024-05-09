@@ -1,3 +1,10 @@
+export type Section = {
+  id: number;
+  title: string;
+  position: number;
+  projectId: number;
+};
+
 export enum IssueType {
   TASK = "TASK",
   IDEA = "IDEA",
@@ -27,5 +34,7 @@ export type Issue = {
 
   // assignee uuid references auth.users,
   projectId: number;
+  sectionId: number | null;
+  sectionTitle: string | null;
   // parent_id: number;
 };
