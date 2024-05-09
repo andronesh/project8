@@ -20,7 +20,7 @@ export default function IssueEditForm(props: Props) {
     id: props.issue?.id.toString(),
     type: props.issue ? props.issue.type : IssueType.TASK,
     status: props.issue ? props.issue.status : IssueStatus.CREATED,
-    title: props.issue?.title,
+    title: props.issue ? props.issue.title : "",
     description: props.issue?.description ? props.issue.description : "",
     projectId: props.issue ? props.issue.projectId : props.project.id,
   });
@@ -72,6 +72,7 @@ export default function IssueEditForm(props: Props) {
           name="id"
           value={formData.id}
           className="hidden"
+          readOnly
         />
         <input
           type="text"
@@ -79,6 +80,7 @@ export default function IssueEditForm(props: Props) {
           name="projectId"
           value={formData.projectId}
           className="hidden"
+          readOnly
         />
         <InputTextLabeled
           label={"Title"}

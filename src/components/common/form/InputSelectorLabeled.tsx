@@ -26,7 +26,7 @@ export default function InputSelectorLabeled(props: Props) {
         className="border text-sm rounded-lg block w-full p-2 text-white bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 focus:outline focus:outline-blue-500"
       >
         {props.values.map((value) => (
-          <option key={value} value={value} selected={value === props.value}>
+          <option key={value} value={value}>
             {value}
           </option>
         ))}
