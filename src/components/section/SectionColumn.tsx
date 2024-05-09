@@ -1,45 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Issue, Section } from "@/types";
-import { getIssuesForProjectSection } from "@/database/dao/issuesDAO";
 import LoadingSpinner from "../common/LoadingSpinner";
 import PlusIcon from "../common/icons/PlusIcon";
 import IssueCompact from "../issue/IssueCompact";
+import { useSectionIssues } from "@/tanstack_query/hooks/useSectionIssues";
 
 type Props = {
   projectId: number;
   section?: Section;
-  refreshIssuesTrigger: Date;
   onInitIssueCreation: () => void;
   onClickOnIssue: (issue: Issue) => void;
 };
 
 export default function SectionColumn(props: Props) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [issues, setIssues] = useState<Issue[]>([]);
-
-  useEffect(() => {
-    refreshIssuesList();
-  }, [props.refreshIssuesTrigger]);
-
-  const refreshIssuesList = () => {
-    setIsLoading(true);
-    getIssuesForProjectSection(
-      props.projectId,
-      props.section ? props.section.id : null
-    )
-      .then((result) => {
-        setIssues(result);
-      })
-      .catch((error) => {
-        console.error(
-          `Failed to get issues for project with id = "${props.projectId}" and section = "${props.section?.title}"`,
-          error
-        );
-      })
-      .finally(() => setIsLoading(false));
-  };
+  const { data, isFetching, isError } = useSectionIssues(
+    props.projectId,
+    props.section ? props.section.id : null
+  );
 
   return (
     <>
@@ -56,10 +34,15 @@ export default function SectionColumn(props: Props) {
             </div>
           </div>
         </div>
-        {isLoading && (
+        {isFetching && (
           <LoadingSpinner className="flex justify-around mb-2 h-14" />
         )}
-        {issues?.map((issue: Issue) => (
+        {isError && (
+          <div className="text-white bg-red-700 text-xl font-bold">
+            Failed to load issues
+          </div>
+        )}
+        {data?.map((issue: Issue) => (
           <IssueCompact
             key={issue.id}
             issue={issue}

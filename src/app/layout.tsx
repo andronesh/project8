@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavSidebar from "@/components/common/NavSidebar";
+import TanstackQueryClientProvider from "@/tanstack_query/TanstackQueryClientProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " bg-gray-900 text-gray-300"}>
-        <NavSidebar />
-        <div className="p-2 sm:ml-44 h-screen">{children}</div>
+        <TanstackQueryClientProvider>
+          <NavSidebar />
+          <div className="p-2 sm:ml-44 h-screen">{children}</div>
+        </TanstackQueryClientProvider>
       </body>
     </html>
   );

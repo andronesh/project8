@@ -3,16 +3,16 @@
 import Modal from "@/components/common/Modal";
 import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
-import IssuesPanel from "@/components/issue/IssuesPanel";
 import SectionColumn from "@/components/section/SectionColumn";
 import SectionEditForm from "@/components/section/SectionEditForm";
 import { getSectionsForProject } from "@/database/dao/sectionsDAO";
 import { Issue, Section } from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 export default function ProjectPage({ params }: { params: { id: number } }) {
   const [sections, setSections] = useState<Section[]>();
-  const [refreshIssuesTrigger, setRefreshIssuesTrigger] = useState(new Date());
+  const queryClient = useQueryClient();
 
   const [sectionUA, setSectionUA] = useState<Section | undefined>(); // UA = Under Action
   const [sectionEditFormVisible, setSectionEditFormVisible] = useState(false);
@@ -59,7 +59,6 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     <div className="flex space-x-2 w-fit">
       <SectionColumn
         projectId={params.id}
-        refreshIssuesTrigger={refreshIssuesTrigger}
         onInitIssueCreation={initIssueCreation}
         onClickOnIssue={initIssueEdition}
       />
@@ -69,7 +68,6 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
             key={section.id}
             projectId={params.id}
             section={section}
-            refreshIssuesTrigger={refreshIssuesTrigger}
             onInitIssueCreation={() => initIssueCreation(section)}
             onClickOnIssue={(issue: Issue) => initIssueEdition(issue, section)}
           />
@@ -104,11 +102,23 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
             onCancel={() => setIssueEditFormVisible(false)}
             onSaved={() => {
               setIssueEditFormVisible(false);
-              setRefreshIssuesTrigger(new Date());
+              queryClient.invalidateQueries({
+                queryKey: [
+                  "sectionIssues",
+                  params.id,
+                  sectionUA ? sectionUA.id : null,
+                ],
+              });
             }}
             onRemoved={() => {
               setIssueEditFormVisible(false);
-              setRefreshIssuesTrigger(new Date());
+              queryClient.invalidateQueries({
+                queryKey: [
+                  "sectionIssues",
+                  params.id,
+                  sectionUA ? sectionUA.id : null,
+                ],
+              });
             }}
           />
         )}
