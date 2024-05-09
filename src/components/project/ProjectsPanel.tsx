@@ -5,6 +5,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import IssuesPanel from "../issue/IssuesPanel";
 import ProjectEditForm from "./ProjectEditForm";
+import PlusIcon from "../common/icons/PlusIcon";
 
 type Props = {
   projects: Project[];
@@ -35,21 +36,7 @@ export default function ProjectsPanel({ projects }: Props) {
           className="flex items-center justify-center align-middle mb-2 pt-2 pb-1 px-2 rounded-lg bg-gray-800 text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
           onClick={() => initProjectCreation()}
         >
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="3"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
+          <PlusIcon />
           <p className="text-lg pl-2">New Project</p>
         </div>
         <ul className="space-y-2">

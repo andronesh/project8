@@ -8,6 +8,7 @@ import { getIssuesForProject } from "@/database/dao/issuesDAO";
 import IssueCompact from "./IssueCompact";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dialog, Transition } from "@headlessui/react";
+import PlusIcon from "../common/icons/PlusIcon";
 
 type Props = {
   project: Project;
@@ -53,21 +54,7 @@ export default function IssuesPanel({ project }: Props) {
           className="flex items-center justify-center align-middle mb-2 pt-2 pb-1 px-2 rounded-lg bg-gray-800 text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
           onClick={() => initIssueCreation()}
         >
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 18 18"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="3"
-              d="M9 1v16M1 9h16"
-            />
-          </svg>
+          <PlusIcon />
           <p className="text-lg pl-2">New Issue</p>
         </div>
         {isLoading && <LoadingSpinner className="px-20 my-5" />}
