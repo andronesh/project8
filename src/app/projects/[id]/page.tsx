@@ -59,7 +59,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     <div className="flex space-x-2 w-fit">
       <SectionColumn
         projectId={params.id}
-        onInitIssueCreation={initIssueCreation}
+        onInitIssueCreation={() => initIssueCreation()}
         onClickOnIssue={initIssueEdition}
       />
       {sections &&
