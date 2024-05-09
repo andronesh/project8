@@ -14,11 +14,11 @@ import {
 
 export const projects = pgTable("projects", {
   id: serial("id").primaryKey(),
-  createdAt: timestamp("created_at")
+  createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at"),
-  name: varchar("name", { length: 250 }).notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
+  name: varchar("name", { length: 88 }).notNull(),
 });
 
 export const issueType = pgEnum("issue_type", [
@@ -39,10 +39,10 @@ export const issueStatus = pgEnum("issue_status", [
 
 export const issues = pgTable("issues", {
   id: serial("id").primaryKey(),
-  createdAt: timestamp("created_at")
+  createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
   createdBy: uuid("created_by").notNull(), // TODO add ref to users table
 
   type: issueType("type").default(IssueType.TASK).notNull(),
@@ -56,12 +56,12 @@ export const issues = pgTable("issues", {
 
 export const tiktokLinks = pgTable("tiktok_links", {
   id: serial("id").primaryKey(),
-  createdAt: timestamp("created_at")
+  createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }),
 
-  url: varchar("url", { length: 250 }),
+  url: varchar("url", { length: 121 }),
   ownerName: varchar("owner_name", { length: 99 }),
   ownerUsername: varchar("owner_username", { length: 99 }),
   videoId: integer("video_id"),
@@ -69,5 +69,5 @@ export const tiktokLinks = pgTable("tiktok_links", {
   thumbnail: text("thumbnail"),
   isRecipe: boolean("is_recipe").default(false).notNull(),
   descriptionImage: text("description_image"),
-  tgSavedAt: varchar("tg_saved_at", { length: 99 }),
+  tgSavedAt: varchar("tg_saved_at", { length: 22 }),
 });
