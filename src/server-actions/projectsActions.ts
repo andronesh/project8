@@ -1,7 +1,6 @@
 "use server";
 
 import * as projectsDAO from "@/database/dao/projectsDAO";
-import { revalidatePath } from "next/cache";
 import { getAuthedUserId } from "./authActions";
 
 export type Project = {
@@ -10,54 +9,42 @@ export type Project = {
   bookmarked: boolean;
 };
 
-export async function createProject(formData: FormData) {
-  const name = formData.get("name")?.toString().trim();
-  const bookmarked =
-    formData.get("bookmarked")?.toString() === "on" ? true : false;
+export async function createProject(name: string, bookmarked: boolean) {
+  const nameSanitised = name.trim();
 
-  if (!name || name.length === 0) {
-    return false;
+  if (!nameSanitised || nameSanitised.length === 0) {
+    throw new Error("Project name should not be empty"); // TODO: properly handle validation
   }
 
   try {
-    await projectsDAO.insertProject(name, bookmarked);
-
-    revalidatePath("/dashboard");
-
-    return true;
+    await projectsDAO.insertProject(nameSanitised, bookmarked);
   } catch (error) {
     console.error('Failed to save project with name"' + name + '"', error);
-    return false;
+    throw error;
   }
 }
 
-export async function updateProject(formData: FormData) {
-  const id = Number(formData.get("id")?.toString().trim());
-  const name = formData.get("name")?.toString().trim();
-  const bookmarked =
-    formData.get("bookmarked")?.toString() === "on" ? true : false;
+export async function updateProject(
+  id: number,
+  name: string,
+  bookmarked: boolean
+) {
+  const nameSanitised = name.trim();
 
-  if (!id || isNaN(id)) {
-    return false;
-  }
-
-  if (!name || name.length === 0) {
-    return false;
+  if (!nameSanitised || nameSanitised.length === 0) {
+    throw new Error("Project name should not be empty"); // TODO: properly handle validation
   }
 
   const userId = await getAuthedUserId();
   if (!userId) {
     console.error("User is not authenticated");
-    return false;
+    throw new Error("User is not authenticated");
   }
 
   try {
-    await projectsDAO.updateProject(id, name, bookmarked);
-    revalidatePath("/dashboard");
-
-    return true;
+    await projectsDAO.updateProject(id, nameSanitised, bookmarked);
   } catch (error) {
     console.error("Failed to update project with id = " + id, error);
-    return false;
+    throw error;
   }
 }

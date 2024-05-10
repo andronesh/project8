@@ -16,7 +16,7 @@ export default function ProjectsSidebarList() {
         <LoadingSpinner className="flex justify-around mb-2 h-14" />
       )}
       {isError && (
-        <div className="text-white bg-red-700 text-xl font-bold">
+        <div className="text-white bg-red-700 text-lg p-2 rounded">
           Failed to fetch projects
         </div>
       )}
