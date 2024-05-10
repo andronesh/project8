@@ -37,3 +37,11 @@ export async function updateProject(
 export const getAllProjects = async (): Promise<Project[]> => {
   return await db.select().from(projects);
 };
+
+export const getBookmarkedProjects = async (): Promise<Project[]> => {
+  return await db
+    .select()
+    .from(projects)
+    .where(eq(projects.bookmarked, true))
+    .orderBy(projects.createdAt);
+};
