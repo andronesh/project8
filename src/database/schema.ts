@@ -20,6 +20,7 @@ export const projects = pgTable("projects", {
     .notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }),
   name: varchar("name", { length: 88 }).notNull(),
+  bookmarked: boolean("bookmarked").default(false).notNull(),
 });
 
 export const sections = pgTable("sections", {

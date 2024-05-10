@@ -7,17 +7,20 @@ import { getAuthedUserId } from "./authActions";
 export type Project = {
   id: number;
   name: string;
+  bookmarked: boolean;
 };
 
 export async function createProject(formData: FormData) {
   const name = formData.get("name")?.toString().trim();
+  const bookmarked =
+    formData.get("bookmarked")?.toString() === "on" ? true : false;
 
   if (!name || name.length === 0) {
     return false;
   }
 
   try {
-    await projectsDAO.insertProject(name);
+    await projectsDAO.insertProject(name, bookmarked);
 
     revalidatePath("/dashboard");
 
@@ -31,6 +34,8 @@ export async function createProject(formData: FormData) {
 export async function updateProject(formData: FormData) {
   const id = Number(formData.get("id")?.toString().trim());
   const name = formData.get("name")?.toString().trim();
+  const bookmarked =
+    formData.get("bookmarked")?.toString() === "on" ? true : false;
 
   if (!id || isNaN(id)) {
     return false;
@@ -47,7 +52,7 @@ export async function updateProject(formData: FormData) {
   }
 
   try {
-    await projectsDAO.updateProject(id, name);
+    await projectsDAO.updateProject(id, name, bookmarked);
     revalidatePath("/dashboard");
 
     return true;
