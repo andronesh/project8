@@ -1,6 +1,5 @@
 import { deleteIssue } from "@/database/dao/issuesDAO";
 import { createIssue, updateIssue } from "@/server-actions/issuesActions";
-import { Project } from "@/server-actions/projectsActions";
 import { Issue, IssueStatus, IssueType, Section } from "@/types";
 import { useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
@@ -8,7 +7,7 @@ import InputSelectorLabeled from "../common/form/InputSelectorLabeled";
 import InputTextareaLabeled from "../common/form/InputTextareaLabeled";
 
 type Props = {
-  project: Project;
+  projectId: number;
   section?: Section;
   issue: Issue | undefined;
   onSaved: () => void;
@@ -23,7 +22,7 @@ export default function IssueEditForm(props: Props) {
     status: props.issue ? props.issue.status : IssueStatus.CREATED,
     title: props.issue ? props.issue.title : "",
     description: props.issue?.description ? props.issue.description : "",
-    projectId: props.issue ? props.issue.projectId : props.project.id,
+    projectId: props.issue ? props.issue.projectId : props.projectId,
   });
 
   const handleChange = (e: any) =>

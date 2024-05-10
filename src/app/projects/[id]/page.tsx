@@ -96,7 +96,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
         )}
         {issueEditFormVisible && (
           <IssueEditForm
-            project={{ id: params.id, name: "not fetched yet" }}
+            projectId={params.id}
             section={sectionUA}
             issue={issueUA}
             onCancel={() => setIssueEditFormVisible(false)}

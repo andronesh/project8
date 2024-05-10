@@ -98,7 +98,7 @@ export default function IssuesPanel({ project }: Props) {
               >
                 <Dialog.Panel className="rounded-lg shadow w-full max-w-md transform overflow-hidden transition-all">
                   <IssueEditForm
-                    project={project}
+                    projectId={project.id}
                     issue={selectedIssue}
                     onSaved={refreshIssuesList}
                     onRemoved={refreshIssuesList}
