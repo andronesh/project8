@@ -5,6 +5,7 @@ import { useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputSelectorLabeled from "../common/form/InputSelectorLabeled";
 import InputTextareaLabeled from "../common/form/InputTextareaLabeled";
+import LoadingSpinner from "../common/LoadingSpinner";
 
 type Props = {
   projectId: number;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export default function IssueEditForm(props: Props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     id: props.issue?.id.toString(),
     type: props.issue ? props.issue.type : IssueType.TASK,
@@ -29,43 +31,55 @@ export default function IssueEditForm(props: Props) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const saveIssue = async () => {
-    if (props.issue) {
-      const result = await updateIssue(
-        props.issue.id,
-        formData.type,
-        formData.status,
-        formData.title!,
-        formData.description ? formData.description : null
-      );
-      if (result) {
-        props.onSaved();
+    setIsSubmitting(true);
+    try {
+      if (props.issue) {
+        await updateIssue(
+          props.issue.id,
+          formData.type,
+          formData.status,
+          formData.title!,
+          formData.description ? formData.description : null
+        );
+      } else {
+        await createIssue(
+          formData.type,
+          formData.status,
+          formData.title!,
+          formData.description ? formData.description : null,
+          formData.projectId,
+          props.section
+        );
       }
-    } else {
-      const result = await createIssue(
-        formData.type,
-        formData.status,
-        formData.title!,
-        formData.description ? formData.description : null,
-        formData.projectId,
-        props.section
-      );
-      if (result) {
-        props.onSaved();
-      }
+      setIsSubmitting(false);
+      props.onSaved();
+    } catch (error) {
+      setIsSubmitting(false);
+      window.alert(error);
     }
   };
 
   const removeIssue = async () => {
     if (props.issue) {
-      const result = await deleteIssue(props.issue.id);
-      if (result) {
+      setIsSubmitting(true);
+      try {
+        await deleteIssue(props.issue.id);
+        setIsSubmitting(false);
         props.onRemoved();
+      } catch (error) {
+        setIsSubmitting(false);
+        window.alert(error);
       }
     }
   };
 
   return (
-    <div className="w-full p-4 pt-0 bg-gray-800 border border-gray-700 rounded-lg shadow">
+    <div className="relative w-full p-4 pt-0 bg-gray-800 border border-gray-700 rounded-lg shadow">
+      {isSubmitting && (
+        <div className="flex justify-center items-center absolute top-0 right-0 left-0 bottom-2 bg-gray-800 bg-opacity-80 rounded-lg">
+          <LoadingSpinner className="flex justify-around w-3/4" />
+        </div>
+      )}
       <div className="space-y-4">
         <input
           type="text"
@@ -118,7 +132,6 @@ export default function IssueEditForm(props: Props) {
         />
         <div className="flex flex-row justify-evenly">
           <button
-            type="reset"
             className="flex hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
             onClick={props.onCancel}
           >
@@ -133,9 +146,8 @@ export default function IssueEditForm(props: Props) {
             </button>
           )}
           <button
-            type="submit"
-            className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => saveIssue()}
+            className="flex bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            onClick={saveIssue}
           >
             Save
           </button>

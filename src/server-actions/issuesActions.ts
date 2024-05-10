@@ -13,17 +13,17 @@ export async function createIssue(
   section?: Section
 ) {
   if (!title || title.length === 0) {
-    return false;
+    throw new Error("Field 'title' should not be empty");
   }
 
   if (!projectId) {
-    return false;
+    throw new Error("Field 'projectId' should be present");
   }
 
   const userId = await getAuthedUserId();
   if (!userId) {
     console.error("User is not authenticated");
-    return false;
+    throw new Error("User is not authenticated");
   }
 
   try {
@@ -42,10 +42,8 @@ export async function createIssue(
         JSON.stringify({ type, status, title, projectId }),
       error
     );
-    return false;
+    throw error;
   }
-
-  return true;
 }
 
 export async function updateIssue(
@@ -56,42 +54,38 @@ export async function updateIssue(
   description: string | null
 ) {
   if (!id) {
-    return false;
+    throw new Error("It's impossible to update issue without it's id");
   }
 
   if (!title || title.length === 0) {
-    return false;
+    throw new Error("Field 'title' should not be empty");
   }
 
   const userId = await getAuthedUserId();
   if (!userId) {
     console.error("User is not authenticated");
-    return false;
+    throw new Error("User is not authenticated");
   }
 
   try {
     await issuesDAO.updateIssue(id, type, status, title, description);
   } catch (error) {
     console.error("Failed to update issue with id=" + id, error);
-    return false;
+    throw error;
   }
-
-  return true;
 }
 
 export async function removeIssue(id: number) {
   const userId = await getAuthedUserId();
   if (!userId) {
     console.error("User is not authenticated");
-    return false;
+    throw new Error("User is not authenticated");
   }
 
   try {
     await issuesDAO.deleteIssue(id);
   } catch (error) {
     console.error(`Failed to delete issue with id=${id}`, error);
-    return false;
+    throw error;
   }
-
-  return true;
 }
