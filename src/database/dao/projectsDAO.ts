@@ -3,7 +3,7 @@
 import { Project } from "@/server-actions/projectsActions";
 import { db } from "..";
 import { projects } from "../schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 export async function insertProject(
   name: string,
@@ -35,7 +35,10 @@ export async function updateProject(
 }
 
 export const getAllProjects = async (): Promise<Project[]> => {
-  return await db.select().from(projects);
+  return await db
+    .select()
+    .from(projects)
+    .orderBy(desc(projects.bookmarked), projects.createdAt);
 };
 
 export const getBookmarkedProjects = async (): Promise<Project[]> => {
