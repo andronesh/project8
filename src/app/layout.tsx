@@ -13,8 +13,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -22,6 +24,7 @@ export default function RootLayout({
         <TanstackQueryClientProvider>
           <NavSidebar />
           <div className="p-2 sm:ml-44 h-screen">{children}</div>
+          {modal}
         </TanstackQueryClientProvider>
       </body>
     </html>
