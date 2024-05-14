@@ -50,11 +50,12 @@ export async function updateIssue(
 
 export async function updateIssueSection(
   issueId: number,
-  newSectionId: number | null
+  sectionId: number | null,
+  sectionTitle: string | null
 ) {
   return db
     .update(issues)
-    .set({ sectionId: newSectionId, updatedAt: new Date() })
+    .set({ sectionId, sectionTitle, updatedAt: new Date() })
     .where(eq(issues.id, issueId))
     .then((result) => {
       return true;

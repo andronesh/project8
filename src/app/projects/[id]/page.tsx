@@ -71,16 +71,23 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     if (!destination) {
       return;
     }
-    const sourceColumnId = parseSectionId(source.droppableId);
-    const destinationColumnId = parseSectionId(destination.droppableId);
+    const sourceSectionId = parseSectionId(source.droppableId);
+    const destinationSectionId = parseSectionId(destination.droppableId);
 
-    if (sourceColumnId === destinationColumnId) {
+    if (sourceSectionId === destinationSectionId) {
       console.info("In the SAME column");
     } else {
       console.info("In OTHER column");
-      updateIssueSection(+draggableId, destinationColumnId).then((result) => {
-        invalidateSectionIssuesQuery(sourceColumnId);
-        invalidateSectionIssuesQuery(destinationColumnId);
+      const destinationSection = sections?.find(
+        (section) => section.id === destinationSectionId
+      );
+      updateIssueSection(
+        +draggableId,
+        destinationSectionId,
+        destinationSection ? destinationSection.title : null
+      ).then((result) => {
+        invalidateSectionIssuesQuery(sourceSectionId);
+        invalidateSectionIssuesQuery(destinationSectionId);
       });
     }
   }
