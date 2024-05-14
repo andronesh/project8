@@ -4,6 +4,7 @@ type Props = {
   issue: Issue;
   isSelected: boolean;
   onClick: () => void;
+  className?: string;
 };
 
 export default function IssueCompact(props: Props) {
@@ -11,7 +12,7 @@ export default function IssueCompact(props: Props) {
     <div
       className={`flex flex-col mb-2 px-3 py-1 ${
         props.isSelected ? "bg-blue-900" : "bg-gray-800 hover:bg-gray-700"
-      } rounded-lg shadow hover:cursor-pointer`}
+      } rounded-lg shadow hover:cursor-pointer ${props.className}`}
       onClick={props.onClick}
     >
       <div className={`flex flex-row justify-between items-center`}>

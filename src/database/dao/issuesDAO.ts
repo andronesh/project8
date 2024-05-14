@@ -48,6 +48,19 @@ export async function updateIssue(
     });
 }
 
+export async function updateIssueSection(
+  issueId: number,
+  newSectionId: number | null
+) {
+  return db
+    .update(issues)
+    .set({ sectionId: newSectionId, updatedAt: new Date() })
+    .where(eq(issues.id, issueId))
+    .then((result) => {
+      return true;
+    });
+}
+
 export async function deleteIssue(id: number) {
   return db
     .delete(issues)

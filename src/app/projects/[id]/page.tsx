@@ -3,12 +3,14 @@
 import Modal from "@/components/common/Modal";
 import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
-import SectionColumn from "@/components/section/SectionColumn";
+import SectionColumnDroppable from "@/components/section/SectionColumnDroppable";
 import SectionEditForm from "@/components/section/SectionEditForm";
+import { updateIssueSection } from "@/database/dao/issuesDAO";
 import { getSectionsForProject } from "@/database/dao/sectionsDAO";
 import { Issue, Section } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 
 export default function ProjectPage({ params }: { params: { id: number } }) {
   const [sections, setSections] = useState<Section[]>();
@@ -55,23 +57,56 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     setIssueEditFormVisible(false);
   };
 
+  const parseSectionId = (droppableId: string): number | null => {
+    return droppableId === "unsectioned" ? null : +droppableId;
+  };
+
+  const invalidateSectionIssuesQuery = (sectionId: number | null) => {
+    queryClient.invalidateQueries({
+      queryKey: ["sectionIssues", params.id, sectionId],
+    });
+  };
+
+  function onDragEnd({ source, destination, draggableId }: DropResult) {
+    if (!destination) {
+      return;
+    }
+    const sourceColumnId = parseSectionId(source.droppableId);
+    const destinationColumnId = parseSectionId(destination.droppableId);
+
+    if (sourceColumnId === destinationColumnId) {
+      console.info("In the SAME column");
+    } else {
+      console.info("In OTHER column");
+      updateIssueSection(+draggableId, destinationColumnId).then((result) => {
+        invalidateSectionIssuesQuery(sourceColumnId);
+        invalidateSectionIssuesQuery(destinationColumnId);
+      });
+    }
+  }
+
   return (
     <div className="flex space-x-2 w-fit">
-      <SectionColumn
-        projectId={params.id}
-        onInitIssueCreation={() => initIssueCreation()}
-        onClickOnIssue={initIssueEdition}
-      />
-      {sections &&
-        sections.map((section) => (
-          <SectionColumn
-            key={section.id}
-            projectId={params.id}
-            section={section}
-            onInitIssueCreation={() => initIssueCreation(section)}
-            onClickOnIssue={(issue: Issue) => initIssueEdition(issue, section)}
-          />
-        ))}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <SectionColumnDroppable
+          key={0}
+          projectId={params.id}
+          onInitIssueCreation={() => initIssueCreation()}
+          onClickOnIssue={initIssueEdition}
+        />
+        {sections &&
+          sections.map((section) => (
+            <SectionColumnDroppable
+              key={section.id}
+              projectId={params.id}
+              section={section}
+              onInitIssueCreation={() => initIssueCreation(section)}
+              onClickOnIssue={(issue: Issue) =>
+                initIssueEdition(issue, section)
+              }
+            />
+          ))}
+      </DragDropContext>
       <div
         className="flex items-center justify-center align-middle w-96 h-48 rounded-lg text-gray-500 border-2 border-dashed border-gray-700 hover:cursor-pointer hover:bg-gray-800 hover:text-gray-400"
         onClick={() => initSectionCreation()}
