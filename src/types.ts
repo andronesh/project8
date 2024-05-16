@@ -36,5 +36,6 @@ export type Issue = {
   projectId: number;
   sectionId: number | null;
   sectionTitle: string | null;
+  position: number;
   // parent_id: number;
 };

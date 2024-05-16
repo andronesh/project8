@@ -65,6 +65,7 @@ export const issues = pgTable("issues", {
     .notNull(),
   sectionId: integer("section_id").references(() => sections.id),
   sectionTitle: varchar("section_title", { length: 88 }),
+  position: serial("position").notNull(),
 });
 
 export const tiktokLinks = pgTable("tiktok_links", {

@@ -1,6 +1,6 @@
 "use server";
 
-import { eq, and, isNull } from "drizzle-orm";
+import { eq, and, isNull, sql, gte } from "drizzle-orm";
 import { db } from "..";
 import { issues } from "../schema";
 import { Issue, Section } from "@/types";
@@ -94,5 +94,5 @@ export const getIssuesForProjectSection = async (
         sectionId ? eq(issues.sectionId, sectionId) : isNull(issues.sectionId)
       )
     )
-    .orderBy(issues.createdAt);
+    .orderBy(issues.position);
 };
