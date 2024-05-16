@@ -68,6 +68,7 @@ export default function IssuesPanel({ project }: Props) {
                 selectIssue(issue);
                 setEditFormVisible(true);
               }}
+              className="mb-2"
             />
           ))}
       </div>
