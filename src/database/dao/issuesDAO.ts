@@ -48,18 +48,26 @@ export async function updateIssue(
     });
 }
 
-export async function updateIssueSection(
+export async function updateIssuePosition(
   issueId: number,
+  position: number,
   sectionId: number | null,
   sectionTitle: string | null
 ) {
-  return db
-    .update(issues)
-    .set({ sectionId, sectionTitle, updatedAt: new Date() })
-    .where(eq(issues.id, issueId))
-    .then((result) => {
-      return true;
-    });
+  const sectionIdCondition =
+    sectionId === null
+      ? isNull(issues.sectionId)
+      : eq(issues.sectionId, sectionId);
+  return db.transaction(async (tx) => {
+    await tx
+      .update(issues)
+      .set({ position: sql`${issues.position} + 1` })
+      .where(and(sectionIdCondition, gte(issues.position, position)));
+    await tx
+      .update(issues)
+      .set({ sectionId, sectionTitle, position, updatedAt: new Date() })
+      .where(eq(issues.id, issueId));
+  });
 }
 
 export async function deleteIssue(id: number) {
