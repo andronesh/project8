@@ -6,6 +6,26 @@ import { issues } from "../schema";
 import { Issue, Section } from "@/types";
 import { IssueStatus, IssueType } from "@/types";
 
+const deriveIssueSectionId = (section: Section | undefined, parent: Issue | undefined): number | null => {
+	if (section) {
+		return section.id;
+	}
+	if (parent) {
+		return parent.sectionId;
+	}
+	return null;
+};
+
+const deriveIssueSectionTitle = (section: Section | undefined, parent: Issue | undefined): string | null => {
+	if (section) {
+		return section.title;
+	}
+	if (parent) {
+		return parent.sectionTitle;
+	}
+	return null;
+};
+
 export async function insertIssue(
 	createdBy: string,
 	type: IssueType,
@@ -14,6 +34,7 @@ export async function insertIssue(
 	description: string | null,
 	projectId: number,
 	section?: Section,
+	parent?: Issue,
 ): Promise<Issue> {
 	return db
 		.insert(issues)
@@ -24,8 +45,9 @@ export async function insertIssue(
 			title,
 			description,
 			projectId,
-			sectionId: section ? section.id : null,
-			sectionTitle: section ? section.title : null,
+			parentId: parent ? parent.id : null,
+			sectionId: deriveIssueSectionId(section, parent),
+			sectionTitle: deriveIssueSectionTitle(section, parent),
 		})
 		.returning()
 		.then((result) => {
@@ -79,7 +101,11 @@ export async function deleteIssue(id: number) {
 }
 
 export const getIssuesForProject = async (projectId: number): Promise<Issue[]> => {
-	return await db.select().from(issues).where(eq(issues.projectId, projectId)).orderBy(issues.createdAt);
+	return await db
+		.select()
+		.from(issues)
+		.where(and(eq(issues.projectId, projectId), isNull(issues.parentId)))
+		.orderBy(issues.createdAt);
 };
 
 export const getIssuesForProjectSection = async (
@@ -93,7 +119,12 @@ export const getIssuesForProjectSection = async (
 			and(
 				eq(issues.projectId, projectId),
 				sectionId ? eq(issues.sectionId, sectionId) : isNull(issues.sectionId),
+				isNull(issues.parentId),
 			),
 		)
 		.orderBy(issues.position);
+};
+
+export const getChildrenIssues = async (parentId: number): Promise<Issue[]> => {
+	return await db.select().from(issues).where(eq(issues.parentId, parentId)).orderBy(issues.createdAt);
 };

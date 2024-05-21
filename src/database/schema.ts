@@ -11,6 +11,7 @@ import {
 	integer,
 	boolean,
 	smallserial,
+	AnyPgColumn,
 } from "drizzle-orm/pg-core";
 
 export const projects = pgTable("projects", {
@@ -60,6 +61,7 @@ export const issues = pgTable("issues", {
 	status: issueStatus("status").default(IssueStatus.CREATED).notNull(),
 	title: varchar("title", { length: 250 }).notNull(),
 	description: text("description"),
+	parentId: integer("parent_id").references((): AnyPgColumn => issues.id),
 	projectId: integer("project_id")
 		.references(() => projects.id)
 		.notNull(),

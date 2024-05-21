@@ -9,6 +9,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 
 type Props = {
 	projectId: number;
+	parent?: Issue;
 	section?: Section;
 	issue: Issue | undefined;
 	onSaved: (issue: Issue) => void;
@@ -16,12 +17,32 @@ type Props = {
 	onCancel: () => void;
 };
 
+const deriveIssueType = (issue: Issue | undefined, parent: Issue | undefined): IssueType => {
+	if (issue) {
+		return issue.type;
+	}
+	if (parent) {
+		return parent.type;
+	}
+	return IssueType.TASK;
+};
+
+const deriveIssueStatus = (issue: Issue | undefined, parent: Issue | undefined): IssueStatus => {
+	if (issue) {
+		return issue.status;
+	}
+	if (parent) {
+		return parent.status;
+	}
+	return IssueStatus.CREATED;
+};
+
 export default function IssueEditForm(props: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
 		id: props.issue?.id.toString(),
-		type: props.issue ? props.issue.type : IssueType.TASK,
-		status: props.issue ? props.issue.status : IssueStatus.CREATED,
+		type: deriveIssueType(props.issue, props.parent),
+		status: deriveIssueStatus(props.issue, props.parent),
 		title: props.issue ? props.issue.title : "",
 		description: props.issue?.description ? props.issue.description : "",
 		projectId: props.issue ? props.issue.projectId : props.projectId,
@@ -47,6 +68,7 @@ export default function IssueEditForm(props: Props) {
 						formData.description ? formData.description : null,
 						formData.projectId,
 						props.section,
+						props.parent,
 					);
 			setIsSubmitting(false);
 			props.onSaved(savedIssue);

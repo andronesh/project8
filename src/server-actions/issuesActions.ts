@@ -11,6 +11,7 @@ export async function createIssue(
 	description: string | null,
 	projectId: number,
 	section?: Section,
+	parent?: Issue,
 ): Promise<Issue> {
 	if (!title || title.length === 0) {
 		throw new Error("Field 'title' should not be empty");
@@ -27,7 +28,7 @@ export async function createIssue(
 	}
 
 	try {
-		return await issuesDAO.insertIssue(userId, type, status, title, description, projectId, section);
+		return await issuesDAO.insertIssue(userId, type, status, title, description, projectId, section, parent);
 	} catch (error) {
 		console.error("Failed to save issue " + JSON.stringify({ type, status, title, projectId }), error);
 		throw error;

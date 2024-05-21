@@ -1,3 +1,5 @@
+import { issues } from "./database/schema";
+
 export type Section = {
 	id: number;
 	title: string;
@@ -21,21 +23,4 @@ export enum IssueStatus {
 	CLOSED = "CLOSED",
 }
 
-export type Issue = {
-	id: number;
-	// created_at timestamp with time zone default now(),
-	// updated_at timestamp with time zone,
-	createdBy: string;
-
-	type: IssueType;
-	status: IssueStatus;
-	title: string;
-	description: string | null;
-
-	// assignee uuid references auth.users,
-	projectId: number;
-	sectionId: number | null;
-	sectionTitle: string | null;
-	position: number;
-	// parent_id: number;
-};
+export type Issue = typeof issues.$inferSelect;

@@ -249,7 +249,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 					/>
 				)}
 				{modalContent === ModalContent.ISSUE_DETAILS && issueUA && (
-					<IssueDetailed issue={issueUA} onEdit={() => initIssueEdition(issueUA, sectionUA)} />
+					<IssueDetailed issue={issueUA} onEditRequested={() => initIssueEdition(issueUA, sectionUA)} />
 				)}
 			</Modal>
 		</div>
