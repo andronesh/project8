@@ -61,7 +61,7 @@ export const issues = pgTable("issues", {
 	status: issueStatus("status").default(IssueStatus.CREATED).notNull(),
 	title: varchar("title", { length: 250 }).notNull(),
 	description: text("description"),
-	parentId: integer("parent_id").references((): AnyPgColumn => issues.id),
+	parentId: integer("parent_id").references((): AnyPgColumn => issues.id, { onDelete: "cascade" }),
 	projectId: integer("project_id")
 		.references(() => projects.id)
 		.notNull(),
