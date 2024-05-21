@@ -1,8 +1,9 @@
 import { Issue } from "@/types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import IssueEditForm from "./IssueEditForm";
-import { getChildrenIssues } from "@/database/dao/issuesDAO";
-import IssueCompact from "./IssueCompact";
+import IssueChildrenList from "./IssueChildrenList";
+import { useQueryClient } from "@tanstack/react-query";
+import { issueChildrenQuery } from "@/tanstack_query/keys";
 
 type Props = {
 	issue: Issue;
@@ -12,22 +13,15 @@ type Props = {
 };
 
 export default function IssueDetailed(props: Props) {
-	const [childrenIssues, setChildrenIssues] = useState<Issue[]>([]);
+	const queryClient = useQueryClient();
 
 	const [childIssueEditFromVisible, setChildIssueEditFromVisible] = useState(false);
 	const [childIssueUA, setChildIssueUA] = useState<Issue>();
 
-	useEffect(() => {
-		fetchChildrenIssues();
-	}, []);
-
-	const fetchChildrenIssues = () => {
-		getChildrenIssues(props.issue.id)
-			.then(setChildrenIssues)
-			.catch((error) => {
-				console.error("Failed to fetch children issues", error);
-				window.alert("Failed to fetch children issues");
-			});
+	const refetchChildrenIssues = () => {
+		queryClient.invalidateQueries({
+			queryKey: issueChildrenQuery(props.issue.id),
+		});
 	};
 
 	const initChildCreation = () => {
@@ -69,18 +63,7 @@ export default function IssueDetailed(props: Props) {
 					{props.issue.description}
 				</code>
 			)}
-			<div className="ml-2">
-				{childrenIssues.map((children) => (
-					<div key={children.id}>
-						<div className=" mx-3 border-b border-gray-600"></div>
-						<IssueCompact
-							issue={children}
-							isSelected={childIssueUA?.id === children.id}
-							onClick={() => initChildEdition(children)}
-						/>
-					</div>
-				))}
-			</div>
+			<IssueChildrenList parentId={props.issue.id} onClick={initChildEdition} />
 			<div className="mt-2 flex flex-col rounded border border-gray-500">
 				{!childIssueEditFromVisible && (
 					<button
@@ -97,11 +80,11 @@ export default function IssueDetailed(props: Props) {
 						parent={props.issue}
 						onSaved={(issue: Issue) => {
 							hideChildEditForm();
-							fetchChildrenIssues();
+							refetchChildrenIssues();
 						}}
 						onRemoved={() => {
 							hideChildEditForm();
-							fetchChildrenIssues();
+							refetchChildrenIssues();
 						}}
 						onCancel={hideChildEditForm}
 					/>

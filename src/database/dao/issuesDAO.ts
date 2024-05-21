@@ -125,6 +125,6 @@ export const getIssuesForProjectSection = async (
 		.orderBy(issues.position);
 };
 
-export const getChildrenIssues = async (parentId: number): Promise<Issue[]> => {
+export const getIssueChildren = async (parentId: number): Promise<Issue[]> => {
 	return await db.select().from(issues).where(eq(issues.parentId, parentId)).orderBy(issues.createdAt);
 };

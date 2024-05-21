@@ -1,4 +1,5 @@
 import { Issue } from "@/types";
+import IssueChildrenList from "./IssueChildrenList";
 
 type Props = {
 	issue: Issue;
@@ -10,7 +11,7 @@ type Props = {
 export default function IssueCompact(props: Props) {
 	return (
 		<div
-			className={`flex flex-col px-3 py-1 ${
+			className={` group flex flex-col px-3 py-1 ${
 				props.isSelected ? "bg-blue-900" : "bg-gray-800 hover:bg-gray-700"
 			} rounded-lg shadow hover:cursor-pointer ${props.className}`}
 			onClick={props.onClick}
@@ -25,6 +26,7 @@ export default function IssueCompact(props: Props) {
 			{props.issue.description && (
 				<div className="text-mg truncate text-gray-400">{props.issue.description}</div>
 			)}
+			{props.issue.parentId === null && <IssueChildrenList parentId={props.issue.id} onClick={() => {}} />}
 		</div>
 	);
 }
