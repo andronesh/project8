@@ -24,11 +24,7 @@ export async function createProject(name: string, bookmarked: boolean) {
   }
 }
 
-export async function updateProject(
-  id: number,
-  name: string,
-  bookmarked: boolean
-) {
+export async function updateProject(id: number, name: string, bookmarked: boolean) {
   const nameSanitised = name.trim();
 
   if (!nameSanitised || nameSanitised.length === 0) {

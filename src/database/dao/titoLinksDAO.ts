@@ -10,7 +10,7 @@ export async function insertTiktokLink(
   thumbnail?: string | null,
   isRecipe?: boolean,
   descriptionImage?: string | null,
-  tgSavedAt?: string | null
+  tgSavedAt?: string | null,
 ) {
   return db
     .insert(tiktokLinks)

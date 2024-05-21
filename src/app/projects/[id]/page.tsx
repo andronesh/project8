@@ -3,14 +3,9 @@
 import Modal from "@/components/common/Modal";
 import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
-import SectionColumnDroppable, {
-  SectionViewModel,
-} from "@/components/section/SectionColumnDroppable";
+import SectionColumnDroppable, { SectionViewModel } from "@/components/section/SectionColumnDroppable";
 import SectionEditForm from "@/components/section/SectionEditForm";
-import {
-  getIssuesForProjectSection,
-  updateIssuePosition,
-} from "@/database/dao/issuesDAO";
+import { getIssuesForProjectSection, updateIssuePosition } from "@/database/dao/issuesDAO";
 import { getSectionsForProject } from "@/database/dao/sectionsDAO";
 import { Issue, Section } from "@/types";
 import { useEffect, useState } from "react";
@@ -53,7 +48,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
       newState.forEach((section) => {
         section.isLoading = true;
         getIssuesForProjectSection(params.id, section.id).then((issues) =>
-          setSectionIssues(section.id, issues)
+          setSectionIssues(section.id, issues),
         );
       });
       setSections(newState);
@@ -63,10 +58,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
   const fetchSections = () => {
     getSectionsForProject(params.id)
       .then((data) => {
-        const allSections = [
-          generateSectionViewModel(),
-          ...data.map(generateSectionViewModel),
-        ];
+        const allSections = [generateSectionViewModel(), ...data.map(generateSectionViewModel)];
         setSections(allSections);
         setFetchIssuesTrigger(new Date());
       })
@@ -81,15 +73,11 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     const index = newState.findIndex((viewModel) => viewModel.id === sectionId);
     newState[index].isLoading = true;
     setSections(newState);
-    getIssuesForProjectSection(params.id, sectionId).then((issues) =>
-      setSectionIssues(sectionId, issues)
-    );
+    getIssuesForProjectSection(params.id, sectionId).then((issues) => setSectionIssues(sectionId, issues));
   };
 
   const setSectionIssues = (sectionId: number | null, issues: Issue[]) => {
-    const sectionIndex = sections?.findIndex(
-      (section) => section.id === sectionId
-    );
+    const sectionIndex = sections?.findIndex((section) => section.id === sectionId);
     const newState = [...sections];
     newState[sectionIndex].isLoading = false;
     newState[sectionIndex].issues = issues;
@@ -132,25 +120,17 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     const destinationIssueIndex = destination.index;
 
     const destinationSection = sections[destinationSectionIndex];
-    const newIssuePosition = calculateNewPosition(
-      destinationIssueIndex,
-      destinationSection.issues
-    );
+    const newIssuePosition = calculateNewPosition(destinationIssueIndex, destinationSection.issues);
 
     if (sourceSectionIndex === destinationSectionIndex) {
-      reorderInsideSection(
-        newIssuePosition,
-        destinationSectionIndex,
-        sourceIssueIndex,
-        destinationIssueIndex
-      );
+      reorderInsideSection(newIssuePosition, destinationSectionIndex, sourceIssueIndex, destinationIssueIndex);
     } else {
       moveBetweenSections(
         newIssuePosition,
         sourceSectionIndex,
         destinationSectionIndex,
         sourceIssueIndex,
-        destinationIssueIndex
+        destinationIssueIndex,
       );
     }
 
@@ -172,7 +152,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     newPosition: number,
     sectionIndex: number,
     removeFromIndex: number,
-    placeAtIndex: number
+    placeAtIndex: number,
   ) => {
     const newState = [...sections];
     const reorderedIssues = Array.from(newState[sectionIndex].issues);
@@ -191,7 +171,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     fromSectionIndex: number,
     toSectionIndex: number,
     removeFromIndex: number,
-    placeAtIndex: number
+    placeAtIndex: number,
   ) => {
     const newState = [...sections];
     const sourceReorderedIssues = Array.from(newState[fromSectionIndex].issues);
@@ -207,16 +187,12 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
     setSections(newState);
   };
 
-  const saveNewIssuePosition = (
-    issueId: number,
-    newPosition: number,
-    section: SectionViewModel
-  ) => {
+  const saveNewIssuePosition = (issueId: number, newPosition: number, section: SectionViewModel) => {
     updateIssuePosition(
       issueId,
       newPosition,
       section.entity ? section.entity.id : null,
-      section.entity ? section.entity.title : null
+      section.entity ? section.entity.title : null,
     ).then((result) => {
       // TODO show toast
     });
@@ -243,10 +219,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
         <PlusIcon />
         <p className="text-lg pl-2">New Section</p>
       </div>
-      <Modal
-        isVisible={modalContent !== ModalContent.NONE}
-        onClose={closeModal}
-      >
+      <Modal isVisible={modalContent !== ModalContent.NONE} onClose={closeModal}>
         {modalContent === ModalContent.SECTION_EDIT && (
           <SectionEditForm
             projectId={params.id}
@@ -276,10 +249,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
           />
         )}
         {modalContent === ModalContent.ISSUE_DETAILS && issueUA && (
-          <IssueDetailed
-            issue={issueUA}
-            onEdit={() => initIssueEdition(issueUA, sectionUA)}
-          />
+          <IssueDetailed issue={issueUA} onEdit={() => initIssueEdition(issueUA, sectionUA)} />
         )}
       </Modal>
     </div>

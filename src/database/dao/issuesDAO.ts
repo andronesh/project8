@@ -13,7 +13,7 @@ export async function insertIssue(
   title: string,
   description: string | null,
   projectId: number,
-  section?: Section
+  section?: Section,
 ): Promise<Issue> {
   return db
     .insert(issues)
@@ -38,7 +38,7 @@ export async function updateIssue(
   type: IssueType,
   status: IssueStatus,
   title: string,
-  description: string | null
+  description: string | null,
 ): Promise<Issue> {
   return db
     .update(issues)
@@ -54,12 +54,9 @@ export async function updateIssuePosition(
   issueId: number,
   position: number,
   sectionId: number | null,
-  sectionTitle: string | null
+  sectionTitle: string | null,
 ) {
-  const sectionIdCondition =
-    sectionId === null
-      ? isNull(issues.sectionId)
-      : eq(issues.sectionId, sectionId);
+  const sectionIdCondition = sectionId === null ? isNull(issues.sectionId) : eq(issues.sectionId, sectionId);
   return db.transaction(async (tx) => {
     await tx
       .update(issues)
@@ -81,19 +78,13 @@ export async function deleteIssue(id: number) {
     });
 }
 
-export const getIssuesForProject = async (
-  projectId: number
-): Promise<Issue[]> => {
-  return await db
-    .select()
-    .from(issues)
-    .where(eq(issues.projectId, projectId))
-    .orderBy(issues.createdAt);
+export const getIssuesForProject = async (projectId: number): Promise<Issue[]> => {
+  return await db.select().from(issues).where(eq(issues.projectId, projectId)).orderBy(issues.createdAt);
 };
 
 export const getIssuesForProjectSection = async (
   projectId: number,
-  sectionId: number | null
+  sectionId: number | null,
 ): Promise<Issue[]> => {
   return await db
     .select()
@@ -101,8 +92,8 @@ export const getIssuesForProjectSection = async (
     .where(
       and(
         eq(issues.projectId, projectId),
-        sectionId ? eq(issues.sectionId, sectionId) : isNull(issues.sectionId)
-      )
+        sectionId ? eq(issues.sectionId, sectionId) : isNull(issues.sectionId),
+      ),
     )
     .orderBy(issues.position);
 };

@@ -5,10 +5,7 @@ import { sections } from "../schema";
 import { eq } from "drizzle-orm";
 import { Section } from "@/types";
 
-export async function insertSection(
-  title: string,
-  projectId: number
-): Promise<Section> {
+export async function insertSection(title: string, projectId: number): Promise<Section> {
   return db
     .insert(sections)
     .values({
@@ -21,10 +18,7 @@ export async function insertSection(
     });
 }
 
-export async function updateSectionTitle(
-  id: number,
-  title: string
-): Promise<Section> {
+export async function updateSectionTitle(id: number, title: string): Promise<Section> {
   return db
     .update(sections)
     .set({ title })
@@ -35,12 +29,6 @@ export async function updateSectionTitle(
     });
 }
 
-export const getSectionsForProject = async (
-  projectId: number
-): Promise<Section[]> => {
-  return await db
-    .select()
-    .from(sections)
-    .where(eq(sections.projectId, projectId))
-    .orderBy(sections.position);
+export const getSectionsForProject = async (projectId: number): Promise<Section[]> => {
+  return await db.select().from(sections).where(eq(sections.projectId, projectId)).orderBy(sections.position);
 };

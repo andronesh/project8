@@ -5,11 +5,7 @@ type Props = {
 export default function LoadingSpinner(props: Props) {
   return (
     <div className={props.className}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 300 150"
-        className=" h-full"
-      >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 150" className=" h-full">
         <path
           fill="none"
           stroke="currentColor"

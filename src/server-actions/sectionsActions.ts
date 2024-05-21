@@ -13,10 +13,7 @@ export type ActionResult<T> = {
   error?: ActionError;
 };
 
-export async function createSection(
-  title: string,
-  projectId: number
-): Promise<ActionResult<Section>> {
+export async function createSection(title: string, projectId: number): Promise<ActionResult<Section>> {
   if (!title || title.length === 0) {
     return {
       error: {
@@ -33,10 +30,7 @@ export async function createSection(
       result: result,
     };
   } catch (error) {
-    console.error(
-      `Failed to save section with title "${title}" for project with id ${projectId}`,
-      error
-    );
+    console.error(`Failed to save section with title "${title}" for project with id ${projectId}`, error);
     return {
       error: {
         key: "internal",
@@ -46,10 +40,7 @@ export async function createSection(
   }
 }
 
-export async function updateSection(
-  id: number,
-  title: string
-): Promise<ActionResult<Section>> {
+export async function updateSection(id: number, title: string): Promise<ActionResult<Section>> {
   if (!title || title.length === 0) {
     return {
       error: {
@@ -66,10 +57,7 @@ export async function updateSection(
       result: result,
     };
   } catch (error) {
-    console.error(
-      `Failed to update section title to "${title}" for section with id ${id}`,
-      error
-    );
+    console.error(`Failed to update section title to "${title}" for section with id ${id}`, error);
     return {
       error: {
         key: "internal",

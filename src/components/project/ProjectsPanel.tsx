@@ -18,11 +18,7 @@ export default function ProjectsPanel() {
   const { data, isFetching, isError } = useAllProjectsQuery();
 
   if (isError) {
-    return (
-      <div className="text-white bg-red-700 text-lg p-2 rounded">
-        Failed to fetch projects
-      </div>
-    );
+    return <div className="text-white bg-red-700 text-lg p-2 rounded">Failed to fetch projects</div>;
   }
 
   const initProjectCreation = () => {
@@ -88,15 +84,9 @@ export default function ProjectsPanel() {
           ))}
         </ul>
       </div>
-      <div className="flex w-3/4 pl-3">
-        {selectedProject && <IssuesPanel project={selectedProject} />}
-      </div>
+      <div className="flex w-3/4 pl-3">{selectedProject && <IssuesPanel project={selectedProject} />}</div>
       <Transition appear show={isEditFormOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setEditFormOpen(false)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={() => setEditFormOpen(false)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

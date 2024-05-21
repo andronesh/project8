@@ -11,10 +11,7 @@ type Props = {
 export default function InputSelectorLabeled(props: Props) {
   return (
     <div className="flex flex-row justify-evenly items-center">
-      <label
-        htmlFor={props.name}
-        className="pr-3 text-sm font-medium text-white"
-      >
+      <label htmlFor={props.name} className="pr-3 text-sm font-medium text-white">
         {props.label}
       </label>
       <select

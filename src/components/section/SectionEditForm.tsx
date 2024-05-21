@@ -17,8 +17,7 @@ export default function SectionEditForm(props: Props) {
     projectId: props.projectId,
   });
 
-  const handleChange = (e: any) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const doSave = async () => {
     if (!formData.title || formData.title.trim().length === 0) {

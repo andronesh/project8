@@ -16,7 +16,7 @@ type Props = {
 export default function SectionColumn(props: Props) {
   const { data, isFetching, isError } = useSectionIssues(
     props.projectId,
-    props.section ? props.section.id : null
+    props.section ? props.section.id : null,
   );
 
   return (
@@ -34,14 +34,8 @@ export default function SectionColumn(props: Props) {
             </div>
           </div>
         </div>
-        {isFetching && (
-          <LoadingSpinner className="flex justify-around mb-2 h-14" />
-        )}
-        {isError && (
-          <div className="text-white bg-red-700 text-xl font-bold">
-            Failed to load issues
-          </div>
-        )}
+        {isFetching && <LoadingSpinner className="flex justify-around mb-2 h-14" />}
+        {isError && <div className="text-white bg-red-700 text-xl font-bold">Failed to load issues</div>}
         {data?.map((issue: Issue) => (
           <IssueCompact
             key={issue.id}

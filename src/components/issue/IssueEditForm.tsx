@@ -27,8 +27,7 @@ export default function IssueEditForm(props: Props) {
     projectId: props.issue ? props.issue.projectId : props.projectId,
   });
 
-  const handleChange = (e: any) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const saveIssue = async () => {
     setIsSubmitting(true);
@@ -39,7 +38,7 @@ export default function IssueEditForm(props: Props) {
             formData.type,
             formData.status,
             formData.title!,
-            formData.description ? formData.description : null
+            formData.description ? formData.description : null,
           )
         : await createIssue(
             formData.type,
@@ -47,7 +46,7 @@ export default function IssueEditForm(props: Props) {
             formData.title!,
             formData.description ? formData.description : null,
             formData.projectId,
-            props.section
+            props.section,
           );
       setIsSubmitting(false);
       props.onSaved(savedIssue);
@@ -79,14 +78,7 @@ export default function IssueEditForm(props: Props) {
         </div>
       )}
       <div className="space-y-4">
-        <input
-          type="text"
-          id="id"
-          name="id"
-          value={formData.id}
-          className="hidden"
-          readOnly
-        />
+        <input type="text" id="id" name="id" value={formData.id} className="hidden" readOnly />
         <input
           type="text"
           id="projectId"

@@ -67,18 +67,13 @@ export default function ImagePasteZone(props: Props) {
         })
         .catch((err) => console.error("Failed to get Base64 from file", err));
     } else {
-      alert(
-        "No image data was found in your clipboard. Copy an image first or take a screenshot."
-      );
+      alert("No image data was found in your clipboard. Copy an image first or take a screenshot.");
     }
   };
 
   return (
     <div className={props.className}>
-      <label
-        htmlFor={props.name}
-        className="block mb-2 text-sm text-left font-medium text-white"
-      >
+      <label htmlFor={props.name} className="block mb-2 text-sm text-left font-medium text-white">
         {props.label}
       </label>
       {!imgData && (

@@ -17,9 +17,7 @@ export default function TiktokLinkEditForm(props: Props) {
     url: props.link?.url ? props.link.url : "",
     thumbnail: props.link?.thumbnail ? props.link.thumbnail : null,
     isRecipe: props.link ? props.link.isRecipe : false,
-    descriptionImage: props.link?.descriptionImage
-      ? props.link.descriptionImage
-      : null,
+    descriptionImage: props.link?.descriptionImage ? props.link.descriptionImage : null,
     tgSavedAt: props.link?.tgSavedAt ? props.link.tgSavedAt : "",
   });
 
@@ -29,18 +27,14 @@ export default function TiktokLinkEditForm(props: Props) {
       url: props.link?.url ? props.link.url : "",
       thumbnail: props.link?.thumbnail ? props.link.thumbnail : null,
       isRecipe: props.link ? props.link.isRecipe : false,
-      descriptionImage: props.link?.descriptionImage
-        ? props.link.descriptionImage
-        : null,
+      descriptionImage: props.link?.descriptionImage ? props.link.descriptionImage : null,
       tgSavedAt: props.link?.tgSavedAt ? props.link.tgSavedAt : "",
     });
   }, [props.link]);
 
-  const handleChange = (e: any) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleCheckboxChange = (e: any) =>
-    setFormData({ ...formData, [e.target.name]: e.target.checked });
+  const handleCheckboxChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.checked });
 
   const saveLink = async () => {
     if (props.link) {
@@ -52,7 +46,7 @@ export default function TiktokLinkEditForm(props: Props) {
         formData.thumbnail,
         formData.isRecipe,
         formData.descriptionImage,
-        formData.tgSavedAt
+        formData.tgSavedAt,
       );
       if (result) {
         if (props.onSaved) {
@@ -67,13 +61,7 @@ export default function TiktokLinkEditForm(props: Props) {
   return (
     <div className="w-full p-4 pt-0 bg-gray-800 border border-gray-700 rounded-lg shadow">
       <div className="space-y-4">
-        <input
-          type="text"
-          id="id"
-          name="id"
-          value={formData.id}
-          className="hidden"
-        />
+        <input type="text" id="id" name="id" value={formData.id} className="hidden" />
         <InputTextLabeled
           label={"URL"}
           name={"url"}
@@ -83,10 +71,7 @@ export default function TiktokLinkEditForm(props: Props) {
         />
         <div className="flex flex-row justify-between">
           <div className="flex flex-row justify-evenly items-center">
-            <label
-              htmlFor="type"
-              className="p-2.5 text-sm font-medium text-gray-900 dark:text-white"
-            >
+            <label htmlFor="type" className="p-2.5 text-sm font-medium text-gray-900 dark:text-white">
               Recipe
             </label>
             <input
@@ -111,18 +96,14 @@ export default function TiktokLinkEditForm(props: Props) {
           <ImagePasteZone
             name="thumbnain"
             label="Thumbnail"
-            onChange={(thumbnail) =>
-              setFormData({ ...formData, thumbnail: thumbnail })
-            }
+            onChange={(thumbnail) => setFormData({ ...formData, thumbnail: thumbnail })}
             className="flex-1 p-3"
           />
 
           <ImagePasteZone
             name="descriptionImage"
             label="Description Image"
-            onChange={(descriptionImage) =>
-              setFormData({ ...formData, descriptionImage: descriptionImage })
-            }
+            onChange={(descriptionImage) => setFormData({ ...formData, descriptionImage: descriptionImage })}
             className="flex-1  p-3"
           />
         </div>

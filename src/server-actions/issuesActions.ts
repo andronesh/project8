@@ -10,7 +10,7 @@ export async function createIssue(
   title: string,
   description: string | null,
   projectId: number,
-  section?: Section
+  section?: Section,
 ): Promise<Issue> {
   if (!title || title.length === 0) {
     throw new Error("Field 'title' should not be empty");
@@ -27,21 +27,9 @@ export async function createIssue(
   }
 
   try {
-    return await issuesDAO.insertIssue(
-      userId,
-      type,
-      status,
-      title,
-      description,
-      projectId,
-      section
-    );
+    return await issuesDAO.insertIssue(userId, type, status, title, description, projectId, section);
   } catch (error) {
-    console.error(
-      "Failed to save issue " +
-        JSON.stringify({ type, status, title, projectId }),
-      error
-    );
+    console.error("Failed to save issue " + JSON.stringify({ type, status, title, projectId }), error);
     throw error;
   }
 }
@@ -51,7 +39,7 @@ export async function updateIssue(
   type: IssueType,
   status: IssueStatus,
   title: string,
-  description: string | null
+  description: string | null,
 ): Promise<Issue> {
   if (!id) {
     throw new Error("It's impossible to update issue without it's id");

@@ -8,9 +8,7 @@ type Props = {
 
 export default function IssueDetailed(props: Props) {
   return (
-    <div
-      className={`flex flex-col p-4 py-3 bg-gray-800 text-left ${props.className}`}
-    >
+    <div className={`flex flex-col p-4 py-3 bg-gray-800 text-left ${props.className}`}>
       <div className={`flex flex-row justify-between items-center`}>
         <div className="flex space-x-2 items-end ">
           <span className={"text-sm text-gray-500"}>{props.issue.status}</span>

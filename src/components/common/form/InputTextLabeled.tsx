@@ -12,10 +12,7 @@ type Props = {
 export default function InputTextLabeled(props: Props) {
   return (
     <div className={props.className}>
-      <label
-        htmlFor={props.name}
-        className="block mb-1 mr-3 text-sm font-medium text-white text-left"
-      >
+      <label htmlFor={props.name} className="block mb-1 mr-3 text-sm font-medium text-white text-left">
         {props.label}
       </label>
       <input

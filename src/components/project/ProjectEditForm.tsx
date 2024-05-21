@@ -1,8 +1,4 @@
-import {
-  Project,
-  updateProject,
-  createProject,
-} from "@/server-actions/projectsActions";
+import { Project, updateProject, createProject } from "@/server-actions/projectsActions";
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputCheckbox from "../common/form/InputCheckbox";
@@ -21,11 +17,9 @@ export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
     bookmarked: project ? project.bookmarked : false,
   });
 
-  const handleChange = (e: any) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleCheckboxChange = (e: any) =>
-    setFormData({ ...formData, [e.target.name]: e.target.checked });
+  const handleCheckboxChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.checked });
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -51,14 +45,7 @@ export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
   return (
     <div className="w-full p-4 bg-gray-800 border border-gray-700 rounded-lg shadow">
       <form className="space-y-4" onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          id="id"
-          name="id"
-          value={formData.id}
-          className="hidden"
-          readOnly
-        />
+        <input type="text" id="id" name="id" value={formData.id} className="hidden" readOnly />
         <InputTextLabeled
           label={"Name"}
           name={"name"}
