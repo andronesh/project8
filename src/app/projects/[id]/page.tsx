@@ -15,6 +15,7 @@ import { getSectionsForProject } from "@/database/dao/sectionsDAO";
 import { Issue, Section } from "@/types";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
+import IssueDetailed from "@/components/issue/IssueDetailed";
 
 const generateSectionViewModel = (entity?: Section): SectionViewModel => {
   return {
@@ -25,16 +26,22 @@ const generateSectionViewModel = (entity?: Section): SectionViewModel => {
   };
 };
 
+enum ModalContent {
+  NONE,
+  ISSUE_EDIT,
+  ISSUE_DETAILS,
+  SECTION_EDIT,
+}
+
 export default function ProjectPage({ params }: { params: { id: number } }) {
   const [sections, setSections] = useState<SectionViewModel[]>([]);
 
   const [fetchIssuesTrigger, setFetchIssuesTrigger] = useState(new Date());
 
-  const [sectionUA, setSectionUA] = useState<Section | undefined>(); // UA = Under Action
-  const [sectionEditFormVisible, setSectionEditFormVisible] = useState(false);
+  const [modalContent, setModalContent] = useState(ModalContent.NONE);
 
+  const [sectionUA, setSectionUA] = useState<Section | undefined>(); // UA = Under Action
   const [issueUA, setIssueUA] = useState<Issue | undefined>(); // UA = Under Action
-  const [issueEditFormVisible, setIssueEditFormVisible] = useState(false);
 
   useEffect(() => {
     fetchSections();
@@ -91,24 +98,28 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 
   const initSectionCreation = () => {
     setSectionUA(undefined);
-    setSectionEditFormVisible(true);
+    setModalContent(ModalContent.SECTION_EDIT);
   };
 
   const initIssueCreation = (section?: Section) => {
     setIssueUA(undefined);
     setSectionUA(section);
-    setIssueEditFormVisible(true);
+    setModalContent(ModalContent.ISSUE_EDIT);
   };
 
   const initIssueEdition = (issue: Issue, section?: Section) => {
     setIssueUA(issue);
     setSectionUA(section);
-    setIssueEditFormVisible(true);
+    setModalContent(ModalContent.ISSUE_EDIT);
+  };
+
+  const showIssueDetails = (issue: Issue) => {
+    setIssueUA(issue);
+    setModalContent(ModalContent.ISSUE_DETAILS);
   };
 
   const closeModal = () => {
-    setSectionEditFormVisible(false);
-    setIssueEditFormVisible(false);
+    setModalContent(ModalContent.NONE);
   };
 
   function onDragEnd({ source, destination, draggableId }: DropResult) {
@@ -221,9 +232,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
             viewModel={section}
             droppableId={index + ""}
             onInitIssueCreation={() => initIssueCreation(section.entity)}
-            onClickOnIssue={(issue: Issue) =>
-              initIssueEdition(issue, section.entity)
-            }
+            onClickOnIssue={showIssueDetails}
           />
         ))}
       </DragDropContext>
@@ -235,34 +244,41 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
         <p className="text-lg pl-2">New Section</p>
       </div>
       <Modal
-        isVisible={sectionEditFormVisible || issueEditFormVisible}
+        isVisible={modalContent !== ModalContent.NONE}
         onClose={closeModal}
       >
-        {sectionEditFormVisible && (
+        {modalContent === ModalContent.SECTION_EDIT && (
           <SectionEditForm
             projectId={params.id}
             section={sectionUA}
-            onCancel={() => setSectionEditFormVisible(false)}
+            onCancel={closeModal}
             onDone={() => {
-              setSectionEditFormVisible(false);
+              closeModal();
               fetchSections(); // TODO just add to array without refetching all
             }}
           />
         )}
-        {issueEditFormVisible && (
+        {modalContent === ModalContent.ISSUE_EDIT && (
           <IssueEditForm
             projectId={params.id}
             section={sectionUA}
             issue={issueUA}
-            onCancel={() => setIssueEditFormVisible(false)}
-            onSaved={() => {
-              setIssueEditFormVisible(false);
+            onCancel={() => setModalContent(ModalContent.ISSUE_DETAILS)}
+            onSaved={(issue) => {
+              closeModal();
               refetchSectionIssues(sectionUA ? sectionUA.id : null);
+              showIssueDetails(issue);
             }}
             onRemoved={() => {
-              setIssueEditFormVisible(false);
+              closeModal();
               refetchSectionIssues(sectionUA ? sectionUA.id : null);
             }}
+          />
+        )}
+        {modalContent === ModalContent.ISSUE_DETAILS && issueUA && (
+          <IssueDetailed
+            issue={issueUA}
+            onEdit={() => initIssueEdition(issueUA, sectionUA)}
           />
         )}
       </Modal>

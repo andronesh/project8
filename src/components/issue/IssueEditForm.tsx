@@ -11,7 +11,7 @@ type Props = {
   projectId: number;
   section?: Section;
   issue: Issue | undefined;
-  onSaved: () => void;
+  onSaved: (issue: Issue) => void;
   onRemoved: () => void;
   onCancel: () => void;
 };
@@ -33,26 +33,24 @@ export default function IssueEditForm(props: Props) {
   const saveIssue = async () => {
     setIsSubmitting(true);
     try {
-      if (props.issue) {
-        await updateIssue(
-          props.issue.id,
-          formData.type,
-          formData.status,
-          formData.title!,
-          formData.description ? formData.description : null
-        );
-      } else {
-        await createIssue(
-          formData.type,
-          formData.status,
-          formData.title!,
-          formData.description ? formData.description : null,
-          formData.projectId,
-          props.section
-        );
-      }
+      const savedIssue = props.issue
+        ? await updateIssue(
+            props.issue.id,
+            formData.type,
+            formData.status,
+            formData.title!,
+            formData.description ? formData.description : null
+          )
+        : await createIssue(
+            formData.type,
+            formData.status,
+            formData.title!,
+            formData.description ? formData.description : null,
+            formData.projectId,
+            props.section
+          );
       setIsSubmitting(false);
-      props.onSaved();
+      props.onSaved(savedIssue);
     } catch (error) {
       setIsSubmitting(false);
       window.alert(error);

@@ -14,7 +14,7 @@ export async function insertIssue(
   description: string | null,
   projectId: number,
   section?: Section
-) {
+): Promise<Issue> {
   return db
     .insert(issues)
     .values({
@@ -27,8 +27,9 @@ export async function insertIssue(
       sectionId: section ? section.id : null,
       sectionTitle: section ? section.title : null,
     })
+    .returning()
     .then((result) => {
-      return true;
+      return result[0];
     });
 }
 
@@ -38,13 +39,14 @@ export async function updateIssue(
   status: IssueStatus,
   title: string,
   description: string | null
-) {
+): Promise<Issue> {
   return db
     .update(issues)
     .set({ type, status, title, description, updatedAt: new Date() })
     .where(eq(issues.id, id))
+    .returning()
     .then((result) => {
-      return true;
+      return result[0];
     });
 }
 

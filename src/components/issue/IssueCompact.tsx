@@ -17,10 +17,10 @@ export default function IssueCompact(props: Props) {
     >
       <div className={`flex flex-row justify-between items-center`}>
         <h3 className={"text-lg"}>{props.issue.title}</h3>
-        <div className="flex flex-col pl-2 items-end self-start">
+        {/* <div className="flex flex-col pl-2 items-end self-start">
           <span className={"text-xs text-gray-500"}>{props.issue.status}</span>
           <span className={"text-xs text-gray-500"}>{props.issue.type}</span>
-        </div>
+        </div> */}
       </div>
       {props.issue.description && (
         <div className="text-mg text-gray-400 truncate">
