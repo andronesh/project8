@@ -236,7 +236,13 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 						projectId={params.id}
 						section={sectionUA}
 						issue={issueUA}
-						onCancel={() => setModalContent(ModalContent.ISSUE_DETAILS)}
+						onCancel={() => {
+							if (issueUA) {
+								setModalContent(ModalContent.ISSUE_DETAILS);
+							} else {
+								setModalContent(ModalContent.NONE);
+							}
+						}}
 						onSaved={(issue) => {
 							closeModal();
 							refetchSectionIssues(issue.sectionId);
