@@ -15,7 +15,7 @@ export default function IssueCompact(props: Props) {
 			} rounded-lg shadow hover:cursor-pointer ${props.className}`}
 			onClick={props.onClick}
 		>
-			<div className={`flex flex-row justify-between items-center`}>
+			<div className={`flex flex-row items-center justify-between`}>
 				<h3 className={"text-lg"}>{props.issue.title}</h3>
 				{/* <div className="flex flex-col pl-2 items-end self-start">
 					<span className={"text-xs text-gray-500"}>{props.issue.status}</span>
@@ -23,7 +23,7 @@ export default function IssueCompact(props: Props) {
 				</div> */}
 			</div>
 			{props.issue.description && (
-				<div className="text-mg text-gray-400 truncate">{props.issue.description}</div>
+				<div className="text-mg truncate text-gray-400">{props.issue.description}</div>
 			)}
 		</div>
 	);

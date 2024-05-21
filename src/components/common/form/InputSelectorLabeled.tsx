@@ -10,7 +10,7 @@ type Props = {
 
 export default function InputSelectorLabeled(props: Props) {
 	return (
-		<div className="flex flex-row justify-evenly items-center">
+		<div className="flex flex-row items-center justify-evenly">
 			<label htmlFor={props.name} className="pr-3 text-sm font-medium text-white">
 				{props.label}
 			</label>
@@ -20,7 +20,7 @@ export default function InputSelectorLabeled(props: Props) {
 				value={props.value}
 				required={props.required}
 				onChange={props.onChange}
-				className="border text-sm rounded-lg block w-full p-2 text-white bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 focus:outline focus:outline-blue-500"
+				className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:outline focus:outline-blue-500 focus:ring-blue-500"
 			>
 				{props.values.map((value) => (
 					<option key={value} value={value}>

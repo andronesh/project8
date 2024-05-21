@@ -11,7 +11,7 @@ type Props = {
 export default function InputTextareaLabeled(props: Props) {
 	return (
 		<div>
-			<label htmlFor={props.name} className="block mb-1 text-sm font-medium text-white text-left">
+			<label htmlFor={props.name} className="mb-1 block text-left text-sm font-medium text-white">
 				{props.label}
 			</label>
 			<textarea
@@ -20,7 +20,7 @@ export default function InputTextareaLabeled(props: Props) {
 				value={props.value}
 				rows={4}
 				onChange={props.onChange}
-				className="border text-sm rounded-lg block w-full p-2 text-white bg-gray-700 border-gray-600 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 focus:outline-blue-500 focus:outline"
+				className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:outline focus:outline-blue-500 focus:ring-blue-500"
 				placeholder={props.placeholder}
 				required={props.required}
 			/>

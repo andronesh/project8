@@ -51,13 +51,13 @@ export default function IssuesPanel({ project }: Props) {
 		<>
 			<div className="w-full">
 				<div
-					className="flex items-center justify-center align-middle mb-2 pt-2 pb-1 px-2 rounded-lg bg-gray-800 text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+					className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pb-1 pt-2 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 					onClick={() => initIssueCreation()}
 				>
 					<PlusIcon />
-					<p className="text-lg pl-2">New Issue</p>
+					<p className="pl-2 text-lg">New Issue</p>
 				</div>
-				{isLoading && <LoadingSpinner className="px-20 my-5" />}
+				{isLoading && <LoadingSpinner className="my-5 px-20" />}
 				{!isLoading &&
 					issues?.map((issue: Issue) => (
 						<IssueCompact
@@ -97,7 +97,7 @@ export default function IssuesPanel({ project }: Props) {
 								leaveFrom="opacity-100 scale-100"
 								leaveTo="opacity-0 scale-95"
 							>
-								<Dialog.Panel className="rounded-lg shadow w-full max-w-md transform overflow-hidden transition-all">
+								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg shadow transition-all">
 									<IssueEditForm
 										projectId={project.id}
 										issue={selectedIssue}

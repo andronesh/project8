@@ -22,20 +22,20 @@ export default function SectionColumn(props: Props) {
 	return (
 		<>
 			<div className="w-96">
-				<div className="flex justify-between items-center">
-					<p className="text-lg pl-2">{props.section?.title}</p>
+				<div className="flex items-center justify-between">
+					<p className="pl-2 text-lg">{props.section?.title}</p>
 					<div className="">
 						<div
-							className="flex items-center justify-center align-middle mb-2 pt-1 pb-1 px-2 rounded-lg text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+							className="mb-2 flex items-center justify-center rounded-lg px-2 pb-1 pt-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 							onClick={props.onInitIssueCreation}
 						>
 							<PlusIcon />
-							<p className="text-lg pl-2">issue</p>
+							<p className="pl-2 text-lg">issue</p>
 						</div>
 					</div>
 				</div>
-				{isFetching && <LoadingSpinner className="flex justify-around mb-2 h-14" />}
-				{isError && <div className="text-white bg-red-700 text-xl font-bold">Failed to load issues</div>}
+				{isFetching && <LoadingSpinner className="mb-2 flex h-14 justify-around" />}
+				{isError && <div className="bg-red-700 text-xl font-bold text-white">Failed to load issues</div>}
 				{data?.map((issue: Issue) => (
 					<IssueCompact
 						key={issue.id}

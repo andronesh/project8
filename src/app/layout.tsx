@@ -21,7 +21,7 @@ export default function RootLayout({
 			<body className={inter.className + " bg-gray-900 text-gray-300"}>
 				<TanstackQueryClientProvider>
 					<NavSidebar />
-					<div className="p-2 sm:ml-44 h-screen">{children}</div>
+					<div className="h-screen p-2 sm:ml-44">{children}</div>
 				</TanstackQueryClientProvider>
 			</body>
 		</html>

@@ -37,7 +37,7 @@ export default function SectionEditForm(props: Props) {
 	};
 
 	return (
-		<div className="w-full p-3 space-y-3 bg-gray-800 border border-gray-700 rounded-lg shadow">
+		<div className="w-full space-y-3 rounded-lg border border-gray-700 bg-gray-800 p-3 shadow">
 			<InputTextLabeled
 				label={"Title"}
 				name={"title"}
@@ -48,7 +48,7 @@ export default function SectionEditForm(props: Props) {
 			<div className="flex flex-row justify-evenly">
 				<button
 					type="reset"
-					className="flex hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+					className="flex rounded px-4 py-2 font-bold text-white hover:bg-gray-700"
 					onClick={props.onCancel}
 				>
 					Cancel
@@ -56,14 +56,14 @@ export default function SectionEditForm(props: Props) {
 				{props.section && (
 					<button
 						type="reset"
-						className="flex text-red-400 hover:bg-red-700 hover:text-white font-bold py-2 px-4 rounded"
+						className="flex rounded px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white"
 						disabled // TODO implement deletion
 					>
 						Delete
 					</button>
 				)}
 				<button
-					className="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+					className="flex rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
 					onClick={doSave}
 				>
 					Save

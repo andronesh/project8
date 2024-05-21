@@ -1,3 +1,5 @@
 printWidth: 111
 trailingComma: all
 useTabs: true
+plugins:
+  - prettier-plugin-tailwindcss

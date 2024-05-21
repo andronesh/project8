@@ -71,10 +71,10 @@ export default function IssueEditForm(props: Props) {
 	};
 
 	return (
-		<div className="relative w-full p-4 pt-0 bg-gray-800 border border-gray-700 rounded-lg shadow">
+		<div className="relative w-full rounded-lg border border-gray-700 bg-gray-800 p-4 pt-0 shadow">
 			{isSubmitting && (
-				<div className="flex justify-center items-center absolute top-0 right-0 left-0 bottom-2 bg-gray-800 bg-opacity-80 rounded-lg">
-					<LoadingSpinner className="flex justify-around w-3/4" />
+				<div className="absolute bottom-2 left-0 right-0 top-0 flex items-center justify-center rounded-lg bg-gray-800 bg-opacity-80">
+					<LoadingSpinner className="flex w-3/4 justify-around" />
 				</div>
 			)}
 			<div className="space-y-4">
@@ -122,21 +122,21 @@ export default function IssueEditForm(props: Props) {
 				/>
 				<div className="flex flex-row justify-evenly">
 					<button
-						className="flex hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+						className="flex rounded px-4 py-2 font-bold text-white hover:bg-gray-700"
 						onClick={props.onCancel}
 					>
 						Cancel
 					</button>
 					{props.issue && (
 						<button
-							className="flex text-red-400 hover:bg-red-700 hover:text-white font-bold py-2 px-4 rounded"
+							className="flex rounded px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white"
 							onClick={removeIssue}
 						>
 							Delete
 						</button>
 					)}
 					<button
-						className="flex bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+						className="flex rounded bg-blue-700 px-4 py-2 font-bold text-white hover:bg-blue-600"
 						onClick={saveIssue}
 					>
 						Save

@@ -123,12 +123,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 		const newIssuePosition = calculateNewPosition(destinationIssueIndex, destinationSection.issues);
 
 		if (sourceSectionIndex === destinationSectionIndex) {
-			reorderInsideSection(
-				newIssuePosition,
-				destinationSectionIndex,
-				sourceIssueIndex,
-				destinationIssueIndex,
-			);
+			reorderInsideSection(newIssuePosition, destinationSectionIndex, sourceIssueIndex, destinationIssueIndex);
 		} else {
 			moveBetweenSections(
 				newIssuePosition,
@@ -204,7 +199,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 	};
 
 	return (
-		<div className="flex space-x-2 w-fit">
+		<div className="flex w-fit space-x-2">
 			<DragDropContext onDragEnd={onDragEnd}>
 				{sections.map((section, index) => (
 					<SectionColumnDroppable
@@ -218,11 +213,11 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 				))}
 			</DragDropContext>
 			<div
-				className="flex items-center justify-center align-middle w-96 h-48 rounded-lg text-gray-500 border-2 border-dashed border-gray-700 hover:cursor-pointer hover:bg-gray-800 hover:text-gray-400"
+				className="flex h-48 w-96 items-center justify-center rounded-lg border-2 border-dashed border-gray-700 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-800 hover:text-gray-400"
 				onClick={() => initSectionCreation()}
 			>
 				<PlusIcon />
-				<p className="text-lg pl-2">New Section</p>
+				<p className="pl-2 text-lg">New Section</p>
 			</div>
 			<Modal isVisible={modalContent !== ModalContent.NONE} onClose={closeModal}>
 				{modalContent === ModalContent.SECTION_EDIT && (
