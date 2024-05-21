@@ -239,7 +239,7 @@ export default function ProjectPage({ params }: { params: { id: number } }) {
 						onCancel={() => setModalContent(ModalContent.ISSUE_DETAILS)}
 						onSaved={(issue) => {
 							closeModal();
-							refetchSectionIssues(sectionUA ? sectionUA.id : null);
+							refetchSectionIssues(issue.sectionId);
 							showIssueDetails(issue);
 						}}
 						onRemoved={() => {
