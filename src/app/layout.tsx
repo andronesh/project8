@@ -7,23 +7,23 @@ import TanstackQueryClientProvider from "@/tanstack_query/TanstackQueryClientPro
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Project8",
-  description: "Manage tasks and stuff",
+	title: "Project8",
+	description: "Manage tasks and stuff",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className + " bg-gray-900 text-gray-300"}>
-        <TanstackQueryClientProvider>
-          <NavSidebar />
-          <div className="p-2 sm:ml-44 h-screen">{children}</div>
-        </TanstackQueryClientProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={inter.className + " bg-gray-900 text-gray-300"}>
+				<TanstackQueryClientProvider>
+					<NavSidebar />
+					<div className="p-2 sm:ml-44 h-screen">{children}</div>
+				</TanstackQueryClientProvider>
+			</body>
+		</html>
+	);
 }

@@ -3,16 +3,16 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const cookieStore = cookies();
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+	const cookieStore = cookies();
+	const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+	const {
+		data: { session },
+	} = await supabase.auth.getSession();
 
-  if (session) {
-    await supabase.auth.signOut();
-  }
+	if (session) {
+		await supabase.auth.signOut();
+	}
 
-  return NextResponse.redirect(new URL("/", request.url), { status: 302 });
+	return NextResponse.redirect(new URL("/", request.url), { status: 302 });
 }

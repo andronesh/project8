@@ -3,15 +3,15 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const cookieStore = cookies();
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+	const cookieStore = cookies();
+	const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
 
-  const { searchParams } = new URL(request.url);
-  const code = searchParams.get("code");
+	const { searchParams } = new URL(request.url);
+	const code = searchParams.get("code");
 
-  if (code) {
-    await supabase.auth.exchangeCodeForSession(code);
-  }
+	if (code) {
+		await supabase.auth.exchangeCodeForSession(code);
+	}
 
-  return NextResponse.redirect(new URL("/dashboard", request.url));
+	return NextResponse.redirect(new URL("/dashboard", request.url));
 }
