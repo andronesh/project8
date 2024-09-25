@@ -87,3 +87,14 @@ export const tiktokLinks = pgTable("tiktok_links", {
 	descriptionImage: text("description_image"),
 	tgSavedAt: varchar("tg_saved_at", { length: 22 }),
 });
+
+export const clients = pgTable("clients", {
+	id: serial("id").primaryKey(),
+	name: varchar("name", { length: 88 }).notNull(),
+	token: varchar("token", { length: 36 }).notNull().unique(),
+
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});

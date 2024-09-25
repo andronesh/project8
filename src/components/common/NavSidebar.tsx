@@ -91,6 +91,28 @@ export default async function NavSidebar() {
 								<span className="ms-3">TT Links</span>
 							</Link>
 						</li>
+						<li>
+							<Link
+								href="/sync"
+								className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+							>
+								<svg
+									fill="currentColor"
+									className="h-5 w-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+									viewBox="0 0 22 22"
+									version="1.1"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M9 13.2222L10.8462 15L15 11M8.4 19C5.41766 19 3 16.6044 3 13.6493C3 11.2001 4.8 8.9375 7.5 8.5C8.34694 6.48637 10.3514 5 12.6893 5C15.684 5 18.1317 7.32251 18.3 10.25C19.8893 10.9449 21 12.6503 21 14.4969C21 16.9839 18.9853 19 16.5 19L8.4 19Z"
+										strokeWidth="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									></path>
+								</svg>
+								<span className="ms-3">Events Sync</span>
+							</Link>
+						</li>
 					</ul>
 					<ul className="mt-4 space-y-2 border-t border-gray-200 pt-4 font-medium dark:border-gray-700">
 						<li>
