@@ -1,21 +1,21 @@
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
-import { Client } from "@/database/dao/clientsDAO";
-import { registerClient, updateClient } from "@/server-actions/clientsActions";
+import { Vault } from "@/database/dao/vaultsDAO";
+import { addVault, updateVault } from "@/server-actions/vaultsActions";
 import { v4 } from "uuid";
 
 type Props = {
-	client: Client | undefined;
+	vault: Vault | undefined;
 	onCancel: () => void;
 	onDone: () => void;
 };
 
-export default function ClientEditForm({ client, onCancel, onDone }: Props) {
+export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
-		id: client?.id.toString(),
-		name: client?.name,
-		token: client?.token,
+		id: vault?.id.toString(),
+		name: vault?.name,
+		token: vault?.token,
 	});
 
 	const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,19 +23,19 @@ export default function ClientEditForm({ client, onCancel, onDone }: Props) {
 	const handleFormSubmit = async (event: FormEvent) => {
 		event.preventDefault();
 		if (!formData.name) {
-			window.alert("Client name should not be empty!"); // TODO: properly handle validation
+			window.alert("Vault name should not be empty!"); // TODO: properly handle validation
 			return;
 		}
 		if (!formData.token) {
-			window.alert("Client token should not be empty!"); // TODO: properly handle validation
+			window.alert("Vault token should not be empty!"); // TODO: properly handle validation
 			return;
 		}
 		setIsSubmitting(true);
 		try {
-			if (client) {
-				await updateClient(client.id, formData.name, formData.token);
+			if (vault) {
+				await updateVault(vault.id, formData.name, formData.token);
 			} else {
-				await registerClient(formData.name, formData.token);
+				await addVault(formData.name, formData.token);
 			}
 			setIsSubmitting(false);
 			onDone();
@@ -94,7 +94,7 @@ export default function ClientEditForm({ client, onCancel, onDone }: Props) {
 					>
 						Cancel
 					</button>
-					{client && (
+					{vault && (
 						<button
 							type="reset"
 							className="flex rounded px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white disabled:text-red-900 disabled:hover:bg-transparent"

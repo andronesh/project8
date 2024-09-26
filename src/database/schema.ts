@@ -88,7 +88,7 @@ export const tiktokLinks = pgTable("tiktok_links", {
 	tgSavedAt: varchar("tg_saved_at", { length: 22 }),
 });
 
-export const clients = pgTable("clients", {
+export const vaults = pgTable("vaults", {
 	id: serial("id").primaryKey(),
 	name: varchar("name", { length: 88 }).notNull(),
 	token: varchar("token", { length: 36 }).notNull().unique(),
