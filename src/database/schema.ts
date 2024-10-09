@@ -91,6 +91,7 @@ export const tiktokLinks = pgTable("tiktok_links", {
 export const vaults = pgTable("vaults", {
 	id: serial("id").primaryKey(),
 	name: varchar("name", { length: 88 }).notNull(),
+	url: varchar("url", { length: 128 }).unique(),
 	token: varchar("token", { length: 36 }).notNull().unique(),
 
 	createdAt: timestamp("created_at", { withTimezone: true })

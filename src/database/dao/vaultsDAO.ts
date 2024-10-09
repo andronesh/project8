@@ -6,12 +6,13 @@ import { eq } from "drizzle-orm";
 
 export type Vault = typeof vaults.$inferSelect;
 
-export async function insertVault(name: string, token: string): Promise<Vault> {
+export async function insertVault(name: string, token: string, url?: string): Promise<Vault> {
 	return db
 		.insert(vaults)
 		.values({
 			name,
 			token,
+			url,
 		})
 		.returning()
 		.then((inserted) => {
@@ -19,10 +20,10 @@ export async function insertVault(name: string, token: string): Promise<Vault> {
 		});
 }
 
-export async function updateVault(id: number, name: string, token: string): Promise<Vault> {
+export async function updateVault(id: number, name: string, token: string, url?: string): Promise<Vault> {
 	return db
 		.update(vaults)
-		.set({ name, token })
+		.set({ name, token, url })
 		.where(eq(vaults.id, id))
 		.returning()
 		.then((result) => {

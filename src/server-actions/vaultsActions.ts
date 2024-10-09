@@ -2,7 +2,7 @@
 
 import * as vaultsDAO from "@/database/dao/vaultsDAO";
 
-export async function addVault(name: string, token: string) {
+export async function addVault(name: string, token: string, url?: string | null) {
 	const nameSanitised = name.trim();
 	const tokenSanitised = token.trim();
 
@@ -23,14 +23,14 @@ export async function addVault(name: string, token: string) {
 	// }
 
 	try {
-		await vaultsDAO.insertVault(nameSanitised, token);
+		await vaultsDAO.insertVault(nameSanitised, tokenSanitised, url?.trim());
 	} catch (error) {
 		console.error(`Failed to save vault with name "${name}"`, error);
 		throw error;
 	}
 }
 
-export async function updateVault(id: number, name: string, token: string) {
+export async function updateVault(id: number, name: string, token: string, url?: string | null) {
 	const nameSanitised = name.trim();
 	const tokenSanitised = token.trim();
 
@@ -51,7 +51,7 @@ export async function updateVault(id: number, name: string, token: string) {
 	// }
 
 	try {
-		await vaultsDAO.updateVault(id, nameSanitised, tokenSanitised);
+		await vaultsDAO.updateVault(id, nameSanitised, tokenSanitised, url?.trim());
 	} catch (error) {
 		console.error(`Failed to save vault with id "${id}"`, error);
 		throw error;

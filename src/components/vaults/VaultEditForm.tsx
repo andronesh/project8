@@ -16,6 +16,7 @@ export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
 		id: vault?.id.toString(),
 		name: vault?.name,
 		token: vault?.token,
+		url: vault?.url,
 	});
 
 	const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -33,9 +34,9 @@ export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
 		setIsSubmitting(true);
 		try {
 			if (vault) {
-				await updateVault(vault.id, formData.name, formData.token);
+				await updateVault(vault.id, formData.name, formData.token, formData.url);
 			} else {
-				await addVault(formData.name, formData.token);
+				await addVault(formData.name, formData.token, formData.url);
 			}
 			setIsSubmitting(false);
 			onDone();
@@ -65,7 +66,15 @@ export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
 					className="flex flex-row items-baseline"
 					disabled={isSubmitting}
 				/>
-
+				<InputTextLabeled
+					label={"URL"}
+					name={"url"}
+					value={formData.url ? formData.url : undefined}
+					placeholder={"URL to connect to..."}
+					onChange={handleChange}
+					className="flex flex-row items-baseline"
+					disabled={isSubmitting}
+				/>
 				<div className="flex flex-row justify-between">
 					<InputTextLabeled
 						label={"Token"}
