@@ -99,3 +99,17 @@ export const vaults = pgTable("vaults", {
 		.notNull(),
 	updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
+
+export const subscriptions = pgTable("subscriptions", {
+	id: serial("id").primaryKey(),
+	vaultId: integer("vault_id").references((): AnyPgColumn => vaults.id, { onDelete: "cascade" }),
+	projectId: integer("project_id").references(() => projects.id), // TODO what to do when project is deleted on other side?
+
+	name: varchar("name", { length: 88 }).notNull(),
+	token: varchar("token", { length: 36 }).notNull().unique(),
+
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+});
