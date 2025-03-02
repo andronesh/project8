@@ -8,3 +8,7 @@ export async function getBase64(file: File): Promise<string> {
 		reader.onerror = reject;
 	});
 }
+
+export function fromBase64(encoded: string): string {
+	return Buffer.from(encoded, "base64").toString();
+}

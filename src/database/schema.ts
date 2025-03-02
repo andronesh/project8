@@ -12,6 +12,7 @@ import {
 	boolean,
 	smallserial,
 	AnyPgColumn,
+	index,
 } from "drizzle-orm/pg-core";
 
 export const projects = pgTable("projects", {
@@ -99,3 +100,25 @@ export const vaults = pgTable("vaults", {
 		.notNull(),
 	updatedAt: timestamp("updated_at", { withTimezone: true }),
 });
+
+export const emails = pgTable(
+	"emails",
+	{
+		id: serial("id").primaryKey(),
+		gmailId: varchar("gmail_id").notNull(),
+		from: varchar("from"),
+		subject: varchar("subject"),
+		date: varchar("date"),
+		body: varchar("body"),
+		internalDate: integer("internal_date"),
+		isParsed: boolean("is_parsed").default(false),
+		isOriginDeleted: boolean("is_origin_deleted").default(false),
+
+		createdAt: timestamp("created_at", { withTimezone: true })
+			.default(sql`CURRENT_TIMESTAMP`)
+			.notNull(),
+	},
+	(table) => [index("email_gmail_ids_idx").on(table.gmailId), index("email_from_idx").on(table.from)],
+);
+
+export type EmailEntity = typeof emails.$inferSelect;

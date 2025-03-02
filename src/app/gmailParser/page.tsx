@@ -1,5 +1,5 @@
-import GoogleAuthStatus from "@/components/emails/GoogleAuthStatus";
+import EmailsPanel from "@/components/emails/EmailsPanel";
 
-export default async function LinksPage() {
-	return <GoogleAuthStatus />;
+export default async function GMailParserPage() {
+	return <EmailsPanel />;
 }
