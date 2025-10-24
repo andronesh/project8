@@ -24,12 +24,12 @@ export default function IssueChildrenList(props: Props) {
 			{data &&
 				data.map((children) => (
 					<div key={children.id}>
-						<div className="mx-3 border-b border-gray-600"></div>
+						<div className="border-primary mx-3 border-b"></div>
 						<IssueCompact
 							issue={children}
 							isSelected={false}
 							onClick={() => props.onClick(children)}
-							className="group-hover:bg-gray-700"
+							className="hover:bg-accent"
 						/>
 					</div>
 				))}
