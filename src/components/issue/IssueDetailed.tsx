@@ -59,7 +59,7 @@ export default function IssueDetailed(props: Props) {
 			</div>
 			<h3 className={"text-lg"}>{props.issue.title}</h3>
 			{props.issue.description && (
-				<code className="block overflow-x-scroll text-sm whitespace-pre text-gray-400">
+				<code className="block overflow-x-auto text-sm whitespace-pre text-gray-400">
 					{props.issue.description}
 				</code>
 			)}
