@@ -21,7 +21,7 @@ export default function EmailsPanel() {
 	const { data: emails, isFetching, isError } = useEmailsPaginatedQuery();
 
 	if (isError) {
-		return <div className="rounded bg-red-700 p-2 text-lg text-white">Failed to fetch emails</div>;
+		return <div className="rounded-sm bg-red-700 p-2 text-lg text-white">Failed to fetch emails</div>;
 	}
 
 	const fetchEmailsFromGmail = () => {

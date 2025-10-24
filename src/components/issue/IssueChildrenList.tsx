@@ -16,7 +16,7 @@ export default function IssueChildrenList(props: Props) {
 	}
 
 	if (isError) {
-		return <div className="rounded bg-red-700 p-2 text-lg text-white">Failed to fetch issue children</div>;
+		return <div className="rounded-sm bg-red-700 p-2 text-lg text-white">Failed to fetch issue children</div>;
 	}
 
 	return (

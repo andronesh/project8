@@ -59,7 +59,7 @@ export default function TiktokLinkEditForm(props: Props) {
 	};
 
 	return (
-		<div className="w-full rounded-lg border border-gray-700 bg-gray-800 p-4 pt-0 shadow">
+		<div className="w-full rounded-lg border border-gray-700 bg-gray-800 p-4 pt-0 shadow-sm">
 			<div className="space-y-4">
 				<input type="text" id="id" name="id" value={formData.id} className="hidden" />
 				<InputTextLabeled
@@ -80,7 +80,7 @@ export default function TiktokLinkEditForm(props: Props) {
 							name="isRecipe"
 							type="checkbox"
 							onChange={handleCheckboxChange}
-							className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+							className="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
 						/>
 					</div>
 					<InputTextLabeled
@@ -112,7 +112,7 @@ export default function TiktokLinkEditForm(props: Props) {
 					<div className="flex">
 						<button
 							type="reset"
-							className="w-full rounded px-4 py-2 font-bold text-white hover:bg-gray-700"
+							className="w-full rounded-sm px-4 py-2 font-bold text-white hover:bg-gray-700"
 							onClick={props.onCancel}
 						>
 							Cancel
@@ -120,7 +120,7 @@ export default function TiktokLinkEditForm(props: Props) {
 					</div>
 					{props.link && (
 						<div className="flex">
-							<button className="w-full rounded px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white">
+							<button className="w-full rounded-sm px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white">
 								Delete
 							</button>
 						</div>
@@ -128,7 +128,7 @@ export default function TiktokLinkEditForm(props: Props) {
 					<div className="flex">
 						<button
 							type="submit"
-							className="w-full rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+							className="w-full rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
 							onClick={() => saveLink()}
 						>
 							Save

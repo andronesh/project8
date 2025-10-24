@@ -13,7 +13,7 @@ export default function ProjectsSidebarList() {
 	return (
 		<ul className="space-y-2 py-2">
 			{isFetching && <LoadingSpinner className="mb-2 flex h-14 justify-around" />}
-			{isError && <div className="rounded bg-red-700 p-2 text-lg text-white">Failed to fetch projects</div>}
+			{isError && <div className="rounded-sm bg-red-700 p-2 text-lg text-white">Failed to fetch projects</div>}
 			{!isFetching &&
 				!isError &&
 				data?.map((project: Project) => (

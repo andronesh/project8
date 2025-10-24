@@ -27,7 +27,7 @@ export default function GoogleAuthRedirectPage() {
 	}, [router]);
 
 	if (error) {
-		return <div className="rounded bg-red-700 p-2 text-lg text-white">{error}</div>;
+		return <div className="rounded-sm bg-red-700 p-2 text-lg text-white">{error}</div>;
 	}
 
 	return (

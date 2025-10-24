@@ -50,7 +50,7 @@ export default function IssueDetailed(props: Props) {
 				</div>
 				<div className="flex items-end space-x-2">
 					<button
-						className="flex rounded px-2 py-1 text-sm text-gray-500 hover:bg-blue-700 hover:text-white"
+						className="flex rounded-sm px-2 py-1 text-sm text-gray-500 hover:bg-blue-700 hover:text-white"
 						onClick={props.onEditRequested}
 					>
 						Edit
@@ -64,10 +64,10 @@ export default function IssueDetailed(props: Props) {
 				</code>
 			)}
 			<IssueChildrenList parentId={props.issue.id} onClick={initChildEdition} />
-			<div className="mt-2 flex flex-col rounded border border-gray-500">
+			<div className="mt-2 flex flex-col rounded-sm border border-gray-500">
 				{!childIssueEditFromVisible && (
 					<button
-						className="text-md flex w-full justify-center rounded px-2 py-1  text-gray-500 hover:bg-gray-700 hover:text-white"
+						className="text-md flex w-full justify-center rounded-sm px-2 py-1  text-gray-500 hover:bg-gray-700 hover:text-white"
 						onClick={initChildCreation}
 					>
 						add child issue

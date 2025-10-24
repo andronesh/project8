@@ -19,7 +19,7 @@ export default function VaultsPanel() {
 	const { data, isFetching, isError } = useAllVaultsQuery();
 
 	if (isError) {
-		return <div className="rounded bg-red-700 p-2 text-lg text-white">Failed to fetch vaults</div>;
+		return <div className="rounded-sm bg-red-700 p-2 text-lg text-white">Failed to fetch vaults</div>;
 	}
 
 	const onAddVault = () => {
@@ -101,7 +101,7 @@ export default function VaultsPanel() {
 								leaveFrom="opacity-100 scale-100"
 								leaveTo="opacity-0 scale-95"
 							>
-								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg shadow transition-all">
+								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg shadow-sm transition-all">
 									<VaultEditForm vault={selectedVault} onCancel={cancelEditForm} onDone={onVaultSaved} />
 								</Dialog.Panel>
 							</Transition.Child>

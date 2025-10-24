@@ -46,11 +46,11 @@ export default function LinksPanel() {
 							onChange={() => setRecipesOnly(!recipesOnly)}
 							className="peer sr-only"
 						/>
-						<div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
+						<div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-hidden peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:rtl:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"></div>
 						<span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Recipes</span>
 					</label>
 					<button
-						className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+						className="rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
 						onClick={initLinkCreation}
 					>
 						add new
@@ -89,7 +89,7 @@ export default function LinksPanel() {
 								leaveFrom="opacity-100 scale-100"
 								leaveTo="opacity-0 scale-95"
 							>
-								<Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-lg shadow transition-all">
+								<Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-lg shadow-sm transition-all">
 									<TiktokLinkEditForm
 										// link={undefined}
 										onCancel={cancelEditForm}
