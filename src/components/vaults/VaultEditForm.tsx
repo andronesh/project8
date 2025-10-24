@@ -82,12 +82,12 @@ export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
 						value={formData.token}
 						placeholder={"8473ef23-dec6-48d5-a7ba-a4a6589d4ae5"}
 						onChange={handleChange}
-						className="flex flex-row items-baseline flex-1"
+						className="flex flex-1 flex-row items-baseline"
 						disabled={isSubmitting}
 					/>
 					<button
 						type="button"
-						className="flex rounded-sm px-4 py-2 ml-2 font-bold text-white hover:bg-gray-700 disabled:text-gray-400 disabled:hover:bg-transparent"
+						className="ml-2 flex rounded-sm px-4 py-2 font-bold text-white hover:bg-gray-700 disabled:text-gray-400 disabled:hover:bg-transparent"
 						onClick={generateToken}
 						disabled={isSubmitting}
 					>

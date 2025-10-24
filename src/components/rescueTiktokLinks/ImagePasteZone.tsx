@@ -80,7 +80,7 @@ export default function ImagePasteZone(props: Props) {
 					name={props.name}
 					id={props.name}
 					onPaste={(e) => handlePaste(e.clipboardData)}
-					className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:outline-solid focus:outline-blue-500 focus:ring-blue-500"
+					className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 focus:outline-blue-500 focus:outline-solid"
 					placeholder="Insert image"
 				/>
 			)}

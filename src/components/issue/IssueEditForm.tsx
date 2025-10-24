@@ -95,7 +95,7 @@ export default function IssueEditForm(props: Props) {
 	return (
 		<div className="relative w-full rounded-lg border border-gray-700 bg-gray-800 p-4 pt-0 shadow-sm">
 			{isSubmitting && (
-				<div className="absolute bottom-2 left-0 right-0 top-0 flex items-center justify-center rounded-lg bg-gray-800 bg-opacity-80">
+				<div className="bg-opacity-80 absolute top-0 right-0 bottom-2 left-0 flex items-center justify-center rounded-lg bg-gray-800">
 					<LoadingSpinner className="flex w-3/4 justify-around" />
 				</div>
 			)}

@@ -44,7 +44,7 @@ export default function IssueDetailed(props: Props) {
 	return (
 		<div className={`flex flex-col bg-gray-800 p-4 py-3 text-left ${props.className}`}>
 			<div className={`flex flex-row items-center justify-between`}>
-				<div className="flex items-end space-x-2 ">
+				<div className="flex items-end space-x-2">
 					<span className={"text-sm text-gray-500"}>{props.issue.status}</span>
 					<span className={"text-sm text-gray-500"}>{props.issue.type}</span>
 				</div>
@@ -59,7 +59,7 @@ export default function IssueDetailed(props: Props) {
 			</div>
 			<h3 className={"text-lg"}>{props.issue.title}</h3>
 			{props.issue.description && (
-				<code className="block overflow-x-scroll whitespace-pre text-sm text-gray-400">
+				<code className="block overflow-x-scroll text-sm whitespace-pre text-gray-400">
 					{props.issue.description}
 				</code>
 			)}
@@ -67,7 +67,7 @@ export default function IssueDetailed(props: Props) {
 			<div className="mt-2 flex flex-col rounded-sm border border-gray-500">
 				{!childIssueEditFromVisible && (
 					<button
-						className="text-md flex w-full justify-center rounded-sm px-2 py-1  text-gray-500 hover:bg-gray-700 hover:text-white"
+						className="text-md flex w-full justify-center rounded-sm px-2 py-1 text-gray-500 hover:bg-gray-700 hover:text-white"
 						onClick={initChildCreation}
 					>
 						add child issue

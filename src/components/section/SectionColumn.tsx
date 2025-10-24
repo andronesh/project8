@@ -26,7 +26,7 @@ export default function SectionColumn(props: Props) {
 					<p className="pl-2 text-lg">{props.section?.title}</p>
 					<div className="">
 						<div
-							className="mb-2 flex items-center justify-center rounded-lg px-2 pb-1 pt-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+							className="mb-2 flex items-center justify-center rounded-lg px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 							onClick={props.onInitIssueCreation}
 						>
 							<PlusIcon />

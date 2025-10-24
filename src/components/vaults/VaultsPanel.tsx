@@ -48,7 +48,7 @@ export default function VaultsPanel() {
 		<div className="flex">
 			<div className="flex w-1/4 flex-col">
 				<div
-					className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pb-1 pt-2 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+					className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pt-2 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 					onClick={() => onAddVault()}
 				>
 					<PlusIcon />
@@ -56,7 +56,7 @@ export default function VaultsPanel() {
 				</div>
 				<ul className="relative">
 					{isFetching && (
-						<div className="absolute bottom-2 left-0 right-0 top-0 flex items-center justify-center rounded-lg bg-gray-800 bg-opacity-80">
+						<div className="bg-opacity-80 absolute top-0 right-0 bottom-2 left-0 flex items-center justify-center rounded-lg bg-gray-800">
 							<LoadingSpinner className="flex w-3/4 justify-around" />
 						</div>
 					)}

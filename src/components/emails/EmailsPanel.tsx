@@ -45,14 +45,14 @@ export default function EmailsPanel() {
 				<GoogleAuthStatus />
 				<div className="flex flex-row justify-around">
 					<div
-						className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pb-1 pt-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+						className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 						onClick={() => fetchEmailsFromGmail()}
 					>
 						<DownloadFromCloudIcon />
 						<p className="pl-2 text-lg">page</p>
 					</div>
 					<div
-						className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pb-1 pt-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+						className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 						onClick={() => console.info("//TODO: implement")}
 					>
 						<DownloadFromCloudIcon />
@@ -60,7 +60,7 @@ export default function EmailsPanel() {
 					</div>
 				</div>
 				{(isFetching || isActionInProgress) && (
-					<LoadingSpinner className="flex w-full px-16 py-8 justify-around" />
+					<LoadingSpinner className="flex w-full justify-around px-16 py-8" />
 				)}
 				<ul className="relative">
 					{emails && (

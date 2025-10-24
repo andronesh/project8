@@ -23,7 +23,7 @@ export default function GoogleAuthStatus() {
 
 	if (profileEmail) {
 		return (
-			<a className="mb-2 flex items-center justify-center rounded-lg px-2 pb-1 pt-2 align-middle text-gray-500">
+			<a className="mb-2 flex items-center justify-center rounded-lg px-2 pt-2 pb-1 align-middle text-gray-500">
 				logged as <span className="ml-1 font-bold">{profileEmail.replace("@gmail.com", "")}</span>
 			</a>
 		);
@@ -31,7 +31,7 @@ export default function GoogleAuthStatus() {
 
 	return (
 		<a
-			className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pb-1 pt-2 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+			className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pt-2 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
 			href="/auth/google/signin"
 		>
 			auth

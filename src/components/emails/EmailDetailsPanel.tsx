@@ -30,16 +30,16 @@ export default function EmailDetailsPanel(props: Props) {
 	}, [props.gmailId]);
 
 	return (
-		<div className={`flex w-full h-screen ${props.className}`}>
+		<div className={`flex h-screen w-full ${props.className}`}>
 			{isFetching && (
-				<div className="h-auto w-full p-24 flex items-center justify-center">
+				<div className="flex h-auto w-full items-center justify-center p-24">
 					<LoadingSpinner className="flex w-3/4 justify-around" />
 				</div>
 			)}
 			{!isFetching && emailDetails && (
-				<div className="p-4 w-full">
-					<h2 className="font-bold mb-2">{emailDetails.subject}</h2>
-					<iframe srcDoc={emailDetails.body} className="w-full h-full"></iframe>
+				<div className="w-full p-4">
+					<h2 className="mb-2 font-bold">{emailDetails.subject}</h2>
+					<iframe srcDoc={emailDetails.body} className="h-full w-full"></iframe>
 				</div>
 			)}
 		</div>
