@@ -42,15 +42,15 @@ export default function IssueDetailed(props: Props) {
 	};
 
 	return (
-		<div className={`flex flex-col bg-gray-800 p-4 py-3 text-left ${props.className}`}>
+		<div className={`bg-card flex flex-col p-4 py-3 text-left ${props.className}`}>
 			<div className={`flex flex-row items-center justify-between`}>
 				<div className="flex items-end space-x-2">
-					<span className={"text-sm text-gray-500"}>{props.issue.status}</span>
-					<span className={"text-sm text-gray-500"}>{props.issue.type}</span>
+					<span className={"text-sm text-gray-400"}>{props.issue.status}</span>
+					<span className={"text-sm text-gray-400"}>{props.issue.type}</span>
 				</div>
 				<div className="flex items-end space-x-2">
 					<button
-						className="flex rounded-sm px-2 py-1 text-sm text-gray-500 hover:bg-blue-700 hover:text-white"
+						className="hover:bg-accent flex rounded-sm px-2 py-1 text-sm text-gray-400 hover:cursor-pointer hover:text-white"
 						onClick={props.onEditRequested}
 					>
 						Edit
@@ -64,10 +64,10 @@ export default function IssueDetailed(props: Props) {
 				</code>
 			)}
 			<IssueChildrenList parentId={props.issue.id} onClick={initChildEdition} />
-			<div className="mt-2 flex flex-col rounded-sm border border-gray-500">
+			<div className="border-primary mt-2 flex flex-col rounded-sm border">
 				{!childIssueEditFromVisible && (
 					<button
-						className="text-md flex w-full justify-center rounded-sm px-2 py-1 text-gray-500 hover:bg-gray-700 hover:text-white"
+						className="text-md hover:bg-accent flex w-full justify-center rounded-sm px-2 py-1 text-gray-400 hover:cursor-pointer hover:text-white"
 						onClick={initChildCreation}
 					>
 						add child issue

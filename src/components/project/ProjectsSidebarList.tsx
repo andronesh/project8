@@ -21,9 +21,7 @@ export default function ProjectsSidebarList() {
 						<Link
 							href={`/projects/${project.id}`}
 							className={`group flex w-full items-center justify-between rounded-lg p-2 pl-11 text-white transition duration-75 hover:cursor-pointer ${
-								selectedProjectId === project.id
-									? "bg-blue-900 hover:bg-blue-900"
-									: "bg-gray-800 hover:bg-gray-700"
+								selectedProjectId === project.id ? "bg-primary hover:bg-accent" : "bg-sidebar hover:bg-accent"
 							}`}
 						>
 							<h2>{project.name}</h2>

@@ -45,14 +45,14 @@ export default function EmailsPanel() {
 				<GoogleAuthStatus />
 				<div className="flex flex-row justify-around">
 					<div
-						className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+						className="bg-card hover:bg-accent mb-2 flex items-center justify-center rounded-lg px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:text-gray-400"
 						onClick={() => fetchEmailsFromGmail()}
 					>
 						<DownloadFromCloudIcon />
 						<p className="pl-2 text-lg">page</p>
 					</div>
 					<div
-						className="mb-2 flex items-center justify-center rounded-lg bg-gray-800 px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+						className="bg-crad hover:bg-accent mb-2 flex items-center justify-center rounded-lg px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:text-gray-400"
 						onClick={() => console.info("//TODO: implement")}
 					>
 						<DownloadFromCloudIcon />
@@ -71,10 +71,8 @@ export default function EmailsPanel() {
 					{emails?.map((email: EmailEntity) => (
 						<li key={email.id} className="mb-2">
 							<div
-								className={`group flex w-full items-center justify-between rounded-lg px-3 py-2 text-white transition duration-75 hover:cursor-pointer ${
-									selectedEmail?.id === email.id
-										? "bg-blue-900 hover:bg-blue-900"
-										: "bg-gray-800 hover:bg-gray-700"
+								className={`group hover:bg-accent flex w-full items-center justify-between rounded-lg px-3 py-2 text-white transition duration-75 hover:cursor-pointer ${
+									selectedEmail?.id === email.id ? "bg-primary" : "bg-card"
 								}`}
 								onClick={() => selectEmail(email)}
 							>

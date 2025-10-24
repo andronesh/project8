@@ -9,7 +9,7 @@ type Props = {
 export default function VaultDetailsPanel(props: Props) {
 	return (
 		<div
-			className={`flex w-full flex-col items-center justify-between rounded-lg bg-gray-800 px-3 py-2 text-white transition duration-75`}
+			className={`bg-card flex w-full flex-col items-center justify-between rounded-lg px-3 py-2 text-white transition duration-75`}
 		>
 			<div className="flex w-full flex-row items-center justify-between">
 				<h2>{props.vault.name}</h2>

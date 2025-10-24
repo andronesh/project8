@@ -17,7 +17,7 @@ export function DraggableWrapper(props: React.PropsWithChildren<Props>) {
 					ref={provided.innerRef}
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
-					className={`${props.className} ${snapshot.isDragging ? "bg-gray-700 shadow-lg" : "bg-gray-800"}`}
+					className={`${props.className} ${snapshot.isDragging ? "bg-accent shadow-lg" : "bg-card"}`}
 				>
 					{props.children}
 				</div>

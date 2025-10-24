@@ -37,7 +37,7 @@ export default function SectionEditForm(props: Props) {
 	};
 
 	return (
-		<div className="w-full space-y-3 rounded-lg border border-gray-700 bg-gray-800 p-3 shadow-sm">
+		<div className="bg-card border-primary w-full space-y-3 rounded-lg border p-3 shadow-sm">
 			<InputTextLabeled
 				label={"Title"}
 				name={"title"}
@@ -48,7 +48,7 @@ export default function SectionEditForm(props: Props) {
 			<div className="flex flex-row justify-evenly">
 				<button
 					type="reset"
-					className="flex rounded-sm px-4 py-2 font-bold text-white hover:bg-gray-700"
+					className="hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white"
 					onClick={props.onCancel}
 				>
 					Cancel
@@ -63,7 +63,7 @@ export default function SectionEditForm(props: Props) {
 					</button>
 				)}
 				<button
-					className="flex rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+					className="bg-primary hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white"
 					onClick={doSave}
 				>
 					Save

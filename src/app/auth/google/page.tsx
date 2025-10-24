@@ -32,7 +32,7 @@ export default function GoogleAuthRedirectPage() {
 
 	return (
 		<div>
-			<div className="bg-opacity-80 absolute top-0 right-0 bottom-2 left-0 flex items-center justify-center rounded-lg bg-gray-800">
+			<div className="bg-opacity-80 bg-card absolute top-0 right-0 bottom-2 left-0 flex items-center justify-center rounded-lg">
 				<LoadingSpinner className="flex w-3/4 justify-around" />
 			</div>
 		</div>

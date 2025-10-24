@@ -59,7 +59,7 @@ export default function TiktokLinkEditForm(props: Props) {
 	};
 
 	return (
-		<div className="w-full rounded-lg border border-gray-700 bg-gray-800 p-4 pt-0 shadow-sm">
+		<div className="bg-card border-primary w-full rounded-lg border p-4 pt-0 shadow-sm">
 			<div className="space-y-4">
 				<input type="text" id="id" name="id" value={formData.id} className="hidden" />
 				<InputTextLabeled
@@ -112,7 +112,7 @@ export default function TiktokLinkEditForm(props: Props) {
 					<div className="flex">
 						<button
 							type="reset"
-							className="w-full rounded-sm px-4 py-2 font-bold text-white hover:bg-gray-700"
+							className="hover:bg-accent w-full rounded-sm px-4 py-2 font-bold text-white"
 							onClick={props.onCancel}
 						>
 							Cancel
@@ -128,7 +128,7 @@ export default function TiktokLinkEditForm(props: Props) {
 					<div className="flex">
 						<button
 							type="submit"
-							className="w-full rounded-sm bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+							className="bg-primary hover:bg-accent w-full rounded-sm px-4 py-2 font-bold text-white"
 							onClick={() => saveLink()}
 						>
 							Save

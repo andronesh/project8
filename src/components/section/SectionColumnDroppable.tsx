@@ -38,7 +38,7 @@ export default function SectionColumnDroppable(props: Props) {
 						<p className="pl-2 text-lg">{props.viewModel.entity?.title}</p>
 						<div className="">
 							<div
-								className="mb-2 flex items-center justify-center rounded-lg px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-400"
+								className="hover:bg-accent mb-2 flex items-center justify-center rounded-lg px-2 pt-1 pb-1 align-middle text-gray-500 hover:cursor-pointer hover:text-gray-300"
 								onClick={props.onInitIssueCreation}
 							>
 								<PlusIcon />
@@ -47,7 +47,7 @@ export default function SectionColumnDroppable(props: Props) {
 						</div>
 					</div>
 					{props.viewModel.isLoading && (
-						<div className="bg-opacity-80 absolute top-0 right-0 bottom-2 left-0 flex items-center justify-center rounded-lg bg-gray-800">
+						<div className="bg-opacity-80 absolute top-0 right-0 bottom-2 left-0 flex items-center justify-center rounded-lg">
 							<LoadingSpinner className="flex w-3/4 justify-around" />
 						</div>
 					)}

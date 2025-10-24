@@ -214,7 +214,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 				))}
 			</DragDropContext>
 			<div
-				className="flex h-48 w-96 items-center justify-center rounded-lg border-2 border-dashed border-gray-700 align-middle text-gray-500 hover:cursor-pointer hover:bg-gray-800 hover:text-gray-400"
+				className="hover:bg-card flex h-48 w-96 items-center justify-center rounded-lg border-2 border-dashed border-gray-700 align-middle text-gray-500 hover:cursor-pointer hover:text-gray-400"
 				onClick={() => initSectionCreation()}
 			>
 				<PlusIcon />
