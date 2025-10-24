@@ -8,7 +8,7 @@ import SectionEditForm from "@/components/section/SectionEditForm";
 import { getIssuesForProjectSection, updateIssuePosition } from "@/database/dao/issuesDAO";
 import { getSectionsForProject } from "@/database/dao/sectionsDAO";
 import { Issue, Section } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import IssueDetailed from "@/components/issue/IssueDetailed";
 
@@ -28,7 +28,8 @@ enum ModalContent {
 	SECTION_EDIT,
 }
 
-export default function ProjectPage({ params }: { params: { id: number } }) {
+export default function ProjectPage(props: { params: Promise<{ id: number }> }) {
+	const params = use(props.params);
 	const [sections, setSections] = useState<SectionViewModel[]>([]);
 
 	const [fetchIssuesTrigger, setFetchIssuesTrigger] = useState(new Date());
