@@ -1,17 +1,13 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { authClient } from "@/utils/authClient";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-	const cookieStore = cookies();
-	const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-
-	const {
-		data: { session },
-	} = await supabase.auth.getSession();
-
-	if (session) {
-		await supabase.auth.signOut();
+	try {
+		const response = await authClient.signOut(); // FIXME: throws TypeError: Failed to parse URL from /api/auth/sign-out
+		console.log("Sign out response:");
+		console.log(JSON.stringify(response));
+	} catch (error) {
+		console.error("Error during sign out:", error);
 	}
 
 	return NextResponse.redirect(new URL("/", request.url), { status: 302 });

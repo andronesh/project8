@@ -1,15 +1,12 @@
 "use server";
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { auth } from "@/utils/auth";
+import { headers } from "next/headers";
 
 export async function getAuthedUserId(): Promise<string | undefined> {
-	const cookieStore = cookies();
-	const supabase = createServerComponentClient({ cookies: () => cookieStore });
-
-	const {
-		data: { session },
-	} = await supabase.auth.getSession();
+	const session = await auth.api.getSession({
+		headers: await headers(), // you need to pass the headers object.
+	});
 
 	return session?.user?.id;
 }

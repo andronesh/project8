@@ -3,6 +3,7 @@ type Props = {
 	name: string;
 	value: string | undefined;
 	placeholder: string;
+	type?: string;
 	disabled?: boolean;
 	required?: boolean;
 	onChange: (event: any) => void;
@@ -16,7 +17,7 @@ export default function InputTextLabeled(props: Props) {
 				{props.label}
 			</label>
 			<input
-				type="text"
+				type={props.type ? props.type : "text"}
 				name={props.name}
 				id={props.name}
 				value={props.value}
