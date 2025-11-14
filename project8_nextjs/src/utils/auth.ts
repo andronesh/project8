@@ -11,4 +11,9 @@ export const auth = betterAuth({
 		provider: "pg",
 		schema,
 	}),
+	advanced: {
+		database: {
+			generateId: false,
+		},
+	},
 });
