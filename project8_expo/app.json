@@ -1,30 +1,31 @@
 {
 	"expo": {
-		"name": "project8_expo",
-		"slug": "project8_expo",
+		"name": "Project 8",
+		"slug": "project8",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icon.png",
-		"scheme": "project8expo",
+		"icon": "./assets/images/icon.jpg",
+		"scheme": "project8",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.androne.project8-expo"
+			"bundleIdentifier": "dev.andronesh.project8"
 		},
 		"android": {
 			"adaptiveIcon": {
-				"backgroundColor": "#E6F4FE",
+				"backgroundColor": "#000000",
 				"foregroundImage": "./assets/images/android-icon-foreground.png",
-				"backgroundImage": "./assets/images/android-icon-background.png",
+				"backgroundImage": "./assets/images/android-icon-background.jpg",
 				"monochromeImage": "./assets/images/android-icon-monochrome.png"
 			},
 			"edgeToEdgeEnabled": true,
-			"predictiveBackGestureEnabled": false
+			"predictiveBackGestureEnabled": false,
+			"package": "dev.andronesh.project8"
 		},
 		"web": {
 			"output": "static",
-			"favicon": "./assets/images/favicon.png"
+			"favicon": "./assets/images/favicon.ico"
 		},
 		"plugins": [
 			"expo-router",
@@ -34,7 +35,7 @@
 					"image": "./assets/images/splash-icon.png",
 					"imageWidth": 200,
 					"resizeMode": "contain",
-					"backgroundColor": "#ffffff",
+					"backgroundColor": "#000000",
 					"dark": {
 						"backgroundColor": "#000000"
 					}
