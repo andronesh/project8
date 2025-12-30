@@ -9,13 +9,15 @@ export default function Index() {
 			<Text className="text-lg text-black dark:text-white">
 				Edit app/index.tsx to edit this screen.
 			</Text>
-			<View className="my-4">
+			<View className="my-4 gap-2">
 				<TextInput
 					placeholder="Enter text..."
-					className="border border-gray-300 rounded-lg p-3 text-base"
-					cursorColorClassName="accent-blue-500"
-					selectionColorClassName="accent-blue-200"
-					placeholderTextColorClassName="accent-gray-400 dark:accent-gray-500"
+					className="border border-gray-300 rounded-lg p-3 text-base text-black dark:text-white"
+					underlineColorAndroidClassName="accent-transparent"
+				/>
+				<TextInput
+					placeholder="Enter text..."
+					className="border border-gray-300 rounded-lg p-3 text-base text-black dark:text-white"
 					underlineColorAndroidClassName="accent-transparent"
 				/>
 				<Button
