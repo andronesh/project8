@@ -2,11 +2,31 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./utils/auth";
 
+const protectedPathPrefixes = [
+	"/dashboard",
+	"/projects",
+	"/rescueTiktokLinks",
+	"/gmailParser",
+	"/sync",
+	"/auth/signout",
+	"/api",
+];
+
+function isProtected(path: string): boolean {
+	return protectedPathPrefixes.some((prefix) => {
+		return path === prefix || path.startsWith(prefix + "/");
+	});
+}
+
 export async function proxy(request: NextRequest) {
 	const response = NextResponse.next();
 	const { pathname } = request.nextUrl;
 
 	if (pathname.startsWith("/api/auth")) {
+		return response;
+	}
+
+	if (!isProtected(pathname)) {
 		return response;
 	}
 
