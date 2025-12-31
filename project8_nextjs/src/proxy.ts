@@ -1,13 +1,27 @@
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./utils/auth";
-import { headers } from "next/headers";
 
 export async function proxy(request: NextRequest) {
 	const response = NextResponse.next();
+	const { pathname } = request.nextUrl;
+
+	if (pathname.startsWith("/api/auth")) {
+		return response;
+	}
+
 	try {
 		const session = await auth.api.getSession({
-			headers: await headers(), // you need to pass the headers object.
+			headers: await headers(),
 		});
+
+		if (pathname.startsWith("/api")) {
+			if (!session) {
+				return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
+			} else {
+				return response;
+			}
+		}
 
 		if (session && request.nextUrl.pathname === "/") {
 			return NextResponse.redirect(new URL("/dashboard", request.url));
@@ -24,13 +38,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-	matcher: [
-		"/",
-		"/dashboard/:path*",
-		"/projects/:path*",
-		"/rescueTiktokLinks/:path*",
-		"/gmailParser/:path*",
-		"/sync/:path*",
-		"/auth/signout/:path*",
-	],
+	matcher: ["/:path*"],
 };
