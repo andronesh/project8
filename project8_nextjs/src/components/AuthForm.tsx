@@ -19,8 +19,8 @@ export default function AuthForm() {
 		// TODO: properly handle validation
 		setIsLoading(true);
 
-		const signUpResponse = await authClient.signIn.email(formData);
-		if (signUpResponse.data?.user) {
+		const signInResponse = await authClient.signIn.email(formData);
+		if (signInResponse.data?.user) {
 			redirect("/dashboard");
 		} else {
 			setIsLoading(false);
