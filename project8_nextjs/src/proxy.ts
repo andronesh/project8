@@ -8,7 +8,6 @@ const protectedPathPrefixes = [
 	"/rescueTiktokLinks",
 	"/gmailParser",
 	"/sync",
-	"/auth/signout",
 	"/api",
 ];
 
