@@ -1,7 +1,8 @@
-import { Project, updateProject, createProject } from "@/server-actions/projectsActions";
+import { Project } from "@/server-actions/projectsActions";
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputCheckbox from "../common/form/InputCheckbox";
+import { apiClient } from "@/clients/apiClient";
 
 type Props = {
 	project: Project | undefined;
@@ -28,17 +29,27 @@ export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
 			return;
 		}
 		setIsSubmitting(true);
-		try {
-			if (project) {
-				await updateProject(project.id, formData.name!, formData.bookmarked);
-			} else {
-				await createProject(formData.name!, formData.bookmarked);
-			}
+		const actionPromise = project
+			? apiClient.api.projects({ id: project.id }).put({
+					name: formData.name!,
+					bookmarked: formData.bookmarked,
+				})
+			: apiClient.api.projects.post({
+					name: formData.name!,
+					bookmarked: formData.bookmarked,
+				});
+
+		const { data, error } = await actionPromise;
+
+		if (data) {
 			setIsSubmitting(false);
 			onDone();
-		} catch (error) {
+		}
+
+		if (error) {
+			console.error("Failed to submit project form", error);
 			setIsSubmitting(false);
-			window.alert(error);
+			window.alert(JSON.stringify(error)); // TODO: properly handle error
 		}
 	};
 
