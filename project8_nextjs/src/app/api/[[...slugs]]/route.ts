@@ -1,20 +1,9 @@
-import { Elysia, t } from "elysia";
+import { getAllProjects } from "@/database/dao/projectsDAO";
+import { Elysia } from "elysia";
 
-const app = new Elysia({ prefix: "/api" })
-	.get(
-		"/greet/:id",
-		({ params: { id } }) => {
-			return {
-				message: `Hello, ${id}!`,
-			};
-		},
-		{ params: t.Object({ id: t.Number() }) },
-	)
-	.post("/", ({ body }) => body, {
-		body: t.Object({
-			name: t.String(),
-		}),
-	});
+const app = new Elysia({ prefix: "/api" }).get("/projects", async () => {
+	return await getAllProjects();
+});
 
 export const GET = app.fetch;
 export const POST = app.fetch;
