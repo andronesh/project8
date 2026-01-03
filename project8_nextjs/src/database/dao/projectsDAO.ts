@@ -5,26 +5,28 @@ import { db } from "..";
 import { projects } from "../schema";
 import { desc, eq } from "drizzle-orm";
 
-export async function insertProject(name: string, bookmarked: boolean): Promise<boolean> {
+export async function insertProject(name: string, bookmarked: boolean): Promise<Project> {
 	return db
 		.insert(projects)
 		.values({
 			name,
 			bookmarked,
 		})
-		.then((result) => {
-			return true;
-		});
+		.returning()
+		.then((result) => result[0]);
 }
 
-export async function updateProject(id: number, name: string, bookmarked: boolean) {
-	return db
+export async function updateProject(
+	id: number,
+	name: string,
+	bookmarked: boolean,
+): Promise<Project | undefined> {
+	return await db
 		.update(projects)
 		.set({ name, bookmarked, updatedAt: new Date() })
 		.where(eq(projects.id, id))
-		.then((result) => {
-			return true;
-		});
+		.returning()
+		.then((result) => result[0]);
 }
 
 export const getAllProjects = async (): Promise<Project[]> => {

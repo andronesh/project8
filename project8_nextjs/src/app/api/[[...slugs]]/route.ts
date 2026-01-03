@@ -14,8 +14,8 @@ const app = new Elysia({ prefix: "/api" })
 		"/projects",
 		async ({ body }) => {
 			try {
-				await insertProject(body.name, body.bookmarked ? true : false);
-				return status(201, { success: true });
+				const createdProject = await insertProject(body.name, body.bookmarked ? true : false);
+				return status(201, createdProject);
 			} catch (error) {
 				console.error("Failed to create project", error);
 				return status(500, { error: "Failed to create project" });
@@ -29,8 +29,8 @@ const app = new Elysia({ prefix: "/api" })
 		"/projects/:id",
 		async ({ params, body }) => {
 			try {
-				await updateProject(params.id, body.name, body.bookmarked ? true : false);
-				return status(200, { success: true });
+				const updatedProject = await updateProject(params.id, body.name, body.bookmarked ? true : false);
+				return updatedProject ? status(200, updatedProject) : status(404, { error: "Project not found" });
 			} catch (error) {
 				console.error("Failed to update project", error);
 				return status(500, { error: "Failed to update project" });
