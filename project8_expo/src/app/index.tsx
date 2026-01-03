@@ -1,9 +1,15 @@
 import { Button, Image, Text, View } from "react-native";
 import SignInForm from "../components/auth/SignInForm";
 import { authClient } from "../utils/authClient";
+import { Project } from "project8_nextjs/src/types";
+import { apiClient } from "project8_nextjs/src/clients/apiClient";
 
 export default function Index() {
 	const { data: authSession } = authClient.useSession();
+
+	const {data, error} = await apiClient.api.projects.getAll.useQuery();}
+
+	const project: Project;
 
 	return (
 		<View className="flex-1 p-4">

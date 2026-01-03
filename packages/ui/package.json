@@ -1,0 +1,15 @@
+{
+	"name": "ui",
+	"version": "1.0.0",
+	"main": "index.ts",
+	"license": "MIT",
+	"dependencies": {
+		"react": "*",
+		"react-native": "*"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.37",
+		"@types/react-native": "^0.72.6",
+		"typescript": "^5.2.2"
+	}
+}

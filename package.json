@@ -1,0 +1,24 @@
+{
+	"name": "project8-monorepo",
+	"version": "1.0.0",
+	"private": true,
+	"workspaces": [
+		"project8_expo",
+		"project8_nextjs",
+		"packages/*"
+	],
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"lint": "turbo run lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\""
+	},
+	"devDependencies": {
+		"prettier": "^3.0.0",
+		"turbo": "^1.10.16"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"packageManager": "npm@8.19.2"
+}

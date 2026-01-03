@@ -17,6 +17,7 @@
 		"@react-navigation/native": "^7.1.8",
 		"better-auth": "^1.4.9",
 		"expo": "~54.0.23",
+		"project8_nextjs": "*",
 		"expo-constants": "~18.0.10",
 		"expo-font": "~14.0.9",
 		"expo-haptics": "~15.0.7",
