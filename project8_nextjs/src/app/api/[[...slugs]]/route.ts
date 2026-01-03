@@ -1,4 +1,9 @@
-import { getAllProjects, insertProject, updateProject } from "@/database/dao/projectsDAO";
+import {
+	getAllProjects,
+	getBookmarkedProjects,
+	insertProject,
+	updateProject,
+} from "@/database/dao/projectsDAO";
 import { Elysia, t, status } from "elysia";
 
 const projectEditableDtoSchema = t.Object({
@@ -7,9 +12,17 @@ const projectEditableDtoSchema = t.Object({
 });
 
 const app = new Elysia({ prefix: "/api" })
-	.get("/projects", async () => {
-		return await getAllProjects();
-	})
+	.get(
+		"/projects",
+		async ({ query: { bookmarked } }) => {
+			return bookmarked ? await getBookmarkedProjects() : await getAllProjects();
+		},
+		{
+			query: t.Object({
+				bookmarked: t.Optional(t.Boolean()),
+			}),
+		},
+	)
 	.post(
 		"/projects",
 		async ({ body }) => {
