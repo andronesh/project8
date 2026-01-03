@@ -5,12 +5,13 @@ import { db } from "..";
 import { projects } from "../schema";
 import { desc, eq } from "drizzle-orm";
 
-export async function insertProject(name: string, bookmarked: boolean): Promise<Project> {
+export async function insertProject(name: string, bookmarked: boolean, ownerId: string): Promise<Project> {
 	return db
 		.insert(projects)
 		.values({
 			name,
 			bookmarked,
+			ownerId,
 		})
 		.returning()
 		.then((result) => result[0]);

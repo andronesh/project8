@@ -92,6 +92,9 @@ export const projects = pgTable("projects", {
 	updatedAt: timestamp("updated_at", { withTimezone: true }),
 	name: varchar("name", { length: 88 }).notNull(),
 	bookmarked: boolean("bookmarked").default(false).notNull(),
+	ownerId: uuid("owner_id")
+		.references(() => user.id)
+		.notNull(),
 });
 
 export const sections = pgTable("sections", {

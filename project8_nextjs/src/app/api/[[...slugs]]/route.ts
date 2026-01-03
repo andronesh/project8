@@ -4,6 +4,7 @@ import {
 	insertProject,
 	updateProject,
 } from "@/database/dao/projectsDAO";
+import { auth } from "@/utils/auth";
 import { Elysia, t, status } from "elysia";
 
 const projectEditableDtoSchema = t.Object({
@@ -12,6 +13,15 @@ const projectEditableDtoSchema = t.Object({
 });
 
 const app = new Elysia({ prefix: "/api" })
+	.macro({
+		auth: {
+			async resolve({ status, request: { headers } }) {
+				const session = await auth.api.getSession({ headers });
+				if (!session) return status(401);
+				return { user: session.user, session: session.session };
+			},
+		},
+	})
 	.get(
 		"/projects",
 		async ({ query: { bookmarked } }) => {
@@ -25,9 +35,9 @@ const app = new Elysia({ prefix: "/api" })
 	)
 	.post(
 		"/projects",
-		async ({ body }) => {
+		async ({ body, user }) => {
 			try {
-				const createdProject = await insertProject(body.name, body.bookmarked ? true : false);
+				const createdProject = await insertProject(body.name, body.bookmarked ? true : false, user.id);
 				return status(201, createdProject);
 			} catch (error) {
 				console.error("Failed to create project", error);
@@ -35,6 +45,7 @@ const app = new Elysia({ prefix: "/api" })
 			}
 		},
 		{
+			auth: true,
 			body: projectEditableDtoSchema,
 		},
 	)
