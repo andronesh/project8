@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "@/server-actions/projectsActions";
+import { Project } from "@/types";
 import { Fragment, useEffect, useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import { Issue } from "@/types";

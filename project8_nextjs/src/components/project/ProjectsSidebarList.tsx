@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "@/server-actions/projectsActions";
+import { Project } from "@/types";
 import { useBookmarkedProjectsQuery } from "@/tanstack_query/hooks/useBookmarkedProjectsQuery";
 import Link from "next/link";
 import LoadingSpinner from "../common/LoadingSpinner";

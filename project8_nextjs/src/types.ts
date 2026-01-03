@@ -1,5 +1,11 @@
 import { issues } from "./database/schema";
 
+export type Project = {
+	id: number;
+	name: string;
+	bookmarked: boolean;
+};
+
 export type Section = {
 	id: number;
 	title: string;

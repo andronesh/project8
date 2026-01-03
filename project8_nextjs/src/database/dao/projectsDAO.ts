@@ -1,6 +1,6 @@
 "use server";
 
-import { Project } from "@/server-actions/projectsActions";
+import { Project } from "@/types";
 import { db } from "..";
 import { projects } from "../schema";
 import { desc, eq } from "drizzle-orm";

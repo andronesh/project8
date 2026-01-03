@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "@/server-actions/projectsActions";
+import { Project } from "@/types";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import IssuesPanel from "../issue/IssuesPanel";
