@@ -1,0 +1,11 @@
+{
+	"name": "project8-monorepo",
+	"private": true,
+	"workspaces": [
+		"project8_nextjs",
+		"project8_expo"
+	],
+	"devDependencies": {
+		"typescript": "^5.9.3"
+	}
+}

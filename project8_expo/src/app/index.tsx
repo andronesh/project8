@@ -1,4 +1,9 @@
 import { Button, Image, Text, View } from "react-native";
+import type { Project } from "@project8/nextjs/src/types";
+
+// Test usage (will use in code to ensure it's picked up)
+const _testProject: Project = { id: 1, name: "Test", bookmarked: false };
+
 import SignInForm from "../components/auth/SignInForm";
 import { authClient } from "../utils/authClient";
 

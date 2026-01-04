@@ -1,4 +1,4 @@
-import { IssueStatus, IssueType } from "@/types";
+import { IssueStatus, IssueType } from "../types";
 import { sql } from "drizzle-orm";
 import {
 	pgTable,
