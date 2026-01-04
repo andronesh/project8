@@ -1,4 +1,4 @@
-import { Button, Image, Text, View } from "react-native";
+import { ActivityIndicator, Button, Image, Text, View } from "react-native";
 import SignInForm from "../components/auth/SignInForm";
 import { authClient } from "../utils/authClient";
 import { useEffect, useState } from "react";
@@ -6,7 +6,7 @@ import { Project } from "project8_nextjs/types";
 import { apiClient } from "../utils/apiClient";
 
 export default function Index() {
-	const { data: authSession } = authClient.useSession();
+	const { data: authSession, isPending: authIsPending } = authClient.useSession();
 	const [projects, setProjects] = useState<Project[]>([]);
 
 	async function fetchProjects() {
@@ -36,6 +36,12 @@ export default function Index() {
 				<Text className="text-lg text-black dark:text-white">
 					{authSession?.user?.email || "Guest"}
 				</Text>
+				{authIsPending && (
+					<ActivityIndicator
+						size="large"
+						colorClassName="accent-blue-500 dark:accent-blue-400"
+					/>
+				)}
 				{authSession && (
 					<Button
 						title="out"
@@ -50,7 +56,7 @@ export default function Index() {
 				}}
 				className="w-24 h-24 rounded-lg"
 			/>
-			{!authSession && (
+			{!authIsPending && !authSession && (
 				<View className="my-4 gap-2">
 					<SignInForm />
 				</View>
