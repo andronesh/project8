@@ -6,6 +6,10 @@
 		"./project8_nextjs",
 		"./project8_expo"
 	],
+	"dependencies": {
+		"drizzle-orm": "^0.45.1",
+		"postgres": "^3.4.4"
+	},
 	"devDependencies": {
 		"prettier": "^3.7.4",
 		"prettier-plugin-tailwindcss": "^0.7.2"
