@@ -32,15 +32,10 @@ export default function Index() {
 
 	return (
 		<View className="flex-1 p-4">
-			<View className="flex-row justify-between items-center mb-4">
-				<Text className="text-lg text-black dark:text-white">
-					{authSession?.user?.email || "Guest"}
-				</Text>
+			<View className="mb-4 flex-row items-center justify-between">
+				<Text className="text-lg text-black dark:text-white">{authSession?.user?.email || "Guest"}</Text>
 				{authIsPending && (
-					<ActivityIndicator
-						size="large"
-						colorClassName="accent-blue-500 dark:accent-blue-400"
-					/>
+					<ActivityIndicator size="large" colorClassName="accent-blue-500 dark:accent-blue-400" />
 				)}
 				{authSession && (
 					<Button
@@ -54,7 +49,7 @@ export default function Index() {
 				source={{
 					uri: "https://walter-r2.trakt.tv/images/users/011/839/218/avatars/medium/dc8ededd5c.jpg",
 				}}
-				className="w-24 h-24 rounded-lg"
+				className="h-24 w-24 rounded-lg"
 			/>
 			{!authIsPending && !authSession && (
 				<View className="my-4 gap-2">
@@ -62,10 +57,7 @@ export default function Index() {
 				</View>
 			)}
 			{projects.map((project) => (
-				<View
-					key={project.id}
-					className="p-4 mb-2 bg-gray-200 dark:bg-gray-800 rounded-lg"
-				>
+				<View key={project.id} className="mb-2 rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
 					<Text className="text-black dark:text-white">{project.name}</Text>
 				</View>
 			))}

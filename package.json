@@ -5,5 +5,9 @@
 	"workspaces": [
 		"./project8_nextjs",
 		"./project8_expo"
-	]
+	],
+	"devDependencies": {
+		"prettier": "^3.7.4",
+		"prettier-plugin-tailwindcss": "^0.7.2"
+	}
 }

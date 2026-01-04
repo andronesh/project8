@@ -14,9 +14,7 @@ export default function SignInForm() {
 			password,
 		});
 		setIsLoading(false);
-		result.error
-			? console.log("Login failed:", result.error)
-			: console.log("Login successful:", result.data);
+		result.error ? console.log("Login failed:", result.error) : console.log("Login successful:", result.data);
 	};
 
 	return (
@@ -27,7 +25,7 @@ export default function SignInForm() {
 				textContentType="emailAddress"
 				value={email}
 				onChangeText={setEmail}
-				className="border border-gray-300 rounded-lg p-3 text-base text-black dark:text-white"
+				className="rounded-lg border border-gray-300 p-3 text-base text-black dark:text-white"
 				underlineColorAndroidClassName="accent-transparent"
 			/>
 			<TextInput
@@ -37,14 +35,10 @@ export default function SignInForm() {
 				secureTextEntry
 				value={password}
 				onChangeText={setPassword}
-				className="border border-gray-300 rounded-lg p-3 text-base text-black dark:text-white"
+				className="rounded-lg border border-gray-300 p-3 text-base text-black dark:text-white"
 				underlineColorAndroidClassName="accent-transparent"
 			/>
-			<Button
-				title={isLoading ? "Logging in..." : "Login"}
-				disabled={isLoading}
-				onPress={handleLogin}
-			/>
+			<Button title={isLoading ? "Logging in..." : "Login"} disabled={isLoading} onPress={handleLogin} />
 		</View>
 	);
 }
