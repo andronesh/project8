@@ -6,13 +6,29 @@ import {
 } from "@/database/dao/projectsDAO";
 import { auth } from "@/utils/auth";
 import { Elysia, t, status } from "elysia";
+import { cors } from "@elysiajs/cors";
 
 const projectEditableDtoSchema = t.Object({
 	name: t.String({ pattern: ".*\\S.*", message: "Project name should not be empty" }),
 	bookmarked: t.Optional(t.Boolean()),
 });
 
+const allowedOriginsString = process.env.ALLOWED_ORIGINS || "";
+const allowedOrigins = allowedOriginsString.split(",");
+
 const app = new Elysia({ prefix: "/api" })
+	.use(
+		cors({
+			origin: ({ headers }) => {
+				const originHeader = headers.get("origin");
+				return originHeader !== null && allowedOrigins.includes(originHeader);
+			},
+			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			credentials: true,
+			allowedHeaders: ["Content-Type", "Authorization"],
+		}),
+	)
+	.mount(auth.handler)
 	.macro({
 		auth: {
 			async resolve({ status, request: { headers } }) {
@@ -73,3 +89,4 @@ export type ServerApp = typeof app;
 export const GET = app.fetch;
 export const POST = app.fetch;
 export const PUT = app.fetch;
+export const OPTIONS = app.fetch;
