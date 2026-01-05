@@ -33,7 +33,7 @@ const app = new Elysia({ prefix: "/api" })
 		auth: {
 			async resolve({ status, request: { headers } }) {
 				const session = await auth.api.getSession({ headers });
-				if (!session) return status(401);
+				if (!session) return status(401, { error: "Unauthorized access" });
 				return { user: session.user, session: session.session };
 			},
 		},
@@ -44,6 +44,7 @@ const app = new Elysia({ prefix: "/api" })
 			return bookmarked ? await getBookmarkedProjects() : await getAllProjects();
 		},
 		{
+			auth: true,
 			query: t.Object({
 				bookmarked: t.Optional(t.Boolean()),
 			}),
@@ -77,6 +78,7 @@ const app = new Elysia({ prefix: "/api" })
 			}
 		},
 		{
+			auth: true,
 			params: t.Object({
 				id: t.Number({ minimum: 1 }),
 			}),

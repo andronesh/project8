@@ -2,14 +2,7 @@ import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./utils/auth";
 
-const protectedPathPrefixes = [
-	"/dashboard",
-	"/projects",
-	"/rescueTiktokLinks",
-	"/gmailParser",
-	"/sync",
-	"/api",
-];
+const protectedPathPrefixes = ["/dashboard", "/projects", "/rescueTiktokLinks", "/gmailParser", "/sync"];
 
 function isProtected(path: string): boolean {
 	return protectedPathPrefixes.some((prefix) => {
@@ -21,10 +14,6 @@ export async function proxy(request: NextRequest) {
 	const response = NextResponse.next();
 	const { pathname } = request.nextUrl;
 
-	if (pathname.startsWith("/api/auth")) {
-		return response;
-	}
-
 	if (!isProtected(pathname)) {
 		return response;
 	}
@@ -33,14 +22,6 @@ export async function proxy(request: NextRequest) {
 		const session = await auth.api.getSession({
 			headers: await headers(),
 		});
-
-		if (pathname.startsWith("/api")) {
-			if (!session) {
-				return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
-			} else {
-				return response;
-			}
-		}
 
 		if (session && request.nextUrl.pathname === "/") {
 			return NextResponse.redirect(new URL("/dashboard", request.url));
