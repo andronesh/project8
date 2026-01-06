@@ -5,6 +5,8 @@ import { expo } from "@better-auth/expo";
 import { bearer } from "better-auth/plugins";
 import * as schema from "@/database/schema";
 
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "").split(",");
+
 export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
@@ -19,5 +21,5 @@ export const auth = betterAuth({
 		},
 	},
 	plugins: [expo(), bearer()],
-	trustedOrigins: ["project8://"],
+	trustedOrigins: ["project8://", ...ALLOWED_ORIGINS],
 });
