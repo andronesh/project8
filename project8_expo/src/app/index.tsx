@@ -5,12 +5,26 @@ import { useEffect, useState } from "react";
 import { Project } from "project8_nextjs/types";
 import { apiClient } from "../utils/apiClient";
 import { Button, useToast } from "heroui-native";
+import { useRouter } from "expo-router";
+import { useShareIntentContext } from "expo-share-intent";
 
 export default function Index() {
 	const { data: authSession, isPending: authIsPending } = authClient.useSession();
 	const [projects, setProjects] = useState<Project[]>([]);
 
 	const { toast } = useToast();
+
+	const router = useRouter();
+
+	const { hasShareIntent } = useShareIntentContext();
+
+	useEffect(() => {
+		if (hasShareIntent) {
+			router.navigate({
+				pathname: "./shareintent",
+			});
+		}
+	}, [hasShareIntent]);
 
 	async function fetchProjects() {
 		try {

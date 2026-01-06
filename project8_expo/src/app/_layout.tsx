@@ -1,20 +1,31 @@
 import "@/src/global.css";
 
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import React from "react";
-import { useUniwind } from "uniwind";
 
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { ShareIntentProvider } from "expo-share-intent";
+
 export default function RootLayout() {
-	const theme = useUniwind().theme;
+	const router = useRouter();
 
 	return (
-		<GestureHandlerRootView style={{ flex: 1 }}>
-			<HeroUINativeProvider>
-				<Stack />
-			</HeroUINativeProvider>
-		</GestureHandlerRootView>
+		<ShareIntentProvider
+			options={{
+				resetOnBackground: true,
+				onResetShareIntent: () =>
+					router.replace({
+						pathname: "/",
+					}),
+			}}
+		>
+			<GestureHandlerRootView style={{ flex: 1 }}>
+				<HeroUINativeProvider>
+					<Stack />
+				</HeroUINativeProvider>
+			</GestureHandlerRootView>
+		</ShareIntentProvider>
 	);
 }

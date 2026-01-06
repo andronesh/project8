@@ -40,6 +40,19 @@
 						"backgroundColor": "#000000"
 					}
 				}
+			],
+			[
+				"expo-share-intent",
+				{
+					"iosShareExtensionName": "Project8 Keeper",
+					"iosActivationRules": {
+						"NSExtensionActivationSupportsWebURLWithMaxCount": 1,
+						"NSExtensionActivationSupportsWebPageWithMaxCount": 1,
+						"NSExtensionActivationSupportsImageWithMaxCount": 1,
+						"NSExtensionActivationSupportsMovieWithMaxCount": 1
+					},
+					"androidIntentFilters": ["text/*", "image/*"]
+				}
 			]
 		],
 		"experiments": {
