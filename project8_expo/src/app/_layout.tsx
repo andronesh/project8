@@ -15,10 +15,11 @@ export default function RootLayout() {
 		<ShareIntentProvider
 			options={{
 				resetOnBackground: true,
-				onResetShareIntent: () =>
-					router.replace({
-						pathname: "/",
-					}),
+				onResetShareIntent: () => {
+					if (router.canGoBack()) {
+						router.back();
+					}
+				},
 			}}
 		>
 			<GestureHandlerRootView style={{ flex: 1 }}>
