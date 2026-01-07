@@ -1,7 +1,7 @@
 import { authClient } from "@/src/utils/authClient";
 import { Button, Spinner, TextField, useThemeColor, useToast } from "heroui-native";
 import { useState } from "react";
-import { View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import { FadeIn, LinearTransition } from "react-native-reanimated";
 
 export default function SignInForm() {
@@ -39,36 +39,38 @@ export default function SignInForm() {
 	};
 
 	return (
-		<View className="gap-3">
-			<TextField>
-				<TextField.Label>Email</TextField.Label>
-				<TextField.Input
-					placeholder="email@example.com"
-					textContentType="emailAddress"
-					value={email}
-					onChangeText={setEmail}
-				/>
-			</TextField>
-			<TextField>
-				<TextField.Label>Password</TextField.Label>
-				<TextField.Input
-					placeholder="********"
-					textContentType="password"
-					secureTextEntry
-					value={password}
-					onChangeText={setPassword}
-				/>
-			</TextField>
-			<Button
-				layout={LinearTransition.springify()}
-				variant="primary"
-				onPress={handleSignIn}
-				isIconOnly={isLoading}
-				isDisabled={isLoading}
-				className="self-center"
-			>
-				{isLoading ? <Spinner entering={FadeIn.delay(50)} color={themeColorAccentForeground} /> : "Sign In"}
-			</Button>
-		</View>
+		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="gap-3">
+			<View className="gap-3">
+				<TextField>
+					<TextField.Label>Email</TextField.Label>
+					<TextField.Input
+						placeholder="email@example.com"
+						textContentType="emailAddress"
+						value={email}
+						onChangeText={setEmail}
+					/>
+				</TextField>
+				<TextField>
+					<TextField.Label>Password</TextField.Label>
+					<TextField.Input
+						placeholder="********"
+						textContentType="password"
+						secureTextEntry
+						value={password}
+						onChangeText={setPassword}
+					/>
+				</TextField>
+				<Button
+					layout={LinearTransition.springify()}
+					variant="primary"
+					onPress={handleSignIn}
+					isIconOnly={isLoading}
+					isDisabled={isLoading}
+					className="self-center"
+				>
+					{isLoading ? <Spinner entering={FadeIn.delay(50)} color={themeColorAccentForeground} /> : "Sign In"}
+				</Button>
+			</View>
+		</KeyboardAvoidingView>
 	);
 }

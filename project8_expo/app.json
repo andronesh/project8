@@ -21,6 +21,7 @@
 			},
 			"edgeToEdgeEnabled": true,
 			"predictiveBackGestureEnabled": false,
+			"softwareKeyboardLayoutMode": "pan",
 			"package": "dev.andronesh.project8"
 		},
 		"web": {
