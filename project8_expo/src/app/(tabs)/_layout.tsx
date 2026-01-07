@@ -2,11 +2,16 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { useThemeColor } from "heroui-native";
+import { authClient } from "@/src/utils/authClient";
 
 export default function BottomTabsLayout() {
 	const themeColorBackground = useThemeColor("background");
 	const themeColorForeground = useThemeColor("foreground");
 	const themeColorAccent = useThemeColor("accent");
+	const themeColorWarning = useThemeColor("warning");
+	const themeColorDanger = useThemeColor("danger");
+
+	const { data: authSession, isPending: authIsPending } = authClient.useSession();
 
 	return (
 		<Tabs
@@ -47,6 +52,10 @@ export default function BottomTabsLayout() {
 				options={{
 					title: "Settings",
 					tabBarIcon: ({ color }) => <MaterialDesignIcons name="cog" size={24} color={color} />,
+					tabBarBadge: authSession ? undefined : "!",
+					tabBarBadgeStyle: {
+						backgroundColor: authIsPending ? themeColorWarning : themeColorDanger,
+					},
 				}}
 			/>
 		</Tabs>
