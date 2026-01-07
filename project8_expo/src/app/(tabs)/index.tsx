@@ -1,9 +1,9 @@
 import { ActivityIndicator, Image, Text, View } from "react-native";
-import SignInForm from "../components/auth/SignInForm";
-import { authClient } from "../utils/authClient";
+import SignInForm from "../../components/auth/SignInForm";
+import { authClient } from "../../utils/authClient";
 import { useEffect, useState } from "react";
 import { Project } from "project8_nextjs/types";
-import { apiClient } from "../utils/apiClient";
+import { apiClient } from "../../utils/apiClient";
 import { Button, useToast } from "heroui-native";
 import { useRouter } from "expo-router";
 import { useShareIntentContext } from "expo-share-intent";
