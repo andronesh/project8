@@ -1,5 +1,5 @@
 import { Text, View, Image } from "react-native";
-import SignInForm from "../../components/auth/SignInForm";
+import SignInForm from "../../features/auth/SignInForm";
 import { authClient } from "../../utils/authClient";
 import { Button, useToast } from "heroui-native";
 
