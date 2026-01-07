@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { ShareIntentProvider } from "expo-share-intent";
 import { StatusBar } from "expo-status-bar";
+import TanstackQueryClientProvider from "../utils/TanstackQueryClientProvider";
 
 export default function RootLayout() {
 	const router = useRouter();
@@ -25,9 +26,11 @@ export default function RootLayout() {
 		>
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<HeroUINativeProvider>
-					<Stack>
-						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-					</Stack>
+					<TanstackQueryClientProvider>
+						<Stack>
+							<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+						</Stack>
+					</TanstackQueryClientProvider>
 					<StatusBar style="auto" />
 				</HeroUINativeProvider>
 			</GestureHandlerRootView>
