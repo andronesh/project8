@@ -1,10 +1,25 @@
 import { issues } from "./database/schema";
+import { Static, t } from "elysia";
 
 export type Project = {
 	id: number;
 	name: string;
 	bookmarked: boolean;
 };
+
+export const tagEditableDtoSchema = t.Object({
+	name: t.String({ pattern: ".*\\S.*", message: "Tag name should not be empty" }),
+	comment: t.Optional(t.MaybeEmpty(t.String())),
+	parentId: t.Optional(t.MaybeEmpty(t.Number({ minimum: 1 }))),
+});
+
+export type TagEditableDto = Static<typeof tagEditableDtoSchema>;
+
+export type Tag = TagEditableDto & {
+	id: number;
+};
+
+export type TagNode = Tag & { children?: TagNode[] };
 
 export type Section = {
 	id: number;

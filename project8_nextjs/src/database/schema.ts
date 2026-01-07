@@ -97,6 +97,23 @@ export const projects = pgTable("projects", {
 		.notNull(),
 });
 
+export const tags = pgTable("tags", {
+	id: serial("id").primaryKey(),
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true }),
+	ownerId: uuid("owner_id")
+		.references(() => user.id)
+		.notNull(),
+
+	name: text("name").notNull(),
+	comment: text("comment"),
+	parentId: integer("parent_id").references((): AnyPgColumn => tags.id, {
+		onDelete: "cascade",
+	}),
+});
+
 export const sections = pgTable("sections", {
 	id: serial("id").primaryKey(),
 	title: varchar("title", { length: 88 }).notNull(),
