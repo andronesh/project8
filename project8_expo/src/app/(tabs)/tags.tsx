@@ -57,7 +57,7 @@ export default function TagsScreen() {
 				{isFetching && <Spinner size="lg" className="self-center" />}
 				{tagsTree &&
 					tagsTree.map((tagNode) => (
-						<TagsTreeElement key={tagNode.id} tagNode={tagNode} onPress={() => showEditableForm(tagNode)} />
+						<TagsTreeElement key={tagNode.id} tagNode={tagNode} onPress={showEditableForm} />
 					))}
 			</ScrollView>
 			<Dialog
