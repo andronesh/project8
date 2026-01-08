@@ -1,13 +1,10 @@
-import { Tabs } from "expo-router";
-import React from "react";
-import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
-import { useThemeColor } from "heroui-native";
 import { authClient } from "@/src/utils/authClient";
+import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
+import { Tabs } from "expo-router";
+import { useThemeColor } from "heroui-native";
+import React from "react";
 
 export default function BottomTabsLayout() {
-	const themeColorBackground = useThemeColor("background");
-	const themeColorForeground = useThemeColor("foreground");
-	const themeColorAccent = useThemeColor("accent");
 	const themeColorWarning = useThemeColor("warning");
 	const themeColorDanger = useThemeColor("danger");
 
@@ -16,10 +13,7 @@ export default function BottomTabsLayout() {
 	return (
 		<Tabs
 			screenOptions={{
-				tabBarActiveTintColor: themeColorAccent,
-				tabBarInactiveTintColor: themeColorForeground,
 				tabBarStyle: {
-					backgroundColor: themeColorBackground,
 					// Android
 					elevation: 0,
 					// iOS
@@ -28,8 +22,6 @@ export default function BottomTabsLayout() {
 					// remove hairline border top
 					borderTopWidth: 0,
 				},
-				headerStyle: { backgroundColor: themeColorBackground },
-				headerTintColor: themeColorForeground,
 				headerShadowVisible: false,
 			}}
 		>

@@ -67,7 +67,7 @@ export default function Index() {
 	}, [authSession]);
 
 	return (
-		<View className="bg-background flex-1 p-4">
+		<View className="flex-1 p-4">
 			<Image
 				source={{
 					uri: "https://walter-r2.trakt.tv/images/users/011/839/218/avatars/medium/dc8ededd5c.jpg",
@@ -75,8 +75,8 @@ export default function Index() {
 				className="h-44 w-44 self-center rounded-lg"
 			/>
 			{projects.map((project) => (
-				<View key={project.id} className="mt-2 rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
-					<Text className="text-black dark:text-white">{project.name}</Text>
+				<View key={project.id} className="bg-surface mt-2 rounded-lg p-4">
+					<Text className="text-foreground">{project.name}</Text>
 				</View>
 			))}
 		</View>

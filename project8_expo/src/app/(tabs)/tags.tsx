@@ -26,7 +26,7 @@ export default function TagsScreen() {
 	}, [error]);
 
 	return (
-		<SafeAreaView className="bg-background flex-1 p-4">
+		<SafeAreaView className="flex-1 p-4">
 			<ScrollView>
 				{isFetching && <Spinner size="lg" className="self-center" />}
 				{tagsTree && tagsTree.map((tagNode) => <TagsTreeElement key={tagNode.id} tagNode={tagNode} />)}

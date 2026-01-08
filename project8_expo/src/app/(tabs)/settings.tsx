@@ -30,7 +30,7 @@ export default function SettingsScreen() {
 	};
 
 	return (
-		<View className="bg-background flex-1 gap-4 p-4">
+		<View className="flex-1 gap-4 p-4">
 			<View className="flex-row justify-around">
 				<Button variant="danger-soft" onPress={showToastDanger}>
 					Test Toast
@@ -47,7 +47,7 @@ export default function SettingsScreen() {
 			/>
 			{authSession && (
 				<View className="flex-row items-center justify-between">
-					<Text className="text-lg text-black dark:text-white">{authSession?.user?.email}</Text>
+					<Text className="text-foreground text-lg">{authSession?.user?.email}</Text>
 					<Button variant="secondary" size="sm" onPress={() => authClient.signOut()}>
 						OUT
 					</Button>
