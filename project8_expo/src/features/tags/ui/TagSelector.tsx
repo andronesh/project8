@@ -2,6 +2,7 @@ import { Button, Select } from "heroui-native";
 import { TagNode } from "project8_nextjs/types";
 import { useMemo } from "react";
 import { ScrollView, Text, View } from "react-native";
+import { IconThemed } from "../../common/IconThemed";
 
 type Props = {
 	tags: TagNode[];
@@ -17,9 +18,9 @@ type FlattenedTag = {
 	depth: number;
 };
 
-export default function TagSelector({ tags, value, onValueChange, title = "Select Parent", isDisabled }: Props) {
+export default function TagSelector({ tags, value, onValueChange, isDisabled }: Props) {
 	const flattenedTags = useMemo(() => {
-		const result: FlattenedTag[] = [{ id: null, name: "No Parent", depth: 0 }];
+		const result: FlattenedTag[] = [];
 
 		function flatten(nodes: TagNode[], depth: number) {
 			for (const node of nodes) {
@@ -45,13 +46,31 @@ export default function TagSelector({ tags, value, onValueChange, title = "Selec
 			}}
 			isDisabled={isDisabled}
 		>
-			<Select.Trigger asChild>
-				<Button variant="tertiary" size="md" className="justify-between" isDisabled={isDisabled}>
-					<Text className="text-foreground flex-1 text-left">
-						{selectedTag ? selectedTag.name : title}
-					</Text>
-				</Button>
-			</Select.Trigger>
+			<View className="flex-row items-center">
+				<Select.Trigger asChild>
+					<Button
+						variant="tertiary"
+						size="md"
+						className={`flex-1 justify-between ${value ? "rounded-tr-none rounded-br-none" : ""}`}
+						isDisabled={isDisabled}
+					>
+						<Text className={`text-foreground flex-1 text-left ${value ? "" : "text-field-placeholder"}`}>
+							{selectedTag ? selectedTag.name : "Select from list"}
+						</Text>
+					</Button>
+				</Select.Trigger>
+				{value && (
+					<Button
+						variant="tertiary"
+						size="md"
+						isIconOnly
+						onPress={() => onValueChange(null)}
+						className="rounded-tl-none rounded-bl-none"
+					>
+						<IconThemed name="close" size={32} className="text-muted" />
+					</Button>
+				)}
+			</View>
 			<Select.Portal>
 				<Select.Overlay />
 				<Select.Content width={280} className="rounded-2xl" placement="bottom">
@@ -61,7 +80,7 @@ export default function TagSelector({ tags, value, onValueChange, title = "Selec
 								key={String(item.id)}
 								value={String(item.id)}
 								label={item.name}
-								style={{ paddingLeft: item.depth * 22 + 12}}
+								style={{ paddingLeft: item.depth * 22 + 12 }}
 							>
 								<View className="flex-1 flex-row items-center gap-3">
 									<Text className="text-foreground flex-1 text-base">{item.name}</Text>
