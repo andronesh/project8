@@ -2,7 +2,7 @@ import { Button, TextField, useToast } from "heroui-native";
 import { TagNode } from "project8_nextjs/types";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { useDeleteTag, useUpdateTag } from "../hooks/useTagsMutations";
+import { useCreateTag, useDeleteTag, useUpdateTag } from "../hooks/useTagsMutations";
 import { useTagsTree } from "../hooks/useTagsTree";
 import TagSelector from "./TagSelector";
 
@@ -21,36 +21,45 @@ export default function TagEditableForm(props: Props) {
 	const { data: tagsTree } = useTagsTree();
 
 	const updateTagMutation = useUpdateTag();
+	const createTagMutation = useCreateTag();
 	const deleteTagMutation = useDeleteTag();
 
 	useEffect(() => {
-		if (props.tagNode) {
-			setName(props.tagNode.name);
-			setComment(props.tagNode.comment || "");
-			setParentId(props.tagNode.parentId || null);
-		}
+		setName(props.tagNode?.name || "");
+		setComment(props.tagNode?.comment || "");
+		setParentId(props.tagNode?.parentId || null);
 	}, [props.tagNode]);
 
 	const handleSave = async () => {
-		if (!props.tagNode) return;
-
 		try {
-			await updateTagMutation.mutateAsync({
-				id: props.tagNode.id,
-				tag: {
+			if (props.tagNode) {
+				await updateTagMutation.mutateAsync({
+					id: props.tagNode.id,
+					tag: {
+						name,
+						comment: comment || null,
+						parentId: parentId,
+					},
+				});
+				toast.show({
+					label: "Tag updated",
+					variant: "success",
+				});
+			} else {
+				await createTagMutation.mutateAsync({
 					name,
 					comment: comment || null,
 					parentId: parentId,
-				},
-			});
-			toast.show({
-				label: "Tag updated",
-				variant: "success",
-			});
+				});
+				toast.show({
+					label: "Tag created",
+					variant: "success",
+				});
+			}
 			props.onClose?.();
 		} catch (error) {
 			toast.show({
-				label: "Failed to update tag",
+				label: props.tagNode ? "Failed to update tag" : "Failed to create tag",
 				description: JSON.stringify(error),
 				variant: "danger",
 			});
@@ -76,7 +85,7 @@ export default function TagEditableForm(props: Props) {
 		}
 	};
 
-	const isPending = updateTagMutation.isPending || deleteTagMutation.isPending;
+	const isPending = updateTagMutation.isPending || createTagMutation.isPending || deleteTagMutation.isPending;
 
 	// Recursive function to filter out the current tag and all its descendants
 	const getAvailableTags = (nodes: TagNode[]): TagNode[] => {
@@ -123,16 +132,20 @@ export default function TagEditableForm(props: Props) {
 			</View>
 
 			<View className="mt-2 flex-row justify-between">
-				<Button variant="danger-soft" onPress={handleDelete} isDisabled={isPending}>
-					Delete
-				</Button>
+				{props.tagNode ? (
+					<Button variant="danger-soft" onPress={handleDelete} isDisabled={isPending}>
+						Delete
+					</Button>
+				) : (
+					<View />
+				)}
 
 				<View className="flex-row gap-2">
 					<Button variant="secondary" onPress={props.onClose} isDisabled={isPending}>
 						Cancel
 					</Button>
 					<Button variant="primary" onPress={handleSave} isDisabled={isPending || !name.trim()}>
-						Save
+						{props.tagNode ? "Save" : "Create"}
 					</Button>
 				</View>
 			</View>
