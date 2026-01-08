@@ -1,8 +1,10 @@
 import { Button, TextField, useToast } from "heroui-native";
 import { TagNode } from "project8_nextjs/types";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { useDeleteTag, useUpdateTag } from "../hooks/useTagsMutations";
+import { useTagsTree } from "../hooks/useTagsTree";
+import TagSelector from "./TagSelector";
 
 type Props = {
 	tagNode: TagNode | null;
@@ -13,7 +15,10 @@ type Props = {
 export default function TagEditableForm(props: Props) {
 	const [name, setName] = useState(props.tagNode?.name || "");
 	const [comment, setComment] = useState(props.tagNode?.comment || "");
+	const [parentId, setParentId] = useState<number | null>(props.tagNode?.parentId || null);
 	const { toast } = useToast();
+
+	const { data: tagsTree } = useTagsTree();
 
 	const updateTagMutation = useUpdateTag();
 	const deleteTagMutation = useDeleteTag();
@@ -22,6 +27,7 @@ export default function TagEditableForm(props: Props) {
 		if (props.tagNode) {
 			setName(props.tagNode.name);
 			setComment(props.tagNode.comment || "");
+			setParentId(props.tagNode.parentId || null);
 		}
 	}, [props.tagNode]);
 
@@ -34,7 +40,7 @@ export default function TagEditableForm(props: Props) {
 				tag: {
 					name,
 					comment: comment || null,
-					parentId: props.tagNode.parentId,
+					parentId: parentId,
 				},
 			});
 			toast.show({
@@ -72,6 +78,23 @@ export default function TagEditableForm(props: Props) {
 
 	const isPending = updateTagMutation.isPending || deleteTagMutation.isPending;
 
+	// Recursive function to filter out the current tag and all its descendants
+	const getAvailableTags = (nodes: TagNode[]): TagNode[] => {
+		const filterDescendants = (node: TagNode): boolean => {
+			if (node.id === props.tagNode?.id) return false;
+			return true;
+		};
+
+		return nodes
+			.filter(filterDescendants)
+			.map((node) => ({
+				...node,
+				children: node.children ? getAvailableTags(node.children) : undefined,
+			}));
+	};
+
+	const availableTags = tagsTree ? getAvailableTags(tagsTree) : [];
+
 	return (
 		<View className={`gap-4 ${props.className}`}>
 			<TextField>
@@ -88,6 +111,16 @@ export default function TagEditableForm(props: Props) {
 					multiline
 				/>
 			</TextField>
+
+			<View>
+				<Text className="text-muted mb-1 text-sm font-medium">Parent Tag</Text>
+				<TagSelector
+					tags={availableTags}
+					value={parentId}
+					onValueChange={setParentId}
+					isDisabled={isPending}
+				/>
+			</View>
 
 			<View className="mt-2 flex-row justify-between">
 				<Button variant="danger-soft" onPress={handleDelete} isDisabled={isPending}>
