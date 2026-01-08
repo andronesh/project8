@@ -75,6 +75,7 @@ export default function TagsScreen() {
 						<Dialog.Content>
 							<TagEditableForm
 								tagNode={tagNodeUnderAction}
+								allTags={tagsTree || []}
 								onClose={() => {
 									setTagNodeUnderAction(null);
 									setTagEditableFormVisible(false);

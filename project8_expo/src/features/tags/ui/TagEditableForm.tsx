@@ -3,11 +3,11 @@ import { TagNode } from "project8_nextjs/types";
 import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { useCreateTag, useDeleteTag, useUpdateTag } from "../hooks/useTagsMutations";
-import { useTagsTree } from "../hooks/useTagsTree";
 import TagSelector from "./TagSelector";
 
 type Props = {
 	tagNode: TagNode | null;
+	allTags: TagNode[];
 	onClose?: () => void;
 	className?: string;
 };
@@ -17,8 +17,6 @@ export default function TagEditableForm(props: Props) {
 	const [comment, setComment] = useState(props.tagNode?.comment || "");
 	const [parentId, setParentId] = useState<number | null>(props.tagNode?.parentId || null);
 	const { toast } = useToast();
-
-	const { data: tagsTree } = useTagsTree();
 
 	const updateTagMutation = useUpdateTag();
 	const createTagMutation = useCreateTag();
@@ -102,7 +100,7 @@ export default function TagEditableForm(props: Props) {
 			}));
 	};
 
-	const availableTags = tagsTree ? getAvailableTags(tagsTree) : [];
+	const availableTags = props.allTags ? getAvailableTags(props.allTags) : [];
 
 	return (
 		<View className={`gap-4 ${props.className}`}>
