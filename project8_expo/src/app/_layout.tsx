@@ -29,16 +29,16 @@ export default function RootLayout() {
 			}}
 		>
 			<GestureHandlerRootView style={{ flex: 1 }}>
-				<HeroUINativeProvider>
-					<TanstackQueryClientProvider>
+				<TanstackQueryClientProvider>
+					<HeroUINativeProvider>
 						<ThemeProvider value={colorScheme === "light" ? UniwindLightTheme : UniwindDarkTheme}>
 							<Stack>
 								<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 							</Stack>
 						</ThemeProvider>
-					</TanstackQueryClientProvider>
-					<StatusBar style="auto" />
-				</HeroUINativeProvider>
+						<StatusBar style="auto" />
+					</HeroUINativeProvider>
+				</TanstackQueryClientProvider>
 			</GestureHandlerRootView>
 		</ShareIntentProvider>
 	);
