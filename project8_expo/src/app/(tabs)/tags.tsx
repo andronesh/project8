@@ -1,7 +1,7 @@
+import { IconThemed } from "@/src/features/common/IconThemed";
 import { useTagsTree, useTagsTreeQueryKey } from "@/src/features/tags/hooks/useTagsTree";
 import TagEditableForm from "@/src/features/tags/ui/TagEditableForm";
 import TagsTreeElement from "@/src/features/tags/ui/TagsTreeElement";
-import { MaterialDesignIcons } from "@react-native-vector-icons/material-design-icons";
 import { useQueryClient } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { Button, Dialog, Spinner, useToast } from "heroui-native";
@@ -48,7 +48,7 @@ export default function TagsScreen() {
 							onPress={() => showEditableForm(null)}
 							className="mr-2"
 						>
-							<MaterialDesignIcons name="plus" size={24} className="text-foreground" />
+							<IconThemed name="plus" size={24} className="text-foreground" />
 						</Button>
 					),
 				}}
