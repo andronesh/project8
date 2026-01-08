@@ -58,25 +58,25 @@
 
 		@variant dark {
 			/* Base Colors */
-			--background: oklch(0.15 0.04 230);
+			--background: oklch(20% 0.054 248.19);
 			--foreground: oklch(0.94 0.01 230);
 
 			/* Surface: Used for non-overlay components (cards, accordions, disclosure groups) */
-			--surface: oklch(0.2 0.048 230);
-			--surface-foreground: oklch(0.9 0.015 230);
+			--surface: oklch(30.16% 0.093 253.05);
+			--surface-foreground: oklch(0.872 0.01 258.3);
 
 			/* Overlay: Used for floating/overlay components (dialogs, popovers, modals, menus) */
-			--overlay: oklch(0.23 0.045 230);
+			--overlay: oklch(37.87% 0.121 254.18);
 			--overlay-foreground: oklch(0.9 0.015 230);
 
-			--muted: oklch(0.5 0.04 230);
+			--muted: oklch(70.71% 0.022 261.75);
 
-			--default: oklch(0.25 0.05 230);
+			--default: oklch(22.29% 0.063 249.92);
 			--default-foreground: oklch(0.88 0.018 230);
 
 			/* Accent */
-			--accent: oklch(0.72 0.21 230);
-			--accent-foreground: oklch(0.15 0.04 230);
+			--accent: oklch(45.14% 0.147 254.59);
+			--accent-foreground: oklch(0.872 0.01 258.3);
 
 			/* Form Field Defaults - Colors */
 			--field-background: var(--default);

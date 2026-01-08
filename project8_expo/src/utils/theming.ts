@@ -3,9 +3,9 @@ import { DarkTheme, DefaultTheme, Theme } from "@react-navigation/native";
 export const UniwindDarkTheme: Theme = {
 	...DarkTheme,
 	colors: {
-		primary: "#00B7FF",
-		background: "#000D18",
-		card: "#001927",
+		primary: "#0054a4",
+		background: "#00172d",
+		card: "#00172d",
 		text: "#E4ECF0",
 		border: "transparent",
 		notification: "#00202D",
