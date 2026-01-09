@@ -40,6 +40,13 @@ export default function BottomTabsLayout() {
 				}}
 			/>
 			<Tabs.Screen
+				name="links"
+				options={{
+					title: "Links",
+					tabBarIcon: ({ color }) => <MaterialDesignIcons name="link-variant" size={24} color={color} />,
+				}}
+			/>
+			<Tabs.Screen
 				name="settings"
 				options={{
 					title: "Settings",
