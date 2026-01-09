@@ -22,6 +22,13 @@
       "when": 1767797245497,
       "tag": "0002_mixed_ultimates",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767966948706,
+      "tag": "0003_vengeful_mysterio",
+      "breakpoints": true
     }
   ]
 }

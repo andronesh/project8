@@ -21,6 +21,22 @@ export type Tag = TagEditableDto & {
 
 export type TagNode = Tag & { children?: TagNode[] };
 
+export const linkEditableDtoSchema = t.Object({
+	url: t.String({ pattern: ".*\\S.*", message: "Link URL should not be empty" }),
+	title: t.String({ pattern: ".*\\S.*", message: "Link title should not be empty" }),
+	faviconUrl: t.Optional(t.MaybeEmpty(t.String())),
+	thumbnailUrl: t.Optional(t.MaybeEmpty(t.String())),
+	description: t.Optional(t.MaybeEmpty(t.String())),
+	comment: t.Optional(t.MaybeEmpty(t.String())),
+});
+export type LinkEditableDto = Static<typeof linkEditableDtoSchema>;
+
+export type Link = LinkEditableDto & {
+	id: number;
+	createdAt: Date;
+	updatedAt: Date;
+};
+
 export type Section = {
 	id: number;
 	title: string;

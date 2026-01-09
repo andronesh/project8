@@ -211,3 +211,23 @@ export const emails = pgTable(
 );
 
 export type EmailEntity = typeof emails.$inferSelect;
+
+export const links = pgTable("links", {
+	id: serial("id").primaryKey(),
+	createdAt: timestamp("created_at", { withTimezone: true })
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	updatedAt: timestamp("updated_at", { withTimezone: true })
+		.default(sql`CURRENT_TIMESTAMP`)
+		.notNull(),
+	createdBy: uuid("created_by")
+		.references(() => user.id)
+		.notNull(),
+
+	url: varchar("url", { length: 256 }).unique().notNull(),
+	title: varchar("title", { length: 111 }).notNull(),
+	faviconUrl: varchar("favicon_url", { length: 88 }),
+	thumbnailUrl: varchar("thumbnail_url", { length: 111 }),
+	description: text("description"),
+	comment: text("comment"),
+});
