@@ -34,7 +34,7 @@ export default function TagsScreen() {
 	const showEditableForm = (tagNode: TagNode | null) => {
 		setTagEditableFormVisible(true);
 		setTagNodeUnderAction(tagNode);
-	};	
+	};
 
 	return (
 		<SafeAreaView className="flex-1 p-4">
@@ -72,7 +72,7 @@ export default function TagsScreen() {
 				<Dialog.Portal>
 					<Dialog.Overlay />
 					<KeyboardAvoidingView behavior="padding">
-						<Dialog.Content>
+						<Dialog.Content className="bg-surface">
 							<TagEditableForm
 								tagNode={tagNodeUnderAction}
 								allTags={tagsTree || []}

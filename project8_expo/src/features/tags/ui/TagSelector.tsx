@@ -67,7 +67,7 @@ export default function TagSelector({ tags, value, onValueChange, isDisabled }: 
 						onPress={() => onValueChange(null)}
 						className="rounded-tl-none rounded-bl-none"
 					>
-						<IconThemed name="close" size={32} className="text-muted" />
+						<IconThemed name="close" size={22} className="text-muted" />
 					</Button>
 				)}
 			</View>
