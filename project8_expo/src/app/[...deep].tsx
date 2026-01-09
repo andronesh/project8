@@ -2,6 +2,7 @@ import * as Linking from "expo-linking";
 import { useRouter } from "expo-router";
 import { useEffect } from "react";
 
+// Need for iOS, after Share Extention it tries to open deeplink "dataUrl"
 export default function DeepLinkRedirect() {
 	const router = useRouter();
 

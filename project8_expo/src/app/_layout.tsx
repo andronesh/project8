@@ -1,6 +1,6 @@
 import "@/src/global.css";
 
-import { Stack, useRouter } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
 
 import { HeroUINativeProvider } from "heroui-native";
@@ -14,20 +14,10 @@ import TanstackQueryClientProvider from "../utils/TanstackQueryClientProvider";
 import { UniwindDarkTheme, UniwindLightTheme } from "../utils/theming";
 
 export default function RootLayout() {
-	const router = useRouter();
 	const colorScheme = useColorScheme();
 
 	return (
-		<ShareIntentProvider
-			options={{
-				resetOnBackground: true,
-				onResetShareIntent: () => {
-					if (router.canGoBack()) {
-						router.back();
-					}
-				},
-			}}
-		>
+		<ShareIntentProvider>
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<TanstackQueryClientProvider>
 					<HeroUINativeProvider>
