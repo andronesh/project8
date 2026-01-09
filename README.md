@@ -58,9 +58,13 @@ You can start developing by editing the files inside the **app** directory. This
 
 ## Install fully packed app on device
 
+Clean fist `npx expo prebuild --clean`, then do **for android**:
+
 ```bash
 npx expo run:android --device --variant release
 ```
+
+**For iOS**: (before building add `"postinstall": "patch-package",` to `scripts` section of package.json file in expo app dir)
 
 ```bash
 npx expo run:ios --device --configuration Release
