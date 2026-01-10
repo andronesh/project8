@@ -1,6 +1,8 @@
 import { apiClient } from "@/src/utils/apiClient";
 import { useQuery } from "@tanstack/react-query";
 
+export const useLinksQueriesRootKey = () => ["links"];
+
 export const useAllLinksPaginatedQueryKey = (limit: number, offset: number) => ["links", limit, offset];
 
 export const useAllLinksPaginatedQuery = (limit: number, offset: number) =>
