@@ -37,6 +37,7 @@
 		"expo-system-ui": "~6.0.8",
 		"expo-web-browser": "~15.0.9",
 		"heroui-native": "^1.0.0-beta.10",
+		"node-html-parser": "^7.0.2",
 		"patch-package": "^8.0.1",
 		"project8_nextjs": "*",
 		"react": "19.1.0",

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Text, View, Image, ScrollView, KeyboardAvoidingView } from "react-native";
 import { useUpdateLinkMutation, useDeleteLinkMutation } from "../hooks/useLinksMutations";
 import { useNavigation } from "expo-router";
+import { fetchUrlAndParseMetadata } from "../utils";
 
 type Props = {
 	link: Link;
@@ -36,6 +37,31 @@ export default function LinkEditableForm(props: Props) {
 
 	const updateLinkMutation = useUpdateLinkMutation();
 	const deleteLinkMutation = useDeleteLinkMutation();
+
+	const [isUrlMetadataFetching, setIsUrlMetadataFetching] = useState(false);
+
+	const fetchMetadata = async () => {
+		setIsUrlMetadataFetching(true);
+		try {
+			const metadata = await fetchUrlAndParseMetadata(linkFormData.url);
+			setLinkFormData({
+				...linkFormData,
+				url: metadata.finalUrl || linkFormData.url,
+				title: metadata.title || linkFormData.title,
+				description: metadata.description || linkFormData.description,
+				faviconUrl: metadata.faviconUrl || linkFormData.faviconUrl,
+				thumbnailUrl: metadata.thumbnailUrl || linkFormData.thumbnailUrl,
+			});
+		} catch (error) {
+			toast.show({
+				label: "Failed to fetch metadata",
+				description: JSON.stringify(error),
+				variant: "danger",
+			});
+		} finally {
+			setIsUrlMetadataFetching(false);
+		}
+	};
 
 	const handleSave = async () => {
 		try {
@@ -74,15 +100,13 @@ export default function LinkEditableForm(props: Props) {
 		}
 	};
 
-	const isPending = updateLinkMutation.isPending || deleteLinkMutation.isPending;
+	const isPending = updateLinkMutation.isPending || deleteLinkMutation.isPending || isUrlMetadataFetching;
 
 	return (
 		<ScrollView className={"grow px-3"} contentContainerClassName="gap-4">
-			{linkFormData.description && (
-				<Text className="text-field-foreground bg-field rounded-lg p-3 text-lg">
-					{linkFormData.description}
-				</Text>
-			)}
+			<Text className="text-field-foreground bg-field rounded-lg p-3 text-lg">
+				{linkFormData.description || "... fetch metadata to see description ..."}
+			</Text>
 			{linkFormData.thumbnailUrl && (
 				<View className="flex rounded-lg">
 					<Image
@@ -95,9 +119,9 @@ export default function LinkEditableForm(props: Props) {
 				</View>
 			)}
 
-			{linkFormData.title && (
-				<Text className="text-field-foreground bg-field rounded-lg p-3 text-2xl">{linkFormData.title}</Text>
-			)}
+			<Text className="text-field-foreground bg-field rounded-lg p-3 text-2xl">
+				{linkFormData.title || "... fetch metadata to see title ..."}
+			</Text>
 
 			<KeyboardAvoidingView className="gap-4">
 				<TextField>
@@ -120,6 +144,10 @@ export default function LinkEditableForm(props: Props) {
 					/>
 				</TextField>
 			</KeyboardAvoidingView>
+
+			<Button variant="primary" onPress={fetchMetadata} isDisabled={isPending}>
+				{isUrlMetadataFetching ? "Fetching Metadata..." : "Fetch Metadata"}
+			</Button>
 
 			<View className="flex-row justify-between">
 				<Button variant="danger-soft" onPress={handleDelete} isDisabled={isPending}>
