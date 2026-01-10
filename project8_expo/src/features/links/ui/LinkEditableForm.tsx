@@ -104,9 +104,6 @@ export default function LinkEditableForm(props: Props) {
 
 	return (
 		<ScrollView className={"grow px-3"} contentContainerClassName="gap-4">
-			<Text className="text-field-foreground bg-field rounded-lg p-3 text-lg">
-				{linkFormData.description || "... fetch metadata to see description ..."}
-			</Text>
 			{linkFormData.thumbnailUrl && (
 				<View className="flex rounded-lg">
 					<Image
@@ -119,18 +116,38 @@ export default function LinkEditableForm(props: Props) {
 				</View>
 			)}
 
-			<Text className="text-field-foreground bg-field rounded-lg p-3 text-2xl">
-				{linkFormData.title || "... fetch metadata to see title ..."}
-			</Text>
-
 			<KeyboardAvoidingView className="gap-4">
+				<TextField>
+					<TextField.Label>Description </TextField.Label>
+					<TextField.Input
+						placeholder="Description"
+						className="h-18"
+						value={linkFormData.description || ""}
+						onChangeText={(description) => setLinkFormData({ ...linkFormData, description })}
+						editable={!isPending}
+						multiline
+					/>
+				</TextField>
+				<TextField>
+					<TextField.Label>Title</TextField.Label>
+					<TextField.Input
+						placeholder="Title"
+						className="h-18"
+						value={linkFormData.title || ""}
+						onChangeText={(title) => setLinkFormData({ ...linkFormData, title })}
+						editable={!isPending}
+						multiline
+					/>
+				</TextField>
 				<TextField>
 					<TextField.Label>URL</TextField.Label>
 					<TextField.Input
 						placeholder="URL"
+						className="h-18"
 						value={linkFormData.url}
 						onChangeText={(url) => setLinkFormData({ ...linkFormData, url })}
 						editable={!isPending}
+						multiline
 					/>
 				</TextField>
 
