@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { Spinner, useToast } from "heroui-native";
 import { useEffect } from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Image } from "react-native";
 
 export default function LinksScreen() {
 	const limit = 33;
@@ -46,7 +46,18 @@ export default function LinksScreen() {
 					>
 						<View className="flex px-3 py-2">
 							<Text className="text-foreground text-lg">{link.title}</Text>
-							<Text className="text-muted text-md mt-0.5">{link.url}</Text>
+							<View className="flex-row items-center gap-2">
+								<Image
+									source={{
+										uri: link.faviconUrl!,
+									}}
+									className="h-4 w-4 self-center"
+									resizeMode="contain"
+								/>
+								<Text className="text-muted text-md truncate pr-3" numberOfLines={1}>
+									{link.url}
+								</Text>
+							</View>
 						</View>
 					</Link>
 				))}

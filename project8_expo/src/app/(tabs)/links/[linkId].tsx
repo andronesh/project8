@@ -1,15 +1,13 @@
-import { View } from "react-native";
-
 import { useLocalSearchParams } from "expo-router";
 import LinkEditableForm from "@/src/features/links/ui/LinkEditableForm";
-import { Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { useEffect, useState } from "react";
-import { Button } from "heroui-native";
+import { Button, useToast } from "heroui-native";
 import { Link } from "project8_nextjs/types";
-import { Image } from "react-native";
 import { useRouter } from "expo-router";
 
 export default function LinkDetailsScreen() {
+	const { toast } = useToast();
 	const router = useRouter();
 	const { linkId, linkDtoString } = useLocalSearchParams();
 	const [isEditingFormVisible, setEditingFormVisible] = useState(false);
@@ -51,13 +49,38 @@ export default function LinkDetailsScreen() {
 									source={{
 										uri: linkDto.thumbnailUrl,
 									}}
-									className="h-52 w-full self-center"
+									className="h-88 w-full self-center"
 									resizeMode="contain"
+									onError={({ nativeEvent: { error } }) => {
+										console.error("Failed to load thumbnail", error);
+										toast.show({
+											label: "Failed to load thumbnail",
+											description: JSON.stringify(error),
+											variant: "danger",
+										});
+									}}
 								/>
 							</View>
 						)}
 						<Text className="text-muted text-md">{linkDto.url}</Text>
-						<Text className="text-foreground text-lg">{linkDto.title}</Text>
+						<View className="flex-row items-center gap-2">
+							<Image
+								source={{
+									uri: linkDto.faviconUrl!,
+								}}
+								className="h-6 w-6"
+								resizeMode="contain"
+								onError={({ nativeEvent: { error } }) => {
+									console.error("Failed to load favicon", error);
+									toast.show({
+										label: "Failed to load favicon",
+										description: JSON.stringify(error),
+										variant: "danger",
+									});
+								}}
+							/>
+							<Text className="text-foreground text-lg">{linkDto.title}</Text>
+						</View>
 						{linkDto.description && <Text className="text-foreground text-md">{linkDto.description}</Text>}
 						{linkDto.comment && <Text className="text-foreground text-md mt-1">{linkDto.comment}</Text>}
 					</View>
