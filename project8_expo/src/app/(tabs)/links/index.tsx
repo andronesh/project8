@@ -3,6 +3,7 @@ import {
 	useAllLinksPaginatedQueryKey,
 } from "@/src/features/links/hooks/useLinksPaginated";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "expo-router";
 import { Spinner, useToast } from "heroui-native";
 import { useEffect } from "react";
 import { ScrollView, View, Text } from "react-native";
@@ -31,14 +32,23 @@ export default function LinksScreen() {
 	}, [error]);
 
 	return (
-		<ScrollView className={"grow px-3"} contentContainerClassName="gap-4">
+		<ScrollView className={"grow px-3"} contentContainerClassName="gap-3">
 			{isFetching && <Spinner size="lg" className="self-center" />}
 			{links &&
 				links.map((link) => (
-					<View className="bg-surface flex rounded-lg px-3 py-2">
-						<Text className="text-foreground text-lg">{link.title}</Text>
-						<Text className="text-muted text-md mt-0.5">{link.url}</Text>
-					</View>
+					<Link
+						key={link.id}
+						href={{
+							pathname: "/links/[linkId]",
+							params: { linkId: link.id, linkDtoString: JSON.stringify(link) },
+						}}
+						className="bg-surface rounded-lg"
+					>
+						<View className="flex px-3 py-2">
+							<Text className="text-foreground text-lg">{link.title}</Text>
+							<Text className="text-muted text-md mt-0.5">{link.url}</Text>
+						</View>
+					</Link>
 				))}
 		</ScrollView>
 	);
