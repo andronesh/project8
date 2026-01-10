@@ -23,16 +23,22 @@ async function verifyExistenceAndOwnership(entityId: number, currentUserId: stri
 	return true;
 }
 
+function convertDtoToEntity(dto: LinkEditableDto) {
+	return {
+		url: dto.url,
+		title: dto.title ? dto.title.trim() : null,
+		faviconUrl: dto.faviconUrl ? dto.faviconUrl.trim() : null,
+		thumbnailUrl: dto.thumbnailUrl ? dto.thumbnailUrl.trim() : null,
+		description: dto.description ? dto.description.trim() : null,
+		comment: dto.comment ? dto.comment.trim() : null,
+	};
+}
+
 export async function insertLink(dto: LinkEditableDto, currentUserId: string): Promise<Link> {
 	return db
 		.insert(links)
 		.values({
-			url: dto.url,
-			title: dto.title,
-			faviconUrl: dto.faviconUrl ? dto.faviconUrl : null,
-			thumbnailUrl: dto.thumbnailUrl ? dto.thumbnailUrl : null,
-			description: dto.description ? dto.description : null,
-			comment: dto.comment ? dto.comment : null,
+			...convertDtoToEntity(dto),
 			createdBy: currentUserId,
 		})
 		.returning()
@@ -50,12 +56,7 @@ export async function updateLink(
 	return db
 		.update(links)
 		.set({
-			url: dto.url,
-			title: dto.title,
-			faviconUrl: dto.faviconUrl ? dto.faviconUrl : null,
-			thumbnailUrl: dto.thumbnailUrl ? dto.thumbnailUrl : null,
-			description: dto.description ? dto.description : null,
-			comment: dto.comment ? dto.comment : null,
+			...convertDtoToEntity(dto),
 		})
 		.where(eq(links.id, id))
 		.returning()
