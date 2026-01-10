@@ -225,7 +225,7 @@ export const links = pgTable("links", {
 		.notNull(),
 
 	url: varchar("url", { length: 256 }).unique().notNull(),
-	title: varchar("title", { length: 111 }).notNull(),
+	title: varchar("title", { length: 111 }),
 	faviconUrl: varchar("favicon_url", { length: 88 }),
 	thumbnailUrl: varchar("thumbnail_url", { length: 111 }),
 	description: text("description"),

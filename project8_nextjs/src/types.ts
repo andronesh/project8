@@ -23,7 +23,7 @@ export type TagNode = Tag & { children?: TagNode[] };
 
 export const linkEditableDtoSchema = t.Object({
 	url: t.String({ pattern: ".*\\S.*", message: "Link URL should not be empty" }),
-	title: t.String({ pattern: ".*\\S.*", message: "Link title should not be empty" }),
+	title: t.Optional(t.MaybeEmpty(t.String())),
 	faviconUrl: t.Optional(t.MaybeEmpty(t.String())),
 	thumbnailUrl: t.Optional(t.MaybeEmpty(t.String())),
 	description: t.Optional(t.MaybeEmpty(t.String())),
