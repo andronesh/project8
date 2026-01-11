@@ -42,7 +42,7 @@ export default function LinkDetailsScreen() {
 			)}
 			{!isEditingFormVisible && linkDto && (
 				<View>
-					<View className="flex px-3 py-2">
+					<View className="flex gap-2 px-3 py-2">
 						{linkDto.thumbnailUrl && (
 							<View className="mb-4 flex rounded-lg">
 								<Image
@@ -62,13 +62,12 @@ export default function LinkDetailsScreen() {
 								/>
 							</View>
 						)}
-						<Text className="text-muted text-md">{linkDto.url}</Text>
 						<View className="flex-row items-center gap-2">
 							<Image
 								source={{
 									uri: linkDto.faviconUrl!,
 								}}
-								className="h-6 w-6"
+								className="h-4 w-4"
 								resizeMode="contain"
 								onError={({ nativeEvent: { error } }) => {
 									console.error("Failed to load favicon", error);
@@ -79,10 +78,11 @@ export default function LinkDetailsScreen() {
 									});
 								}}
 							/>
-							<Text className="text-foreground text-lg">{linkDto.title}</Text>
+							<Text className="text-muted text-md shrink py-1">{linkDto.url}</Text>
 						</View>
+						<Text className="text-foreground text-lg">{linkDto.title}</Text>
 						{linkDto.description && <Text className="text-foreground text-md">{linkDto.description}</Text>}
-						{linkDto.comment && <Text className="text-foreground text-md mt-1">{linkDto.comment}</Text>}
+						{linkDto.comment && <Text className="text-foreground text-md py-2">{linkDto.comment}</Text>}
 					</View>
 					<Button onPress={() => setEditingFormVisible(true)}>Edit</Button>
 				</View>
