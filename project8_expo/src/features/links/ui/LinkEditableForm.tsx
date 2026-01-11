@@ -1,10 +1,11 @@
 import { Button, TextField, useToast } from "heroui-native";
 import { Link, LinkEditableDto } from "project8_nextjs/types";
 import { useEffect, useState } from "react";
-import { Text, View, Image, ScrollView, KeyboardAvoidingView } from "react-native";
+import { View, Image, ScrollView, KeyboardAvoidingView } from "react-native";
 import { useUpdateLinkMutation, useDeleteLinkMutation } from "../hooks/useLinksMutations";
 import { useNavigation } from "expo-router";
 import { fetchUrlAndParseMetadata } from "../utils";
+import UrlParamsCheckboxer from "./UrlParamsCheckboxer";
 
 type Props = {
 	link: Link;
@@ -139,18 +140,10 @@ export default function LinkEditableForm(props: Props) {
 						multiline
 					/>
 				</TextField>
-				<TextField>
-					<TextField.Label>URL</TextField.Label>
-					<TextField.Input
-						placeholder="URL"
-						className="h-18"
-						value={linkFormData.url}
-						onChangeText={(url) => setLinkFormData({ ...linkFormData, url })}
-						editable={!isPending}
-						multiline
-					/>
-				</TextField>
-
+				<UrlParamsCheckboxer
+					url={props.link.url}
+					onChange={(url) => setLinkFormData({ ...linkFormData, url })}
+				/>
 				<TextField>
 					<TextField.Label>Comment</TextField.Label>
 					<TextField.Input
