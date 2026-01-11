@@ -9,10 +9,20 @@ export async function fetchUrlAndParseMetadata(url: string) {
 		root.querySelector(`meta[property="${name}"]`)?.getAttribute("content") ||
 		root.querySelector(`meta[name="${name}"]`)?.getAttribute("content");
 
+	let faviconUrl = root
+		.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]')
+		.pop()
+		?.getAttribute("href");
+
+	if (faviconUrl && !faviconUrl.startsWith("http")) {
+		const origin = new URL(response.url).origin;
+		faviconUrl = origin + faviconUrl;
+	}
+
 	return {
 		title: decodeEntities(root.querySelector("title")?.innerText),
 		description: decodeEntities(getMeta("description") || getMeta("og:description")),
-		faviconUrl: root.querySelector('link[rel="icon"]')?.getAttribute("href"),
+		faviconUrl: faviconUrl,
 		thumbnailUrl: getMeta("og:image") || getMeta("twitter:image"),
 		finalUrl: response.url,
 	};

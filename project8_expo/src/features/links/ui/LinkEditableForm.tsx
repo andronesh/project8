@@ -54,6 +54,7 @@ export default function LinkEditableForm(props: Props) {
 				thumbnailUrl: metadata.thumbnailUrl || linkFormData.thumbnailUrl,
 			});
 		} catch (error) {
+			console.error("Failed to fetch metadata", error);
 			toast.show({
 				label: "Failed to fetch metadata",
 				description: JSON.stringify(error),
