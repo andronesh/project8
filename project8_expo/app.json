@@ -7,7 +7,6 @@
 		"icon": "./assets/images/icon.jpg",
 		"scheme": "project8",
 		"userInterfaceStyle": "automatic",
-		"newArchEnabled": true,
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "dev.andronesh.project8"
@@ -54,7 +53,11 @@
 					},
 					"androidIntentFilters": ["text/*", "image/*"]
 				}
-			]
+			],
+			"expo-font",
+			"expo-image",
+			"expo-secure-store",
+			"expo-web-browser"
 		],
 		"experiments": {
 			"typedRoutes": true,
