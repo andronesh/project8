@@ -9,7 +9,7 @@
 		"lint": "next lint"
 	},
 	"exports": {
-		"./api": "./src/app/api/[[...slug]]/route.ts",
+		"./api": "./src/api/app.ts",
 		"./types": "./src/types.ts"
 	},
 	"dependencies": {
