@@ -39,7 +39,7 @@
 		"heroui-native": "^1.0.0-beta.10",
 		"node-html-parser": "^7.0.2",
 		"patch-package": "^8.0.1",
-		"project8_nextjs": "*",
+		"project8_nextjs": "workspace:*",
 		"react": "19.2.0",
 		"react-dom": "19.2.0",
 		"react-native": "0.83.4",

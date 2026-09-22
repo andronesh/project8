@@ -1,19 +1,8 @@
 {
-	"name": "project8_monorepo",
+	"name": "project8",
 	"private": true,
 	"version": "0.0.0",
-	"workspaces": [
-		"./project8_nextjs",
-		"./project8_expo"
-	],
-	"dependencies": {
-		"drizzle-orm": "^0.45.1",
-		"postgres": "^3.4.4",
-		"expo": "~55.0.15",
-		"expo-router": "~55.0.12",
-		"react": "19.2.0",
-		"react-native": "0.83.4"
-	},
+	"packageManager": "pnpm@11.15.1",
 	"devDependencies": {
 		"prettier": "^3.7.4",
 		"prettier-plugin-tailwindcss": "^0.7.2"
