@@ -1,7 +1,7 @@
 import { Image, Text, View } from "react-native";
 import { authClient } from "../../utils/authClient";
 import { useEffect, useState } from "react";
-import { Project } from "project8_nextjs/types";
+import { Project } from "@project8/domain/types";
 import { apiClient } from "../../utils/apiClient";
 import { useToast } from "heroui-native";
 import { useRouter } from "expo-router";
@@ -27,10 +27,9 @@ export default function Index() {
 
 	async function fetchProjects() {
 		try {
-			const { data, error } = await apiClient.api.projects.get({
-				query: { bookmarked: true },
-			});
-			if (error) {
+			const response = await apiClient.api.projects.$get({ query: { bookmarked: "true" } });
+			if (!response.ok) {
+				const error = await response.json();
 				toast.show({
 					label: "Error fetching projects",
 					description: JSON.stringify(error),
@@ -44,6 +43,7 @@ export default function Index() {
 				console.error("API error:", JSON.stringify(error));
 				return;
 			}
+			const data = await response.json();
 			setProjects(data);
 		} catch (error) {
 			toast.show({

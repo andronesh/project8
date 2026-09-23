@@ -1,6 +1,6 @@
 import { apiClient } from "@/src/utils/apiClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TagEditableDto } from "project8_nextjs/types";
+import { TagEditableDto } from "@project8/domain/types";
 import { useTagsTreeQueryKey } from "./useTagsTree";
 
 export const useCreateTag = () => {
@@ -8,9 +8,12 @@ export const useCreateTag = () => {
 
 	return useMutation({
 		mutationFn: async (tag: TagEditableDto) => {
-			const { data, error } = await apiClient.api.tags.post(tag);
-			if (error) throw error;
-			return data;
+			const response = await apiClient.api.tags.$post({ json: tag });
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(`Failed to create tag (${response.status}): ${JSON.stringify(error)}`); // TODO properly handle
+			}
+			return response.json();
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: useTagsTreeQueryKey() });
@@ -23,9 +26,12 @@ export const useUpdateTag = () => {
 
 	return useMutation({
 		mutationFn: async ({ id, tag }: { id: number; tag: TagEditableDto }) => {
-			const { data, error } = await apiClient.api.tags({ id }).put(tag);
-			if (error) throw error;
-			return data;
+			const response = await apiClient.api.tags[":id"].$put({ param: { id: String(id) }, json: tag });
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(`Failed to update tag (${response.status}): ${JSON.stringify(error)}`); // TODO: properly handle
+			}
+			return response.json();
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: useTagsTreeQueryKey() });
@@ -38,8 +44,12 @@ export const useDeleteTag = () => {
 
 	return useMutation({
 		mutationFn: async (id: number) => {
-			const { error } = await apiClient.api.tags({ id }).delete();
-			if (error) throw error;
+			const response = await apiClient.api.tags[":id"].$delete({ param: { id: String(id) } });
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(`Failed to delete tag (${response.status}): ${JSON.stringify(error)}`); // TODO: properly handle
+			}
+			return;
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: useTagsTreeQueryKey() });
