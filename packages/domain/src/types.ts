@@ -61,3 +61,17 @@ export enum IssueStatus {
 }
 
 export type Issue = typeof issues.$inferSelect;
+
+export type TiktokLink = {
+	id: number;
+	url: string | null;
+	ownerName: string | null;
+	ownerUsername: string | null;
+	videoId: number | null;
+	description: string | null;
+	thumbnail: string | null;
+
+	isRecipe: boolean;
+	descriptionImage: string | null;
+	tgSavedAt: string | null;
+};

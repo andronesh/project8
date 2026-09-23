@@ -1,6 +1,6 @@
 import { useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
-import { Section } from "@/types";
+import { Section } from "@project8/domain/types";
 import { createSection, updateSection } from "@/server-actions/sectionsActions";
 
 type Props = {
@@ -62,10 +62,7 @@ export default function SectionEditForm(props: Props) {
 						Delete
 					</button>
 				)}
-				<button
-					className="bg-primary hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white"
-					onClick={doSave}
-				>
+				<button className="bg-primary hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white" onClick={doSave}>
 					Save
 				</button>
 			</div>

@@ -1,4 +1,4 @@
-import { listEmails } from "@/database/dao/emailsDAO";
+import { listEmails } from "@project8/domain/daos/emailsDAO";
 import { useQuery } from "@tanstack/react-query";
 
 export const useEmailsPaginatedQuery = () =>

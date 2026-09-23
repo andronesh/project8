@@ -1,9 +1,10 @@
 "use client";
 
-import { TiktokLink, insertLink } from "@/server-actions/tiktokActions";
+import { insertLink } from "@/server-actions/tiktokActions";
 import { useEffect, useState } from "react";
 import ImagePasteZone from "./ImagePasteZone";
 import InputTextLabeled from "../common/form/InputTextLabeled";
+import { TiktokLink } from "@project8/domain/types";
 
 type Props = {
 	link?: TiktokLink | undefined;
@@ -46,7 +47,7 @@ export default function TiktokLinkEditForm(props: Props) {
 				formData.thumbnail,
 				formData.isRecipe,
 				formData.descriptionImage,
-				formData.tgSavedAt,
+				formData.tgSavedAt
 			);
 			if (result) {
 				if (props.onSaved) {

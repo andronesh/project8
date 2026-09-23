@@ -1,4 +1,4 @@
-import { getIssuesForProjectSection } from "@/database/dao/issuesDAO";
+import { getIssuesForProjectSection } from "@project8/domain/daos/issuesDAO";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSectionIssues = (projectId: number, sectionId: number | null) =>

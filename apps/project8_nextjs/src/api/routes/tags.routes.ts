@@ -1,5 +1,5 @@
-import { deleteTag, getAllTagsAsTree, insertTag, searchTagsByName, updateTag } from "@/database/dao/tagsDAO";
-import { tagEditableDtoSchema } from "@/types";
+import { deleteTag, getAllTagsAsTree, insertTag, searchTagsByName, updateTag } from "@project8/domain/daos/tagsDAO";
+import { tagEditableDtoSchema } from "@project8/domain/types";
 import { Elysia, t, status } from "elysia";
 import { authPlugin } from "../plugins/auth.plugin";
 

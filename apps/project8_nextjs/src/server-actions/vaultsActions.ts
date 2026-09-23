@@ -1,6 +1,6 @@
 "use server";
 
-import * as vaultsDAO from "@/database/dao/vaultsDAO";
+import * as vaultsDAO from "@project8/domain/daos/vaultsDAO";
 
 export async function addVault(name: string, token: string, url?: string | null) {
 	const nameSanitised = name.trim();

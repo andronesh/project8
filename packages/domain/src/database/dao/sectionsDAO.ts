@@ -3,7 +3,7 @@
 import { db } from "..";
 import { sections } from "../schema";
 import { eq } from "drizzle-orm";
-import { Section } from "@/types";
+import { Section } from "../../types";
 
 export async function insertSection(title: string, projectId: number): Promise<Section> {
 	return db

@@ -1,27 +1,13 @@
 "use server";
 
-import { insertTiktokLink } from "@/database/dao/titoLinksDAO";
-
-export type TiktokLink = {
-	id: number;
-	url: string | null;
-	ownerName: string | null;
-	ownerUsername: string | null;
-	videoId: number | null;
-	description: string | null;
-	thumbnail: string | null;
-
-	isRecipe: boolean;
-	descriptionImage: string | null;
-	tgSavedAt: string | null;
-};
+import { insertTiktokLink } from "@project8/domain/daos/titoLinksDAO";
 
 export async function insertLink(
 	url?: string,
 	thumbnail?: string | null,
 	isRecipe?: boolean,
 	descriptionImage?: string | null,
-	tgSavedAt?: string | null,
+	tgSavedAt?: string | null
 ) {
 	try {
 		await insertTiktokLink(url, thumbnail, isRecipe, descriptionImage, tgSavedAt);

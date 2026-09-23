@@ -1,6 +1,6 @@
 "use server";
 
-import { Tag, TagEditableDto, TagNode } from "@/types";
+import { Tag, TagEditableDto, TagNode } from "../../types";
 import { db } from "..";
 import { tags } from "../schema";
 import { eq } from "drizzle-orm";

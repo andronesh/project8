@@ -3,14 +3,14 @@
 import { eq } from "drizzle-orm";
 import { db } from "..";
 import { tiktokLinks } from "../schema";
-import { TiktokLink } from "@/server-actions/tiktokActions";
+import { TiktokLink } from "../../types";
 
 export async function insertTiktokLink(
 	url?: string,
 	thumbnail?: string | null,
 	isRecipe?: boolean,
 	descriptionImage?: string | null,
-	tgSavedAt?: string | null,
+	tgSavedAt?: string | null
 ) {
 	return db
 		.insert(tiktokLinks)
@@ -27,9 +27,5 @@ export async function insertTiktokLink(
 }
 
 export async function getTiktokLinks(recipes: boolean): Promise<TiktokLink[]> {
-	return await db
-		.select()
-		.from(tiktokLinks)
-		.where(eq(tiktokLinks.isRecipe, recipes))
-		.orderBy(tiktokLinks.createdAt);
+	return await db.select().from(tiktokLinks).where(eq(tiktokLinks.isRecipe, recipes)).orderBy(tiktokLinks.createdAt);
 }

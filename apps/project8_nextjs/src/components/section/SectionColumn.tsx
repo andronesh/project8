@@ -1,6 +1,6 @@
 "use client";
 
-import { Issue, Section } from "@/types";
+import { Issue, Section } from "@project8/domain/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import PlusIcon from "../common/icons/PlusIcon";
 import IssueCompact from "../issue/IssueCompact";
@@ -14,10 +14,7 @@ type Props = {
 };
 
 export default function SectionColumn(props: Props) {
-	const { data, isFetching, isError } = useSectionIssues(
-		props.projectId,
-		props.section ? props.section.id : null,
-	);
+	const { data, isFetching, isError } = useSectionIssues(props.projectId, props.section ? props.section.id : null);
 
 	return (
 		<>
@@ -37,12 +34,7 @@ export default function SectionColumn(props: Props) {
 				{isFetching && <LoadingSpinner className="mb-2 flex h-14 justify-around" />}
 				{isError && <div className="bg-red-700 text-xl font-bold text-white">Failed to load issues</div>}
 				{data?.map((issue: Issue) => (
-					<IssueCompact
-						key={issue.id}
-						issue={issue}
-						isSelected={false}
-						onClick={() => props.onClickOnIssue(issue)}
-					/>
+					<IssueCompact key={issue.id} issue={issue} isSelected={false} onClick={() => props.onClickOnIssue(issue)} />
 				))}
 			</div>
 		</>

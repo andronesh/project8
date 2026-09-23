@@ -1,7 +1,7 @@
 "use server";
 
-import { Issue, IssueStatus, IssueType, Section } from "@/types";
-import * as issuesDAO from "@/database/dao/issuesDAO";
+import { Issue, IssueStatus, IssueType, Section } from "@project8/domain/types";
+import * as issuesDAO from "@project8/domain/daos/issuesDAO";
 import { getAuthedUserId } from "./authActions";
 
 export async function createIssue(
@@ -11,7 +11,7 @@ export async function createIssue(
 	description: string | null,
 	projectId: number,
 	section?: Section,
-	parent?: Issue,
+	parent?: Issue
 ): Promise<Issue> {
 	if (!title || title.length === 0) {
 		throw new Error("Field 'title' should not be empty");
@@ -40,7 +40,7 @@ export async function updateIssue(
 	type: IssueType,
 	status: IssueStatus,
 	title: string,
-	description: string | null,
+	description: string | null
 ): Promise<Issue> {
 	if (!id) {
 		throw new Error("It's impossible to update issue without it's id");

@@ -3,8 +3,7 @@
 import { eq, and, isNull, sql, gte } from "drizzle-orm";
 import { db } from "..";
 import { issues } from "../schema";
-import { Issue, Section } from "@/types";
-import { IssueStatus, IssueType } from "@/types";
+import { Issue, IssueStatus, IssueType, Section } from "../../types";
 
 const deriveIssueSectionId = (section: Section | undefined, parent: Issue | undefined): number | null => {
 	if (section) {
@@ -34,7 +33,7 @@ export async function insertIssue(
 	description: string | null,
 	projectId: number,
 	section?: Section,
-	parent?: Issue,
+	parent?: Issue
 ): Promise<Issue> {
 	return db
 		.insert(issues)
@@ -60,7 +59,7 @@ export async function updateIssue(
 	type: IssueType,
 	status: IssueStatus,
 	title: string,
-	description: string | null,
+	description: string | null
 ): Promise<Issue> {
 	return db
 		.update(issues)
@@ -76,7 +75,7 @@ export async function updateIssuePosition(
 	issueId: number,
 	position: number,
 	sectionId: number | null,
-	sectionTitle: string | null,
+	sectionTitle: string | null
 ) {
 	const sectionIdCondition = sectionId === null ? isNull(issues.sectionId) : eq(issues.sectionId, sectionId);
 	return db.transaction(async (tx) => {
@@ -84,10 +83,7 @@ export async function updateIssuePosition(
 			.update(issues)
 			.set({ position: sql`${issues.position} + 1` })
 			.where(and(sectionIdCondition, gte(issues.position, position)));
-		await tx
-			.update(issues)
-			.set({ sectionId, sectionTitle, position, updatedAt: new Date() })
-			.where(eq(issues.id, issueId));
+		await tx.update(issues).set({ sectionId, sectionTitle, position, updatedAt: new Date() }).where(eq(issues.id, issueId));
 	});
 }
 
@@ -108,10 +104,7 @@ export const getIssuesForProject = async (projectId: number): Promise<Issue[]> =
 		.orderBy(issues.createdAt);
 };
 
-export const getIssuesForProjectSection = async (
-	projectId: number,
-	sectionId: number | null,
-): Promise<Issue[]> => {
+export const getIssuesForProjectSection = async (projectId: number, sectionId: number | null): Promise<Issue[]> => {
 	return await db
 		.select()
 		.from(issues)
@@ -119,8 +112,8 @@ export const getIssuesForProjectSection = async (
 			and(
 				eq(issues.projectId, projectId),
 				sectionId ? eq(issues.sectionId, sectionId) : isNull(issues.sectionId),
-				isNull(issues.parentId),
-			),
+				isNull(issues.parentId)
+			)
 		)
 		.orderBy(issues.position);
 };

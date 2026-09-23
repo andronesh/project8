@@ -5,9 +5,9 @@ import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
 import SectionColumnDroppable, { SectionViewModel } from "@/components/section/SectionColumnDroppable";
 import SectionEditForm from "@/components/section/SectionEditForm";
-import { getIssuesForProjectSection, updateIssuePosition } from "@/database/dao/issuesDAO";
-import { getSectionsForProject } from "@/database/dao/sectionsDAO";
-import { Issue, Section } from "@/types";
+import { getIssuesForProjectSection, updateIssuePosition } from "@project8/domain/daos/issuesDAO";
+import { getSectionsForProject } from "@project8/domain/daos/sectionsDAO";
+import { Issue, Section } from "@project8/domain/types";
 import { useEffect, useState, use } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import IssueDetailed from "@/components/issue/IssueDetailed";
@@ -48,9 +48,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 			const newState = [...sections];
 			newState.forEach((section) => {
 				section.isLoading = true;
-				getIssuesForProjectSection(params.id, section.id).then((issues) =>
-					setSectionIssues(section.id, issues),
-				);
+				getIssuesForProjectSection(params.id, section.id).then((issues) => setSectionIssues(section.id, issues));
 			});
 			setSections(newState);
 		}
@@ -131,7 +129,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 				sourceSectionIndex,
 				destinationSectionIndex,
 				sourceIssueIndex,
-				destinationIssueIndex,
+				destinationIssueIndex
 			);
 		}
 
@@ -149,12 +147,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 		}
 	};
 
-	const reorderInsideSection = (
-		newPosition: number,
-		sectionIndex: number,
-		removeFromIndex: number,
-		placeAtIndex: number,
-	) => {
+	const reorderInsideSection = (newPosition: number, sectionIndex: number, removeFromIndex: number, placeAtIndex: number) => {
 		const newState = [...sections];
 		const reorderedIssues = Array.from(newState[sectionIndex].issues);
 		const [removed] = reorderedIssues.splice(removeFromIndex, 1);
@@ -172,7 +165,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 		fromSectionIndex: number,
 		toSectionIndex: number,
 		removeFromIndex: number,
-		placeAtIndex: number,
+		placeAtIndex: number
 	) => {
 		const newState = [...sections];
 		const sourceReorderedIssues = Array.from(newState[fromSectionIndex].issues);
@@ -193,7 +186,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 			issueId,
 			newPosition,
 			section.entity ? section.entity.id : null,
-			section.entity ? section.entity.title : null,
+			section.entity ? section.entity.title : null
 		).then((result) => {
 			// TODO show toast
 		});

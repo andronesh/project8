@@ -3,7 +3,7 @@
 import { useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useEmailsPaginatedQuery } from "@/tanstack_query/hooks/useEmailsPaginatedQuery";
-import { EmailEntity } from "@/database/schema";
+import { EmailEntity } from "@project8/domain/schema";
 import EmailDetailsPanel from "./EmailDetailsPanel";
 import { useSearchParams } from "next/navigation";
 import GoogleAuthStatus from "./GoogleAuthStatus";
@@ -59,9 +59,7 @@ export default function EmailsPanel() {
 						<p className="pl-2 text-lg">details</p>
 					</div>
 				</div>
-				{(isFetching || isActionInProgress) && (
-					<LoadingSpinner className="flex w-full justify-around px-16 py-8" />
-				)}
+				{(isFetching || isActionInProgress) && <LoadingSpinner className="flex w-full justify-around px-16 py-8" />}
 				<ul className="relative">
 					{emails && (
 						<div className="flex flex-col px-2 py-3">
@@ -82,9 +80,7 @@ export default function EmailsPanel() {
 					))}
 				</ul>
 			</div>
-			<div className="flex w-2/3 flex-col">
-				{selectedEmail && <EmailDetailsPanel gmailId={selectedEmail.gmailId} />}
-			</div>
+			<div className="flex w-2/3 flex-col">{selectedEmail && <EmailDetailsPanel gmailId={selectedEmail.gmailId} />}</div>
 		</div>
 	);
 }

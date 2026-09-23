@@ -1,4 +1,4 @@
-import { getAllProjects, getBookmarkedProjects, insertProject, updateProject } from "@/database/dao/projectsDAO";
+import { getAllProjects, getBookmarkedProjects, insertProject, updateProject } from "@project8/domain/daos/projectsDAO";
 import { Elysia, t, status } from "elysia";
 import { authPlugin } from "../plugins/auth.plugin";
 

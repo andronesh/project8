@@ -1,4 +1,4 @@
-import { Vault } from "@/database/dao/vaultsDAO";
+import { Vault } from "@project8/domain/daos/vaultsDAO";
 
 type Props = {
 	vault: Vault;

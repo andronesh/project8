@@ -1,6 +1,6 @@
 "use client";
 
-import { Issue, Section } from "@/types";
+import { Issue, Section } from "@project8/domain/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import PlusIcon from "../common/icons/PlusIcon";
 import IssueCompact from "../issue/IssueCompact";
@@ -53,12 +53,7 @@ export default function SectionColumnDroppable(props: Props) {
 					)}
 					{/* {isError && <div className="text-white bg-red-700 text-xl font-bold">Failed to load issues</div>} */}
 					{props.viewModel.issues?.map((issue: Issue, index: number) => (
-						<DraggableWrapper
-							key={issue.id}
-							draggableId={issue.id.toString()}
-							index={index}
-							className={`my-1 rounded-lg`}
-						>
+						<DraggableWrapper key={issue.id} draggableId={issue.id.toString()} index={index} className={`my-1 rounded-lg`}>
 							<IssueCompact
 								issue={issue}
 								isSelected={false}

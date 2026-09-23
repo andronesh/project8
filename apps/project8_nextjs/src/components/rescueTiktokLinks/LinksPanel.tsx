@@ -2,10 +2,10 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
-import { TiktokLink } from "@/server-actions/tiktokActions";
 import TiktokLinkEditForm from "./TiktokLinkEditForm";
-import { getTiktokLinks } from "@/database/dao/titoLinksDAO";
+import { getTiktokLinks } from "@project8/domain/daos/titoLinksDAO";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { TiktokLink } from "@project8/domain/types";
 
 export default function LinksPanel() {
 	const [isLoading, setIsLoading] = useState(false);

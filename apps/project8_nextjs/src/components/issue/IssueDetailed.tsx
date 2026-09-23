@@ -1,4 +1,4 @@
-import { Issue } from "@/types";
+import { Issue } from "@project8/domain/types";
 import { useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import IssueChildrenList from "./IssueChildrenList";
@@ -59,9 +59,7 @@ export default function IssueDetailed(props: Props) {
 			</div>
 			<h3 className={"text-lg"}>{props.issue.title}</h3>
 			{props.issue.description && (
-				<code className="block overflow-x-auto text-sm whitespace-pre text-gray-400">
-					{props.issue.description}
-				</code>
+				<code className="block overflow-x-auto text-sm whitespace-pre text-gray-400">{props.issue.description}</code>
 			)}
 			<IssueChildrenList parentId={props.issue.id} onClick={initChildEdition} />
 			<div className="border-primary mt-2 flex flex-col rounded-sm border">

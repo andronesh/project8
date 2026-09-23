@@ -6,7 +6,7 @@ import PlusIcon from "../common/icons/PlusIcon";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAllVaultsQuery } from "@/tanstack_query/hooks/useAllVaultsQuery";
-import { Vault } from "@/database/dao/vaultsDAO";
+import { Vault } from "@project8/domain/daos/vaultsDAO";
 import VaultEditForm from "./VaultEditForm";
 import VaultInfoCompact from "./VaultDetailsCompact";
 import VaultDetailsPanel from "./VaultDetailsPanel";
@@ -72,9 +72,7 @@ export default function VaultsPanel() {
 				</ul>
 			</div>
 			<div className="flex w-3/4 pl-3">
-				{selectedVault && (
-					<VaultDetailsPanel vault={selectedVault} onEdit={() => showEditForm(selectedVault)} />
-				)}
+				{selectedVault && <VaultDetailsPanel vault={selectedVault} onEdit={() => showEditForm(selectedVault)} />}
 			</div>
 			<Transition appear show={isEditFormOpen} as={Fragment}>
 				<Dialog as="div" className="relative z-10" onClose={() => setEditFormOpen(false)}>

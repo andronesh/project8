@@ -1,10 +1,10 @@
 "use client";
 
-import { Project } from "@/types";
+import { Project } from "@project8/domain/types";
 import { Fragment, useEffect, useState } from "react";
 import IssueEditForm from "./IssueEditForm";
-import { Issue } from "@/types";
-import { getIssuesForProject } from "@/database/dao/issuesDAO";
+import { Issue } from "@project8/domain/types";
+import { getIssuesForProject } from "@project8/domain/daos/issuesDAO";
 import IssueCompact from "./IssueCompact";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dialog, Transition } from "@headlessui/react";

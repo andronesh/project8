@@ -1,7 +1,7 @@
 "use server";
 
-import * as sectionsDAO from "@/database/dao/sectionsDAO";
-import { Section } from "@/types";
+import * as sectionsDAO from "@project8/domain/daos/sectionsDAO";
+import { Section } from "@project8/domain/types";
 
 export type ActionError = {
 	key: string;

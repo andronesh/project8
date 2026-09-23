@@ -1,4 +1,4 @@
-import { getAllProjects } from "@/database/dao/projectsDAO";
+import { getAllProjects } from "@project8/domain/daos/projectsDAO";
 import { useQuery } from "@tanstack/react-query";
 
 export const useAllProjectsQuery = () =>

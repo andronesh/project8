@@ -1,4 +1,4 @@
-import { Issue } from "@/types";
+import { Issue } from "@project8/domain/types";
 import IssueChildrenList from "./IssueChildrenList";
 
 type Props = {
@@ -23,9 +23,7 @@ export default function IssueCompact(props: Props) {
 					<span className={"text-xs text-gray-500"}>{props.issue.type}</span>
 				</div> */}
 			</div>
-			{props.issue.description && (
-				<div className="text-mg truncate text-gray-400">{props.issue.description}</div>
-			)}
+			{props.issue.description && <div className="text-mg truncate text-gray-400">{props.issue.description}</div>}
 			{props.issue.parentId === null && <IssueChildrenList parentId={props.issue.id} onClick={() => {}} />}
 		</div>
 	);

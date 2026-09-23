@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
-import { Vault } from "@/database/dao/vaultsDAO";
+import { Vault } from "@project8/domain/daos/vaultsDAO";
 import { addVault, updateVault } from "@/server-actions/vaultsActions";
 import { v4 } from "uuid";
 

@@ -1,7 +1,7 @@
 import IssueCompact from "./IssueCompact";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useIssueChildren } from "@/tanstack_query/hooks/useIssueChildren";
-import { Issue } from "@/types";
+import { Issue } from "@project8/domain/types";
 
 type Props = {
 	parentId: number;

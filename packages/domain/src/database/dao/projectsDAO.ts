@@ -1,6 +1,6 @@
 "use server";
 
-import { Project } from "@/types";
+import { Project } from "../../types";
 import { db } from "..";
 import { projects } from "../schema";
 import { desc, eq } from "drizzle-orm";
@@ -17,11 +17,7 @@ export async function insertProject(name: string, bookmarked: boolean, ownerId: 
 		.then((result) => result[0]);
 }
 
-export async function updateProject(
-	id: number,
-	name: string,
-	bookmarked: boolean,
-): Promise<Project | undefined> {
+export async function updateProject(id: number, name: string, bookmarked: boolean): Promise<Project | undefined> {
 	return await db
 		.update(projects)
 		.set({ name, bookmarked, updatedAt: new Date() })

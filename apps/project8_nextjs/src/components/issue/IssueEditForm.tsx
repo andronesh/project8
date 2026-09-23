@@ -1,6 +1,6 @@
-import { deleteIssue } from "@/database/dao/issuesDAO";
+import { deleteIssue } from "@project8/domain/daos/issuesDAO";
 import { createIssue, updateIssue } from "@/server-actions/issuesActions";
-import { Issue, IssueStatus, IssueType, Section } from "@/types";
+import { Issue, IssueStatus, IssueType, Section } from "@project8/domain/types";
 import { useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputSelectorLabeled from "../common/form/InputSelectorLabeled";
@@ -59,7 +59,7 @@ export default function IssueEditForm(props: Props) {
 						formData.type,
 						formData.status,
 						formData.title!,
-						formData.description ? formData.description : null,
+						formData.description ? formData.description : null
 					)
 				: await createIssue(
 						formData.type,
@@ -68,7 +68,7 @@ export default function IssueEditForm(props: Props) {
 						formData.description ? formData.description : null,
 						formData.projectId,
 						props.section,
-						props.parent,
+						props.parent
 					);
 			setIsSubmitting(false);
 			props.onSaved(savedIssue);
@@ -101,14 +101,7 @@ export default function IssueEditForm(props: Props) {
 			)}
 			<div className="space-y-4">
 				<input type="text" id="id" name="id" value={formData.id} className="hidden" readOnly />
-				<input
-					type="text"
-					id="projectId"
-					name="projectId"
-					value={formData.projectId}
-					className="hidden"
-					readOnly
-				/>
+				<input type="text" id="projectId" name="projectId" value={formData.projectId} className="hidden" readOnly />
 				<InputTextLabeled
 					label={"Title"}
 					name={"title"}

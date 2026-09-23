@@ -1,6 +1,6 @@
 "use client";
 
-import { Project } from "@/types";
+import { Project } from "@project8/domain/types";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import IssuesPanel from "../issue/IssuesPanel";
@@ -109,11 +109,7 @@ export default function ProjectsPanel() {
 								leaveTo="opacity-0 scale-95"
 							>
 								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg shadow-sm transition-all">
-									<ProjectEditForm
-										project={selectedProject}
-										onCancel={cancelEditForm}
-										onDone={onProjectSaved}
-									/>
+									<ProjectEditForm project={selectedProject} onCancel={cancelEditForm} onDone={onProjectSaved} />
 								</Dialog.Panel>
 							</Transition.Child>
 						</div>

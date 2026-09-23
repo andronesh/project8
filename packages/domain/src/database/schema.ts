@@ -1,4 +1,3 @@
-import { IssueStatus, IssueType } from "@/types";
 import { sql } from "drizzle-orm";
 import {
 	pgTable,
@@ -15,6 +14,7 @@ import {
 	index,
 } from "drizzle-orm/pg-core";
 import { v4 } from "uuid";
+import { IssueStatus, IssueType } from "../types";
 
 export const user = pgTable("user", {
 	id: uuid("id")
@@ -123,13 +123,7 @@ export const sections = pgTable("sections", {
 		.notNull(),
 });
 
-export const issueType = pgEnum("issue_type", [
-	IssueType.TASK,
-	IssueType.IDEA,
-	IssueType.STORY,
-	IssueType.BUG,
-	IssueType.CONCERN,
-]);
+export const issueType = pgEnum("issue_type", [IssueType.TASK, IssueType.IDEA, IssueType.STORY, IssueType.BUG, IssueType.CONCERN]);
 
 export const issueStatus = pgEnum("issue_status", [
 	IssueStatus.CREATED,
@@ -207,7 +201,7 @@ export const emails = pgTable(
 			.default(sql`CURRENT_TIMESTAMP`)
 			.notNull(),
 	},
-	(table) => [index("email_gmail_ids_idx").on(table.gmailId), index("email_from_idx").on(table.from)],
+	(table) => [index("email_gmail_ids_idx").on(table.gmailId), index("email_from_idx").on(table.from)]
 );
 
 export type EmailEntity = typeof emails.$inferSelect;

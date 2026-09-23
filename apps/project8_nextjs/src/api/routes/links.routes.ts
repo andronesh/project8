@@ -1,5 +1,5 @@
-import { deleteLink, findLinksByUrl, getAllLinksPaginated, insertLink, updateLink } from "@/database/dao/linksDAO";
-import { linkEditableDtoSchema } from "@/types";
+import { deleteLink, findLinksByUrl, getAllLinksPaginated, insertLink, updateLink } from "@project8/domain/daos/linksDAO";
+import { linkEditableDtoSchema } from "@project8/domain/types";
 import { Elysia, t, status } from "elysia";
 import { authPlugin } from "../plugins/auth.plugin";
 

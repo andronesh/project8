@@ -1,6 +1,6 @@
 "use server";
 
-import { Link, LinkEditableDto } from "@/types";
+import { Link, LinkEditableDto } from "../../types";
 import { db } from "..";
 import { links } from "../schema";
 import { eq, like } from "drizzle-orm";
@@ -45,11 +45,7 @@ export async function insertLink(dto: LinkEditableDto, currentUserId: string): P
 		.then((result) => result[0]);
 }
 
-export async function updateLink(
-	id: number,
-	dto: LinkEditableDto,
-	currentUserId: string,
-): Promise<Link | undefined> {
+export async function updateLink(id: number, dto: LinkEditableDto, currentUserId: string): Promise<Link | undefined> {
 	const verified = await verifyExistenceAndOwnership(id, currentUserId);
 	if (!verified) return undefined;
 

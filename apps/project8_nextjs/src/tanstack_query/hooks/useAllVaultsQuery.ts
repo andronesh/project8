@@ -1,4 +1,4 @@
-import { getAllVaults } from "@/database/dao/vaultsDAO";
+import { getAllVaults } from "@project8/domain/daos/vaultsDAO";
 import { useQuery } from "@tanstack/react-query";
 
 export const useAllVaultsQuery = () =>

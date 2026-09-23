@@ -1,9 +1,9 @@
-import { db } from "@/database";
+import { db } from "@project8/domain/database";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { expo } from "@better-auth/expo";
 import { bearer } from "better-auth/plugins";
-import * as schema from "@/database/schema";
+import * as schema from "@project8/domain/schema";
 
 const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "").split(",");
 

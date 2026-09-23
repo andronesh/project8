@@ -1,4 +1,4 @@
-import { Project } from "@/types";
+import { Project } from "@project8/domain/types";
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputCheckbox from "../common/form/InputCheckbox";
