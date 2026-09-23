@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/utils/auth";
+import { auth } from "@project8/api/utils/auth";
 import { headers } from "next/headers";
 
 export async function getAuthedUserId(): Promise<string | undefined> {

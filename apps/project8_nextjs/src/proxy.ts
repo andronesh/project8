@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "./utils/auth";
+import { auth } from "@project8/api/utils/auth";
 
 const protectedPathPrefixes = ["/dashboard", "/projects", "/rescueTiktokLinks", "/gmailParser", "/sync"];
 

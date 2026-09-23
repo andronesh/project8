@@ -1,7 +1,7 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
 
-import { auth } from "@/utils/auth";
+import { auth } from "./utils/auth";
 
 import { projectsRoutes } from "./routes/projects.routes";
 import { tagsRoutes } from "./routes/tags.routes";
