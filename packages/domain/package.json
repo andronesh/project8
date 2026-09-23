@@ -11,7 +11,8 @@
 	"dependencies": {
 		"uuid": "^10.0.0",
 		"drizzle-orm": "^0.45.1",
-		"elysia": "^1.4.19"
+		"postgres": "^3.4.4",
+		"zod": "^4.6.5"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10",
@@ -22,8 +23,7 @@
 		"typescript-eslint": "^8",
 		"@types/uuid": "^10.0.0",
 		"dotenv": "^16.4.5",
-		"drizzle-kit": "^0.31.8",
-		"postgres": "^3.4.4"
+		"drizzle-kit": "^0.31.8"
 	},
 	"exports": {
 		"./database": "./src/database/index.ts",

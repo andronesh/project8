@@ -1,63 +1,76 @@
-import { getAllProjects, getBookmarkedProjects, insertProject, updateProject } from "@project8/domain/daos/projectsDAO";
-import { Elysia, t, status } from "elysia";
-import { authPlugin } from "../plugins/auth.plugin";
+import { Hono } from "hono";
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
 
-const projectEditableDtoSchema = t.Object({
-	name: t.String({
-		pattern: ".*\\S.*",
+import { getAllProjects, getBookmarkedProjects, insertProject, updateProject } from "@project8/domain/daos/projectsDAO";
+
+import { authMiddleware } from "../middleware/auth.middleware";
+
+const projectEditableDtoSchema = z.object({
+	name: z.string().refine((value) => value.trim().length > 0, {
 		message: "Project name should not be empty",
 	}),
-	bookmarked: t.Optional(t.Boolean()),
+	bookmarked: z.boolean().optional(),
 });
 
-export const projectsRoutes = new Elysia({ prefix: "/projects" })
-	.use(authPlugin)
+const byIdParamsSchema = z.object({
+	id: z.coerce.number().int().min(1),
+});
+
+export const projectsRoutes = new Hono<{
+	Variables: {
+		user: {
+			id: string;
+		};
+	};
+}>()
+	.use("*", authMiddleware)
 	.get(
 		"/",
-		async ({ query: { bookmarked } }) => {
-			return bookmarked ? await getBookmarkedProjects() : await getAllProjects();
-		},
-		{
-			auth: true,
-			query: t.Object({
-				bookmarked: t.Optional(t.Boolean()),
-			}),
+		zValidator(
+			"query",
+			z.object({
+				bookmarked: z
+					.string()
+					.transform((value) => value === "true")
+					.optional(),
+			})
+		),
+		async (c) => {
+			const { bookmarked } = c.req.valid("query");
+
+			const projects = bookmarked ? await getBookmarkedProjects() : await getAllProjects();
+
+			return c.json(projects);
 		}
 	)
-	.post(
-		"/",
-		async ({ body, user }) => {
-			try {
-				const createdProject = await insertProject(body.name, body.bookmarked ?? false, user.id);
+	.post("/", zValidator("json", projectEditableDtoSchema), async (c) => {
+		try {
+			const body = c.req.valid("json");
+			const user = c.get("user");
 
-				return status(201, createdProject);
-			} catch (error) {
-				console.error("Failed to create project", error);
-				return status(500, { error: "Failed to create project" });
-			}
-		},
-		{
-			auth: true,
-			body: projectEditableDtoSchema,
-		}
-	)
-	.put(
-		"/:id",
-		async ({ params, body }) => {
-			try {
-				const updatedProject = await updateProject(params.id, body.name, body.bookmarked ?? false);
+			const createdProject = await insertProject(body.name, body.bookmarked ?? false, user.id);
 
-				return updatedProject ? status(200, updatedProject) : status(404, { error: "Project not found" });
-			} catch (error) {
-				console.error("Failed to update project", error);
-				return status(500, { error: "Failed to update project" });
-			}
-		},
-		{
-			auth: true,
-			params: t.Object({
-				id: t.Number({ minimum: 1 }),
-			}),
-			body: projectEditableDtoSchema,
+			return c.json(createdProject, 201);
+		} catch (error) {
+			console.error("Failed to create project", error);
+			return c.json({ error: "Failed to create project" }, 500);
 		}
-	);
+	})
+	.put("/:id", zValidator("param", byIdParamsSchema), zValidator("json", projectEditableDtoSchema), async (c) => {
+		try {
+			const { id } = c.req.valid("param");
+			const body = c.req.valid("json");
+
+			const updatedProject = await updateProject(id, body.name, body.bookmarked ?? false);
+
+			if (!updatedProject) {
+				return c.json({ error: "Project not found" }, 404);
+			}
+
+			return c.json(updatedProject);
+		} catch (error) {
+			console.error("Failed to update project", error);
+			return c.json({ error: "Failed to update project" }, 500);
+		}
+	});

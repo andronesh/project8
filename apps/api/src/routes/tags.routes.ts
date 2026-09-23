@@ -1,75 +1,82 @@
-import { deleteTag, getAllTagsAsTree, insertTag, searchTagsByName, updateTag } from "@project8/domain/daos/tagsDAO";
-import { tagEditableDtoSchema } from "@project8/domain/types";
-import { Elysia, t, status } from "elysia";
-import { authPlugin } from "../plugins/auth.plugin";
+import { Hono } from "hono";
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
 
-export const tagsRoutes = new Elysia({ prefix: "/tags" })
-	.use(authPlugin)
+import { deleteTag, getAllTagsAsTree, insertTag, searchTagsByName, updateTag } from "@project8/domain/daos/tagsDAO";
+
+import { tagEditableDtoSchema } from "@project8/domain/types";
+
+import { authMiddleware } from "../middleware/auth.middleware";
+
+const byIdParamsSchema = z.object({
+	id: z.coerce.number().int().min(1),
+});
+
+export const tagsRoutes = new Hono<{
+	Variables: {
+		user: {
+			id: string;
+		};
+	};
+}>()
+	.use("*", authMiddleware)
 	.get(
 		"/",
-		async ({ query: { name } }) => {
+		zValidator(
+			"query",
+			z.object({
+				name: z.string().optional(),
+			})
+		),
+		async (c) => {
+			const { name } = c.req.valid("query");
 			const sanitisedName = name?.trim() || "";
 
-			return sanitisedName ? await searchTagsByName(sanitisedName) : await getAllTagsAsTree();
-		},
-		{
-			auth: true,
-			query: t.Object({
-				name: t.Optional(t.String()),
-			}),
-		}
-	)
-	.post(
-		"/",
-		async ({ body, user }) => {
-			try {
-				const createdTag = await insertTag(body, user.id);
-				return status(201, createdTag);
-			} catch (error) {
-				console.error("Failed to create tag", error);
-				return status(500, { error: "Failed to create tag" });
-			}
-		},
-		{
-			auth: true,
-			body: tagEditableDtoSchema,
-		}
-	)
-	.put(
-		"/:id",
-		async ({ params, body }) => {
-			try {
-				const updatedTag = await updateTag(params.id, body);
+			const tags = sanitisedName ? await searchTagsByName(sanitisedName) : await getAllTagsAsTree();
 
-				return updatedTag ? status(200, updatedTag) : status(404, { error: "Tag not found" });
-			} catch (error) {
-				console.error("Failed to update tag", error);
-				return status(500, { error: "Failed to update tag" });
-			}
-		},
-		{
-			auth: true,
-			params: t.Object({
-				id: t.Number({ minimum: 1 }),
-			}),
-			body: tagEditableDtoSchema,
+			return c.json(tags);
 		}
 	)
-	.delete(
-		"/:id",
-		async ({ params, user }) => {
-			try {
-				await deleteTag(params.id, user.id);
-				return status(200, {});
-			} catch (error) {
-				console.error("Failed to delete tag", error);
-				return status(500, { error: "Failed to delete tag" });
-			}
-		},
-		{
-			auth: true,
-			params: t.Object({
-				id: t.Number({ minimum: 1 }),
-			}),
+	.post("/", zValidator("json", tagEditableDtoSchema), async (c) => {
+		try {
+			const body = c.req.valid("json");
+			const user = c.get("user");
+
+			const createdTag = await insertTag(body, user.id);
+
+			return c.json(createdTag, 201);
+		} catch (error) {
+			console.error("Failed to create tag", error);
+			return c.json({ error: "Failed to create tag" }, 500);
 		}
-	);
+	})
+	.put("/:id", zValidator("param", byIdParamsSchema), zValidator("json", tagEditableDtoSchema), async (c) => {
+		try {
+			const { id } = c.req.valid("param");
+			const body = c.req.valid("json");
+
+			const updatedTag = await updateTag(id, body);
+
+			if (!updatedTag) {
+				return c.json({ error: "Tag not found" }, 404);
+			}
+
+			return c.json(updatedTag);
+		} catch (error) {
+			console.error("Failed to update tag", error);
+			return c.json({ error: "Failed to update tag" }, 500);
+		}
+	})
+	.delete("/:id", zValidator("param", byIdParamsSchema), async (c) => {
+		try {
+			const { id } = c.req.valid("param");
+			const user = c.get("user");
+
+			await deleteTag(id, user.id);
+
+			return c.json({});
+		} catch (error) {
+			console.error("Failed to delete tag", error);
+			return c.json({ error: "Failed to delete tag" }, 500);
+		}
+	});

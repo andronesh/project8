@@ -5,10 +5,16 @@ export const useBookmarkedProjectsQuery = () =>
 	useQuery({
 		queryKey: ["projects", { bookmarked: true }],
 		queryFn: async () => {
-			const { data, error } = await apiClient.api.projects.get({
-				query: { bookmarked: true },
+			const response = await apiClient.api.projects.$get({
+				query: {
+					bookmarked: "true",
+				},
 			});
-			if (error) throw error;
-			return data;
+
+			if (!response.ok) {
+				throw new Error("Failed to fetch bookmarked projects");
+			}
+
+			return response.json();
 		},
 	});

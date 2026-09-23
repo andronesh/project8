@@ -24,32 +24,46 @@ export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
 
 	const handleFormSubmit = async (event: FormEvent) => {
 		event.preventDefault();
-		if (!formData.name) {
+		if (!formData.name?.trim()) {
 			window.alert("Project name should not be empty!"); // TODO: properly handle validation
 			return;
 		}
 		setIsSubmitting(true);
-		const actionPromise = project
-			? apiClient.api.projects({ id: project.id }).put({
-					name: formData.name!,
-					bookmarked: formData.bookmarked,
-				})
-			: apiClient.api.projects.post({
-					name: formData.name!,
-					bookmarked: formData.bookmarked,
-				});
 
-		const { data, error } = await actionPromise;
+		try {
+			const response = project
+				? await apiClient.api.projects[":id"].$put({
+						param: {
+							id: String(project.id),
+						},
+						json: {
+							name: formData.name,
+							bookmarked: formData.bookmarked,
+						},
+					})
+				: await apiClient.api.projects.$post({
+						json: {
+							name: formData.name,
+							bookmarked: formData.bookmarked,
+						},
+					});
 
-		if (data) {
-			setIsSubmitting(false);
+			if (!response.ok) {
+				const error = await response.json();
+
+				console.error("Failed to submit project form", error);
+				window.alert("error" in error ? error.error : "Failed to save project");
+				return; // TODO rethrow ApiError
+			}
+
+			const data = await response.json();
+
 			onDone();
-		}
-
-		if (error) {
+		} catch (error) {
 			console.error("Failed to submit project form", error);
-			setIsSubmitting(false);
 			window.alert(JSON.stringify(error)); // TODO: properly handle error
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 

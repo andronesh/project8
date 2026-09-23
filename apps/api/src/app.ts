@@ -1,11 +1,15 @@
-import { cors } from "@elysiajs/cors";
-import { Elysia } from "elysia";
+import { cors } from "hono/cors";
+import { Hono } from "hono";
 
 import { auth } from "./utils/auth";
-
 import { projectsRoutes } from "./routes/projects.routes";
 import { tagsRoutes } from "./routes/tags.routes";
 import { linksRoutes } from "./routes/links.routes";
+
+export type AppVariables = {
+	user: typeof auth.$Infer.Session.user;
+	session: typeof auth.$Infer.Session.session;
+};
 
 const allowedOriginsString = process.env.ALLOWED_ORIGINS || "";
 
@@ -14,22 +18,31 @@ const allowedOrigins = allowedOriginsString
 	.map((origin) => origin.trim())
 	.filter(Boolean);
 
-export const app = new Elysia({ prefix: "/api" })
-	.use(
-		cors({
-			origin: ({ headers }) => {
-				const originHeader = headers.get("origin");
+const baseApp = new Hono<{
+	Variables: AppVariables;
+}>().basePath("/api");
 
-				return originHeader !== null && allowedOrigins.includes(originHeader);
+export const app = baseApp
+	.use(
+		"*",
+		cors({
+			origin: (origin) => {
+				if (!origin) {
+					return undefined;
+				}
+
+				return allowedOrigins.includes(origin) ? origin : undefined;
 			},
-			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			allowHeaders: ["Content-Type", "Authorization"],
 			credentials: true,
-			allowedHeaders: ["Content-Type", "Authorization"],
 		})
 	)
-	.mount(auth.handler)
-	.use(projectsRoutes)
-	.use(tagsRoutes)
-	.use(linksRoutes);
+	.on(["GET", "POST"], "/auth/*", (c) => {
+		return auth.handler(c.req.raw);
+	})
+	.route("/projects", projectsRoutes)
+	.route("/tags", tagsRoutes)
+	.route("/links", linksRoutes);
 
 export type ServerApp = typeof app;

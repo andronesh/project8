@@ -1,5 +1,5 @@
+import { z } from "zod";
 import { issues } from "./database/schema";
-import { Static, t } from "elysia";
 
 export type Project = {
 	id: number;
@@ -7,29 +7,32 @@ export type Project = {
 	bookmarked: boolean;
 };
 
-export const tagEditableDtoSchema = t.Object({
-	name: t.String({ pattern: ".*\\S.*", message: "Tag name should not be empty" }),
-	comment: t.Optional(t.MaybeEmpty(t.String())),
-	parentId: t.Optional(t.MaybeEmpty(t.Number({ minimum: 1 }))),
+export const tagEditableDtoSchema = z.object({
+	name: z.string().refine((value) => value.trim().length > 0, "Tag name should not be empty"),
+	comment: z.string().nullable().optional(),
+	parentId: z.number().int().min(1).nullable().optional(),
 });
 
-export type TagEditableDto = Static<typeof tagEditableDtoSchema>;
+export type TagEditableDto = z.infer<typeof tagEditableDtoSchema>;
 
 export type Tag = TagEditableDto & {
 	id: number;
 };
 
-export type TagNode = Tag & { children?: TagNode[] };
+export type TagNode = Tag & {
+	children?: TagNode[];
+};
 
-export const linkEditableDtoSchema = t.Object({
-	url: t.String({ pattern: ".*\\S.*", message: "Link URL should not be empty" }),
-	title: t.Optional(t.MaybeEmpty(t.String())),
-	faviconUrl: t.Optional(t.MaybeEmpty(t.String())),
-	thumbnailUrl: t.Optional(t.MaybeEmpty(t.String())),
-	description: t.Optional(t.MaybeEmpty(t.String())),
-	comment: t.Optional(t.MaybeEmpty(t.String())),
+export const linkEditableDtoSchema = z.object({
+	url: z.string().refine((value) => value.trim().length > 0, "Link URL should not be empty"),
+	title: z.string().nullable().optional(), // TODO: now it's nullable because of drizzle, validate needness after refactor
+	faviconUrl: z.string().nullable().optional(),
+	thumbnailUrl: z.string().nullable().optional(),
+	description: z.string().nullable().optional(),
+	comment: z.string().nullable().optional(),
 });
-export type LinkEditableDto = Static<typeof linkEditableDtoSchema>;
+
+export type LinkEditableDto = z.infer<typeof linkEditableDtoSchema>;
 
 export type Link = LinkEditableDto & {
 	id: number;
