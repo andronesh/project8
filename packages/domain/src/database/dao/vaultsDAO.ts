@@ -38,3 +38,12 @@ export const getAllVaults = async (): Promise<Vault[]> => {
 export const getVaultByToken = async (token: string): Promise<Vault | undefined> => {
 	return (await db.select().from(vaults).where(eq(vaults.token, token))).pop();
 };
+
+export const getVaultById = async (id: number): Promise<Vault | undefined> => {
+	return await db
+		.select()
+		.from(vaults)
+		.where(eq(vaults.id, id))
+		.limit(1)
+		.then((result) => result[0]);
+};

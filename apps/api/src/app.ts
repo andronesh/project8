@@ -7,6 +7,9 @@ import { sectionsRoutes } from "./routes/sections.routes";
 import { issuesRoutes } from "./routes/issues.routes";
 import { tagsRoutes } from "./routes/tags.routes";
 import { linksRoutes } from "./routes/links.routes";
+import { vaultsRoutes } from "./routes/vaults.routes";
+import { emailsRoutes } from "./routes/emails.routes";
+import { tiktokLinksRoutes } from "./routes/tiktok-links.routes";
 
 export type AppVariables = {
 	user: typeof auth.$Infer.Session.user;
@@ -47,6 +50,9 @@ export const app = baseApp
 	.route("/sections", sectionsRoutes)
 	.route("/issues", issuesRoutes)
 	.route("/tags", tagsRoutes)
-	.route("/links", linksRoutes);
+	.route("/links", linksRoutes)
+	.route("/vaults", vaultsRoutes)
+	.route("/emails", emailsRoutes)
+	.route("/tiktok/links", tiktokLinksRoutes);
 
 export type ServerApp = typeof app;
