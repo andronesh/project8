@@ -32,3 +32,12 @@ export async function updateSectionTitle(id: number, title: string): Promise<Sec
 export const getSectionsForProject = async (projectId: number): Promise<Section[]> => {
 	return await db.select().from(sections).where(eq(sections.projectId, projectId)).orderBy(sections.position);
 };
+
+export const getSectionById = async (id: number): Promise<Section | undefined> => {
+	return await db
+		.select()
+		.from(sections)
+		.where(eq(sections.id, id))
+		.limit(1)
+		.then((result) => result[0]);
+};

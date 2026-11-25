@@ -121,3 +121,12 @@ export const getIssuesForProjectSection = async (projectId: number, sectionId: n
 export const getIssueChildren = async (parentId: number): Promise<Issue[]> => {
 	return await db.select().from(issues).where(eq(issues.parentId, parentId)).orderBy(issues.createdAt);
 };
+
+export const getIssueById = async (id: number): Promise<Issue | undefined> => {
+	return await db
+		.select()
+		.from(issues)
+		.where(eq(issues.id, id))
+		.limit(1)
+		.then((result) => result[0]);
+};
