@@ -1,3 +1,10 @@
+# Monorepo
+
+## Run API app:
+
+- serve via Next.js `pnpm --filter project8_nextjs dev`
+- serve standalone: `pnpm dev:api` or `pnpm --filter @project8/api dev`
+
 # NextJS app
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
