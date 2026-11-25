@@ -55,6 +55,7 @@ export const tagsRoutes = new Hono<{
 			const { id } = c.req.valid("param");
 			const body = c.req.valid("json");
 
+			// TODO: check if the user has permission to update the tag
 			const updatedTag = await updateTag(id, body);
 
 			if (!updatedTag) {

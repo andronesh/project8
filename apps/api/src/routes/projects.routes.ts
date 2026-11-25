@@ -62,6 +62,7 @@ export const projectsRoutes = new Hono<{
 			const { id } = c.req.valid("param");
 			const body = c.req.valid("json");
 
+			// TODO: check if the user has permission to update the project
 			const updatedProject = await updateProject(id, body.name, body.bookmarked ?? false);
 
 			if (!updatedProject) {
