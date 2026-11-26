@@ -49,7 +49,7 @@ export const vaultsRoutes = new Hono<{
 						return c.json({ error: "Vault not found" }, 404);
 					}
 
-					return c.json(vault);
+					return c.json([vault]);
 				}
 
 				const vaults = await getAllVaults();

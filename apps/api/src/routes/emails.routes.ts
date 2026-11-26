@@ -32,7 +32,7 @@ export const emailsRoutes = new Hono<{
 						return c.json({ error: "Email not found" }, 404);
 					}
 
-					return c.json(email);
+					return c.json([email]);
 				}
 				const emails = await listEmails();
 				return c.json(emails);
