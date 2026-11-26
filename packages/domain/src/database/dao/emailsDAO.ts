@@ -9,7 +9,7 @@ export async function insertEmail(
 	from?: string,
 	subject?: string,
 	body?: string,
-	internalDate?: number,
+	internalDate?: number
 ): Promise<EmailEntity> {
 	const result = await db
 		.insert(emails)
@@ -26,7 +26,8 @@ export async function insertEmail(
 
 export async function findByGmailId(gmailId: string) {
 	const result = await db
-		.select({ id: emails.id, subject: emails.subject, gmailId: emails.gmailId })
+		// .select({ id: emails.id, subject: emails.subject, gmailId: emails.gmailId })
+		.select()
 		.from(emails)
 		.where(eq(emails.gmailId, gmailId));
 

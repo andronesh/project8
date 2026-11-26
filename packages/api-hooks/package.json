@@ -9,7 +9,8 @@
 	},
 	"dependencies": {
 		"@project8/api": "workspace:*",
-		"hono": "^4.13.8"
+		"hono": "^4.13.8",
+		"@tanstack/react-query": "^5.108.4"
 	},
 	"peerDependencies": {
 		"react": "^19.0.0"
