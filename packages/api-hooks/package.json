@@ -1,0 +1,25 @@
+{
+	"name": "@project8/api-hooks",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"format": "prettier --write \"**/*.{ts,tsx}\"",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@project8/api": "workspace:*",
+		"hono": "^4.13.8"
+	},
+	"peerDependencies": {
+		"react": "^19.0.0"
+	},
+	"devDependencies": {
+		"@types/react": "~19.2.10",
+		"react": "19.2.0",
+		"typescript": "~5.9.2"
+	},
+	"exports": {
+		".": "./src/index.ts"
+	}
+}

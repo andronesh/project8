@@ -15,6 +15,7 @@
 	"dependencies": {
 		"@project8/domain": "workspace:*",
 		"@project8/api": "workspace:*",
+		"@project8/api-hooks": "workspace:*",
 		"@better-auth/expo": "^1.4.9",
 		"@headlessui/react": "^2.2.9",
 		"@hello-pangea/dnd": "^18.0.1",

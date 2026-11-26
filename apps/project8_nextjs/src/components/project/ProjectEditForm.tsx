@@ -2,7 +2,7 @@ import { Project } from "@project8/domain/types";
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputCheckbox from "../common/form/InputCheckbox";
-import { apiClient } from "@/clients/apiClient";
+import { useApiClient } from "@project8/api-hooks";
 
 type Props = {
 	project: Project | undefined;
@@ -11,6 +11,8 @@ type Props = {
 };
 
 export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
+	const apiClient = useApiClient();
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
 		id: project?.id.toString(),

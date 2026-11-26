@@ -223,6 +223,9 @@ importers:
       '@project8/api':
         specifier: workspace:*
         version: link:../api
+      '@project8/api-hooks':
+        specifier: workspace:*
+        version: link:../../packages/api-hooks
       '@project8/domain':
         specifier: workspace:*
         version: link:../../packages/domain
@@ -301,6 +304,25 @@ importers:
         version: 1.4.0
       typescript:
         specifier: ^5
+        version: 5.9.3
+
+  packages/api-hooks:
+    dependencies:
+      '@project8/api':
+        specifier: workspace:*
+        version: link:../../apps/api
+      hono:
+        specifier: ^4.13.8
+        version: 4.13.8
+    devDependencies:
+      '@types/react':
+        specifier: ~19.2.10
+        version: 19.2.18
+      react:
+        specifier: 19.2.0
+        version: 19.2.0
+      typescript:
+        specifier: ~5.9.2
         version: 5.9.3
 
   packages/domain:

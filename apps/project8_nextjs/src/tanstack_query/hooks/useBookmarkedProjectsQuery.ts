@@ -1,8 +1,10 @@
-import { apiClient } from "@/clients/apiClient";
+import { useApiClient } from "@project8/api-hooks";
 import { useQuery } from "@tanstack/react-query";
 
-export const useBookmarkedProjectsQuery = () =>
-	useQuery({
+export function useBookmarkedProjectsQuery() {
+	const apiClient = useApiClient();
+
+	return useQuery({
 		queryKey: ["projects", { bookmarked: true }],
 		queryFn: async () => {
 			const response = await apiClient.api.projects.$get({
@@ -18,3 +20,4 @@ export const useBookmarkedProjectsQuery = () =>
 			return response.json();
 		},
 	});
+}
