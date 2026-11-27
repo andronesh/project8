@@ -5,7 +5,6 @@ import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
 import SectionColumnDroppable, { SectionViewModel } from "@/components/section/SectionColumnDroppable";
 import SectionEditForm from "@/components/section/SectionEditForm";
-import { getSectionsForProject } from "@project8/domain/daos/sectionsDAO";
 import { Issue, Section } from "@project8/domain/types";
 import { useEffect, useState, use } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
@@ -74,6 +73,19 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 			createdAt: new Date(issue.createdAt),
 			updatedAt: issue.updatedAt ? new Date(issue.updatedAt) : null,
 		}));
+	};
+
+	const getSectionsForProject = async (projectId: number) => {
+		const response = await apiClient.api.sections.$get({
+			query: { projectId: String(projectId) },
+		});
+
+		if (!response.ok) {
+			console.error("Failed to fetch sections for project with id=" + projectId);
+			throw new Error("Failed to fetch sections for project with id=" + projectId);
+		}
+
+		return response.json();
 	};
 
 	const fetchSections = () => {
