@@ -19,10 +19,7 @@ function normalizeIssue<T extends { createdAt: string | Date; updatedAt: string 
 
 function invalidateIssueQueries(queryClient: ReturnType<typeof useQueryClient>) {
 	// TODO invalidate only the queries that are affected by the mutation, instead of invalidating all issue-related queries
-	return Promise.all([
-		queryClient.invalidateQueries({ queryKey: ["sectionIssues"] }),
-		queryClient.invalidateQueries({ queryKey: ["issueChildren"] }),
-	]);
+	return queryClient.invalidateQueries({ queryKey: ["issues"] });
 }
 
 export function useCreateIssueMutation() {

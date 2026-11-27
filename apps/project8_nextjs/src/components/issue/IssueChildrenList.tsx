@@ -1,6 +1,6 @@
 import IssueCompact from "./IssueCompact";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useIssueChildren } from "@project8/api-hooks/hooks/useIssueChildren";
+import { useIssuesByParent } from "@project8/api-hooks/hooks/useIssuesQueries";
 import { Issue } from "@project8/domain/types";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function IssueChildrenList(props: Props) {
-	const { data, isFetching, isError } = useIssueChildren(props.parentId);
+	const { data, isFetching, isError } = useIssuesByParent(props.parentId);
 
 	if (isFetching) {
 		return <LoadingSpinner className="my-2 flex h-8 justify-center" />;

@@ -70,6 +70,10 @@ export const issuesRoutes = new Hono<{
 				return c.json(children);
 			}
 
+			if (projectId === undefined) {
+				return c.json({ error: "projectId query parameter is required when parentId is not provided" }, 400);
+			}
+
 			const issuesList =
 				sectionId !== undefined
 					? await getIssuesForProjectSection(projectId!, sectionId)

@@ -4,39 +4,24 @@ import { Project } from "@project8/domain/types";
 import { Fragment, useEffect, useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import { Issue } from "@project8/domain/types";
-import { getIssuesForProject } from "@project8/domain/daos/issuesDAO";
 import IssueCompact from "./IssueCompact";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { Dialog, Transition } from "@headlessui/react";
 import PlusIcon from "../common/icons/PlusIcon";
+import { useIssuesByProject } from "@project8/api-hooks/hooks/useIssuesQueries";
 
 type Props = {
 	project: Project;
 };
 
 export default function IssuesPanel({ project }: Props) {
-	const [isLoading, setIsLoading] = useState(false);
-	const [issues, setIssues] = useState<Issue[]>([]);
+	const { data: issues, isFetching, isError } = useIssuesByProject(project.id);
 	const [selectedIssue, selectIssue] = useState<Issue>();
 	const [editFormVisible, setEditFormVisible] = useState(false);
 
 	useEffect(() => {
-		refreshIssuesList();
-	}, [project]);
-
-	// TODO move to more safe place
-	const refreshIssuesList = () => {
-		setIsLoading(true);
 		setEditFormVisible(false);
-		getIssuesForProject(project.id)
-			.then((result) => {
-				setIssues(result);
-			})
-			.catch((error) => {
-				console.error(`Failed to get issues for "${project.name}"`, error);
-			})
-			.finally(() => setIsLoading(false));
-	};
+	}, [project]);
 
 	const initIssueCreation = () => {
 		selectIssue(undefined);
@@ -57,8 +42,8 @@ export default function IssuesPanel({ project }: Props) {
 					<PlusIcon />
 					<p className="pl-2 text-lg">New Issue</p>
 				</div>
-				{isLoading && <LoadingSpinner className="my-5 px-20" />}
-				{!isLoading &&
+				{isFetching && <LoadingSpinner className="my-5 px-20" />}
+				{!isFetching &&
 					issues?.map((issue: Issue) => (
 						<IssueCompact
 							key={issue.id}
@@ -101,8 +86,8 @@ export default function IssuesPanel({ project }: Props) {
 									<IssueEditForm
 										projectId={project.id}
 										issue={selectedIssue}
-										onSaved={refreshIssuesList}
-										onRemoved={refreshIssuesList}
+										onSaved={cancelEditForm}
+										onRemoved={cancelEditForm}
 										onCancel={cancelEditForm}
 									/>
 								</Dialog.Panel>

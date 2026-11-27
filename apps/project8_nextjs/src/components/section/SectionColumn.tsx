@@ -4,7 +4,7 @@ import { Issue, Section } from "@project8/domain/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import PlusIcon from "../common/icons/PlusIcon";
 import IssueCompact from "../issue/IssueCompact";
-import { useSectionIssues } from "@project8/api-hooks/hooks/useSectionIssues";
+import { useIssuesByProjectSection } from "@project8/api-hooks/hooks/useIssuesQueries";
 
 type Props = {
 	projectId: number;
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function SectionColumn(props: Props) {
-	const { data, isFetching, isError } = useSectionIssues(props.projectId, props.section ? props.section.id : null);
+	const { data, isFetching, isError } = useIssuesByProjectSection(props.projectId, props.section ? props.section.id : null);
 
 	return (
 		<>

@@ -5,12 +5,13 @@ import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
 import SectionColumnDroppable, { SectionViewModel } from "@/components/section/SectionColumnDroppable";
 import SectionEditForm from "@/components/section/SectionEditForm";
-import { getIssuesForProjectSection, updateIssuePosition } from "@project8/domain/daos/issuesDAO";
+import { updateIssuePosition } from "@project8/domain/daos/issuesDAO";
 import { getSectionsForProject } from "@project8/domain/daos/sectionsDAO";
 import { Issue, Section } from "@project8/domain/types";
 import { useEffect, useState, use } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import IssueDetailed from "@/components/issue/IssueDetailed";
+import { useApiClient } from "@project8/api-hooks";
 
 const generateSectionViewModel = (entity?: Section): SectionViewModel => {
 	return {
@@ -39,6 +40,8 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 	const [sectionUA, setSectionUA] = useState<Section | undefined>(); // UA = Under Action
 	const [issueUA, setIssueUA] = useState<Issue | undefined>(); // UA = Under Action
 
+	const apiClient = useApiClient();
+
 	useEffect(() => {
 		fetchSections();
 	}, []);
@@ -53,6 +56,24 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 			setSections(newState);
 		}
 	}, [fetchIssuesTrigger]);
+
+	const getIssuesForProjectSection = async (projectId: number, sectionId: number | null) => {
+		const response = await apiClient.api.issues.$get({
+			query: { projectId: String(projectId), sectionId: String(sectionId) },
+		});
+
+		if (!response.ok) {
+			console.error("Failed to fetch issues for section with id=" + sectionId + " in project with id=" + projectId);
+			throw new Error("Failed to fetch issues for section with id=" + sectionId + " in project with id=" + projectId);
+		}
+
+		// TODO: use propper DTO via Honojs InferResponseType
+		return (await response.json()).map((issue) => ({
+			...issue,
+			createdAt: new Date(issue.createdAt),
+			updatedAt: issue.updatedAt ? new Date(issue.updatedAt) : null,
+		}));
+	};
 
 	const fetchSections = () => {
 		getSectionsForProject(params.id)
