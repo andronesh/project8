@@ -5,13 +5,13 @@ import { Fragment, useState } from "react";
 import PlusIcon from "../common/icons/PlusIcon";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useAllVaultsQuery } from "@project8/api-hooks/hooks/useAllVaultsQuery";
-import { Vault } from "@project8/domain/daos/vaultsDAO";
+import { VaultDto } from "@project8/api-hooks/types";
 import VaultEditForm from "./VaultEditForm";
 import VaultInfoCompact from "./VaultDetailsCompact";
 import VaultDetailsPanel from "./VaultDetailsPanel";
 
 export default function VaultsPanel() {
-	const [selectedVault, selectVault] = useState<Vault>();
+	const [selectedVault, selectVault] = useState<VaultDto>();
 	const [isEditFormOpen, setEditFormOpen] = useState(false);
 
 	const { data, isFetching, isError } = useAllVaultsQuery();
@@ -25,7 +25,7 @@ export default function VaultsPanel() {
 		setEditFormOpen(true);
 	};
 
-	const showEditForm = (vault: Vault) => {
+	const showEditForm = (vault: VaultDto) => {
 		selectVault(vault);
 		setEditFormOpen(true);
 	};
@@ -55,7 +55,7 @@ export default function VaultsPanel() {
 							<LoadingSpinner className="flex w-3/4 justify-around" />
 						</div>
 					)}
-					{data?.map((vault: Vault) => (
+					{data?.map((vault: VaultDto) => (
 						<VaultInfoCompact
 							key={vault.id}
 							vault={vault}

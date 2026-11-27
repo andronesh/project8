@@ -13,12 +13,7 @@ export function useAllVaultsQuery() {
 				throw new Error("Failed to fetch all vaults");
 			}
 
-			// TODO: use propper DTO via Honojs InferResponseType
-			return (await response.json()).map((vault) => ({
-				...vault,
-				createdAt: new Date(vault.createdAt),
-				updatedAt: vault.updatedAt ? new Date(vault.updatedAt) : null,
-			}));
+			return response.json();
 		},
 	});
 }

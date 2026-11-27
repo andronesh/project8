@@ -1,11 +1,11 @@
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
-import { Vault } from "@project8/domain/daos/vaultsDAO";
+import { VaultDto } from "@project8/api-hooks/types";
 import { useCreateVaultMutation, useUpdateVaultMutation } from "@project8/api-hooks/hooks/useVaultMutations";
 import { v4 } from "uuid";
 
 type Props = {
-	vault: Vault | undefined;
+	vault: VaultDto | undefined;
 	onCancel: () => void;
 	onDone: () => void;
 };

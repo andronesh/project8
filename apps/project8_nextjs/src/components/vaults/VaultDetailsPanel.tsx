@@ -1,7 +1,7 @@
-import { Vault } from "@project8/domain/daos/vaultsDAO";
+import { VaultDto } from "@project8/api-hooks/types";
 
 type Props = {
-	vault: Vault;
+	vault: VaultDto;
 	onEdit: () => void;
 	className?: string;
 };
