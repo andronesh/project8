@@ -1,7 +1,10 @@
-import { deleteIssue } from "@project8/domain/daos/issuesDAO";
-import { createIssue, updateIssue } from "@/server-actions/issuesActions";
+import {
+	useCreateIssueMutation,
+	useDeleteIssueMutation,
+	useUpdateIssueMutation,
+} from "@project8/api-hooks/hooks/useIssueMutations";
 import { Issue, IssueStatus, IssueType, Section } from "@project8/domain/types";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputSelectorLabeled from "../common/form/InputSelectorLabeled";
 import InputTextareaLabeled from "../common/form/InputTextareaLabeled";
@@ -38,7 +41,12 @@ const deriveIssueStatus = (issue: Issue | undefined, parent: Issue | undefined):
 };
 
 export default function IssueEditForm(props: Props) {
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const createIssueMutation = useCreateIssueMutation();
+	const updateIssueMutation = useUpdateIssueMutation();
+	const deleteIssueMutation = useDeleteIssueMutation();
+	const isSaving = createIssueMutation.isPending || updateIssueMutation.isPending;
+	const isSubmitting = isSaving || deleteIssueMutation.isPending;
+
 	const [formData, setFormData] = useState({
 		id: props.issue?.id.toString(),
 		type: deriveIssueType(props.issue, props.parent),
@@ -50,46 +58,49 @@ export default function IssueEditForm(props: Props) {
 
 	const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-	const saveIssue = async () => {
-		setIsSubmitting(true);
-		try {
-			const savedIssue = props.issue
-				? await updateIssue(
-						props.issue.id,
-						formData.type,
-						formData.status,
-						formData.title!,
-						formData.description ? formData.description : null
-					)
-				: await createIssue(
-						formData.type,
-						formData.status,
-						formData.title!,
-						formData.description ? formData.description : null,
-						formData.projectId,
-						props.section,
-						props.parent
-					);
-			setIsSubmitting(false);
-			props.onSaved(savedIssue);
-		} catch (error) {
-			setIsSubmitting(false);
-			window.alert(error);
+	const handleFormSubmit = (event: FormEvent) => {
+		event.preventDefault();
+		const title = formData.title.trim();
+		if (!title) {
+			window.alert("Issue title should not be empty!"); // TODO: properly handle validation
+			return;
+		}
+
+		const sharedPayload = {
+			type: formData.type,
+			status: formData.status,
+			title,
+			description: formData.description ? formData.description : null,
+		};
+		const callbacks = {
+			onSuccess: (savedIssue: Issue) => props.onSaved(savedIssue),
+			onError: (error: Error) => window.alert(error.message),
+		};
+
+		if (props.issue) {
+			updateIssueMutation.mutate({ id: props.issue.id, ...sharedPayload }, callbacks);
+		} else {
+			createIssueMutation.mutate(
+				{
+					...sharedPayload,
+					projectId: Number(formData.projectId),
+					sectionId: props.section?.id ?? null,
+					parentId: props.parent?.id ?? null,
+				},
+				callbacks
+			);
 		}
 	};
 
-	const removeIssue = async () => {
-		if (props.issue) {
-			setIsSubmitting(true);
-			try {
-				await deleteIssue(props.issue.id);
-				setIsSubmitting(false);
-				props.onRemoved();
-			} catch (error) {
-				setIsSubmitting(false);
-				window.alert(error);
-			}
+	const removeIssue = () => {
+		if (!props.issue) {
+			return;
 		}
+
+		deleteIssueMutation.mutate(props.issue.id, {
+			onSuccess: () => props.onRemoved(),
+			onError: (error: Error) => window.alert(error.message),
+		});
 	};
 
 	return (
@@ -99,7 +110,7 @@ export default function IssueEditForm(props: Props) {
 					<LoadingSpinner className="flex w-3/4 justify-around" />
 				</div>
 			)}
-			<div className="space-y-4">
+			<form className="space-y-4" onSubmit={handleFormSubmit}>
 				<input type="text" id="id" name="id" value={formData.id} className="hidden" readOnly />
 				<input type="text" id="projectId" name="projectId" value={formData.projectId} className="hidden" readOnly />
 				<InputTextLabeled
@@ -108,6 +119,7 @@ export default function IssueEditForm(props: Props) {
 					value={formData.title}
 					placeholder={"Init git repo"}
 					onChange={handleChange}
+					disabled={isSubmitting}
 				/>
 				<div className="flex flex-row justify-evenly">
 					<InputSelectorLabeled
@@ -137,27 +149,32 @@ export default function IssueEditForm(props: Props) {
 				/>
 				<div className="flex flex-row justify-evenly">
 					<button
-						className="hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white hover:cursor-pointer"
+						type="button"
+						className="hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white hover:cursor-pointer disabled:text-gray-400 disabled:hover:bg-transparent"
 						onClick={props.onCancel}
+						disabled={isSubmitting}
 					>
 						Cancel
 					</button>
 					{props.issue && (
 						<button
-							className="flex rounded-sm px-4 py-2 font-bold text-red-400 hover:cursor-pointer hover:bg-red-700 hover:text-white"
+							type="button"
+							className="flex rounded-sm px-4 py-2 font-bold text-red-400 hover:cursor-pointer hover:bg-red-700 hover:text-white disabled:text-red-900 disabled:hover:bg-transparent"
 							onClick={removeIssue}
+							disabled={isSubmitting}
 						>
-							Delete
+							{deleteIssueMutation.isPending ? "Deleting..." : "Delete"}
 						</button>
 					)}
 					<button
-						className="bg-primary hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white hover:cursor-pointer"
-						onClick={saveIssue}
+						type="submit"
+						className="bg-primary hover:bg-accent flex rounded-sm px-4 py-2 font-bold text-white hover:cursor-pointer disabled:bg-blue-900 disabled:text-gray-400 disabled:hover:bg-blue-900"
+						disabled={isSubmitting}
 					>
-						Save
+						{isSaving ? "Saving..." : "Save"}
 					</button>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 }

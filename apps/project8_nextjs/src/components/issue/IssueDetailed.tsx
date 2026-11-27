@@ -2,8 +2,6 @@ import { Issue } from "@project8/domain/types";
 import { useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import IssueChildrenList from "./IssueChildrenList";
-import { useQueryClient } from "@tanstack/react-query";
-import { issueChildrenQuery } from "@project8/api-hooks/keys";
 
 type Props = {
 	issue: Issue;
@@ -13,16 +11,8 @@ type Props = {
 };
 
 export default function IssueDetailed(props: Props) {
-	const queryClient = useQueryClient();
-
 	const [childIssueEditFromVisible, setChildIssueEditFromVisible] = useState(false);
 	const [childIssueUA, setChildIssueUA] = useState<Issue>();
-
-	const refetchChildrenIssues = () => {
-		queryClient.invalidateQueries({
-			queryKey: issueChildrenQuery(props.issue.id),
-		});
-	};
 
 	const initChildCreation = () => {
 		setChildIssueUA(undefined);
@@ -76,13 +66,11 @@ export default function IssueDetailed(props: Props) {
 						projectId={props.issue.projectId}
 						issue={childIssueUA}
 						parent={props.issue}
-						onSaved={(issue: Issue) => {
+						onSaved={() => {
 							hideChildEditForm();
-							refetchChildrenIssues();
 						}}
 						onRemoved={() => {
 							hideChildEditForm();
-							refetchChildrenIssues();
 						}}
 						onCancel={hideChildEditForm}
 					/>
