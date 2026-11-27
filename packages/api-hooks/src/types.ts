@@ -3,3 +3,4 @@ import type { InferResponseType } from "hono/client";
 
 export type VaultDto = InferResponseType<ApiClient["api"]["vaults"]["$get"], 200>[number];
 export type TiktokLinkDto = InferResponseType<ApiClient["api"]["tiktok"]["links"]["$get"], 200>[number];
+export type EmailDto = InferResponseType<ApiClient["api"]["emails"]["$get"], 200>[number];

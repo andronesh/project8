@@ -8,7 +8,7 @@ import EmailDetailsPanel from "./EmailDetailsPanel";
 import { useSearchParams } from "next/navigation";
 import GoogleAuthStatus from "./GoogleAuthStatus";
 import { fetchAndSaveEmails } from "@/services/gmailParser";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@project8/api-hooks";
 import DownloadFromCloudIcon from "../common/icons/DownloadFromCloudIcon";
 
 export default function EmailsPanel() {
