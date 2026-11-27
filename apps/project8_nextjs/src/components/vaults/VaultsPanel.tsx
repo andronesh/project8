@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import PlusIcon from "../common/icons/PlusIcon";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useQueryClient } from "@tanstack/react-query";
-import { useAllVaultsQuery } from "@/tanstack_query/hooks/useAllVaultsQuery";
+import { useAllVaultsQuery } from "@project8/api-hooks/hooks/useAllVaultsQuery";
 import { Vault } from "@project8/domain/daos/vaultsDAO";
 import VaultEditForm from "./VaultEditForm";
 import VaultInfoCompact from "./VaultDetailsCompact";

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useEmailsPaginatedQuery } from "@/tanstack_query/hooks/useEmailsPaginatedQuery";
+import { useEmailsPaginatedQuery } from "@project8/api-hooks/hooks/useEmailsPaginatedQuery";
 import { EmailEntity } from "@project8/domain/schema";
 import EmailDetailsPanel from "./EmailDetailsPanel";
 import { useSearchParams } from "next/navigation";

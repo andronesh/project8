@@ -1,6 +1,6 @@
 import IssueCompact from "./IssueCompact";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useIssueChildren } from "@/tanstack_query/hooks/useIssueChildren";
+import { useIssueChildren } from "@project8/api-hooks/hooks/useIssueChildren";
 import { Issue } from "@project8/domain/types";
 
 type Props = {

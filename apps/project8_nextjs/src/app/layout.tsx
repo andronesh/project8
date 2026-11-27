@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NavSidebar from "@/components/common/NavSidebar";
-import TanstackQueryClientProvider from "@/tanstack_query/TanstackQueryClientProvider";
+import ApiHooksConfiguredProvider from "@/utils/ApiHooksConfiguredProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +19,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className + " bg-background text-gray-300"}>
-				<TanstackQueryClientProvider>
+				<ApiHooksConfiguredProvider>
 					<NavSidebar />
 					<div className="h-screen p-2 sm:ml-44">{children}</div>
-				</TanstackQueryClientProvider>
+				</ApiHooksConfiguredProvider>
 			</body>
 		</html>
 	);

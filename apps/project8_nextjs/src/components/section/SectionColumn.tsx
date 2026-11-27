@@ -4,7 +4,7 @@ import { Issue, Section } from "@project8/domain/types";
 import LoadingSpinner from "../common/LoadingSpinner";
 import PlusIcon from "../common/icons/PlusIcon";
 import IssueCompact from "../issue/IssueCompact";
-import { useSectionIssues } from "@/tanstack_query/hooks/useSectionIssues";
+import { useSectionIssues } from "@project8/api-hooks/hooks/useSectionIssues";
 
 type Props = {
 	projectId: number;

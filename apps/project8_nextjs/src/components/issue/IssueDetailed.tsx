@@ -3,7 +3,7 @@ import { useState } from "react";
 import IssueEditForm from "./IssueEditForm";
 import IssueChildrenList from "./IssueChildrenList";
 import { useQueryClient } from "@tanstack/react-query";
-import { issueChildrenQuery } from "@/tanstack_query/keys";
+import { issueChildrenQuery } from "@project8/api-hooks/keys";
 
 type Props = {
 	issue: Issue;

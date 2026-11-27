@@ -6,7 +6,7 @@ import { Fragment, useState } from "react";
 import IssuesPanel from "../issue/IssuesPanel";
 import ProjectEditForm from "./ProjectEditForm";
 import PlusIcon from "../common/icons/PlusIcon";
-import { useAllProjectsQuery } from "@/tanstack_query/hooks/useAllProjectsQuery";
+import { useAllProjectsQuery } from "@project8/api-hooks/hooks/useAllProjectsQuery";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useQueryClient } from "@tanstack/react-query";
 
