@@ -4,10 +4,10 @@ import { useCreateTiktokLinkMutation } from "@project8/api-hooks/hooks/useTiktok
 import { FormEvent, useEffect, useState } from "react";
 import ImagePasteZone from "./ImagePasteZone";
 import InputTextLabeled from "../common/form/InputTextLabeled";
-import { TiktokLink } from "@project8/domain/types";
+import { TiktokLinkDto } from "@project8/api-hooks/types";
 
 type Props = {
-	link?: TiktokLink | undefined;
+	link?: TiktokLinkDto | undefined;
 	onSaved?: () => void;
 	onCancel?: () => void;
 };

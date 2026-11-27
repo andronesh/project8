@@ -1,31 +1,17 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import TiktokLinkEditForm from "./TiktokLinkEditForm";
-import { getTiktokLinks } from "@project8/domain/daos/titoLinksDAO";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { TiktokLink } from "@project8/domain/types";
+import { TiktokLinkDto } from "@project8/api-hooks/types";
+import { useFilteredTiktokLinks } from "@project8/api-hooks/hooks/useTiktokLinkQueries";
 
 export default function LinksPanel() {
-	const [isLoading, setIsLoading] = useState(false);
 	const [recipesOnly, setRecipesOnly] = useState(false);
-	const [linksList, setLinksList] = useState<TiktokLink[]>([]);
 	const [isEditFormOpen, setEditFormOpen] = useState(false);
 
-	useEffect(() => {
-		fetchLinks();
-	}, [recipesOnly]);
-
-	const fetchLinks = () => {
-		setIsLoading(true);
-		getTiktokLinks(recipesOnly)
-			.then(setLinksList)
-			.catch((err) => {
-				console.error("failed to fetch TT links", err);
-			})
-			.finally(() => setIsLoading(false));
-	};
+	const { data: links, isFetching, isError } = useFilteredTiktokLinks(recipesOnly);
 
 	const initLinkCreation = () => {
 		setEditFormOpen(true);
@@ -56,9 +42,10 @@ export default function LinksPanel() {
 						add new
 					</button>
 				</div>
-				{isLoading && <LoadingSpinner className="my-5 px-20" />}
-				{!isLoading &&
-					linksList.map((link: TiktokLink) => (
+				{isFetching && <LoadingSpinner className="my-5 px-20" />}
+				{isError && <div className="rounded-sm bg-red-700 p-2 text-lg text-white">Failed to fetch TikTok links</div>}
+				{!isFetching &&
+					links?.map((link: TiktokLinkDto) => (
 						<div key={link.id} className="m-2">
 							{link.descriptionImage && <img src={link.descriptionImage} />}
 						</div>
@@ -95,7 +82,6 @@ export default function LinksPanel() {
 										onCancel={cancelEditForm}
 										onSaved={() => {
 											// TODO show toast alert
-											fetchLinks();
 											cancelEditForm();
 										}}
 									/>
