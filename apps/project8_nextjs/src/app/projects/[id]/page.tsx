@@ -5,13 +5,13 @@ import PlusIcon from "@/components/common/icons/PlusIcon";
 import IssueEditForm from "@/components/issue/IssueEditForm";
 import SectionColumnDroppable, { SectionViewModel } from "@/components/section/SectionColumnDroppable";
 import SectionEditForm from "@/components/section/SectionEditForm";
-import { updateIssuePosition } from "@project8/domain/daos/issuesDAO";
 import { getSectionsForProject } from "@project8/domain/daos/sectionsDAO";
 import { Issue, Section } from "@project8/domain/types";
 import { useEffect, useState, use } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import IssueDetailed from "@/components/issue/IssueDetailed";
 import { useApiClient } from "@project8/api-hooks";
+import { useUpdateIssuePositionMutation } from "@project8/api-hooks/hooks/useIssueMutations";
 
 const generateSectionViewModel = (entity?: Section): SectionViewModel => {
 	return {
@@ -41,6 +41,7 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 	const [issueUA, setIssueUA] = useState<Issue | undefined>(); // UA = Under Action
 
 	const apiClient = useApiClient();
+	const updateIssuePositionMutation = useUpdateIssuePositionMutation();
 
 	useEffect(() => {
 		fetchSections();
@@ -203,14 +204,19 @@ export default function ProjectPage(props: { params: Promise<{ id: number }> }) 
 	};
 
 	const saveNewIssuePosition = (issueId: number, newPosition: number, section: SectionViewModel) => {
-		updateIssuePosition(
-			issueId,
-			newPosition,
-			section.entity ? section.entity.id : null,
-			section.entity ? section.entity.title : null
-		).then((result) => {
-			// TODO show toast
-		});
+		updateIssuePositionMutation.mutate(
+			{
+				id: issueId,
+				position: newPosition,
+				sectionId: section.entity ? section.entity.id : null,
+			},
+			{
+				onError: (error: Error) => {
+					console.error("Failed to update issue position", error);
+					window.alert(error.message);
+				},
+			}
+		);
 	};
 
 	return (

@@ -9,6 +9,10 @@ export type UpdateIssueInput = InferRequestType<ApiClient["api"]["issues"][":id"
 	id: number;
 };
 
+export type UpdateIssuePositionInput = InferRequestType<ApiClient["api"]["issues"][":id"]["position"]["$patch"]>["json"] & {
+	id: number;
+};
+
 function normalizeIssue<T extends { createdAt: string | Date; updatedAt: string | Date | null }>(issue: T) {
 	return {
 		...issue,
@@ -78,5 +82,26 @@ export function useDeleteIssueMutation() {
 			}
 		},
 		onSuccess: () => invalidateIssueQueries(queryClient),
+	});
+}
+
+export function useUpdateIssuePositionMutation() {
+	const apiClient = useApiClient();
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async ({ id, ...positionData }: UpdateIssuePositionInput) => {
+			const response = await apiClient.api.issues[":id"].position.$patch({
+				param: { id: String(id) },
+				json: positionData,
+			});
+
+			if (!response.ok) {
+				throw new Error(await readApiResponseErrorMessage(response, "Failed to update issue position"));
+			}
+
+			return normalizeIssue(await response.json());
+		},
+		// onSuccess: () => invalidateIssueQueries(queryClient),
 	});
 }
