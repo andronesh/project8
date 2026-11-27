@@ -8,13 +8,11 @@ import ProjectEditForm from "./ProjectEditForm";
 import PlusIcon from "../common/icons/PlusIcon";
 import { useAllProjectsQuery } from "@project8/api-hooks/hooks/useAllProjectsQuery";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useQueryClient } from "@tanstack/react-query";
 
 export default function ProjectsPanel() {
 	const [selectedProject, selectProject] = useState<Project>();
 	const [isEditFormOpen, setEditFormOpen] = useState(false);
 
-	const queryClient = useQueryClient();
 	const { data, isFetching, isError } = useAllProjectsQuery();
 
 	if (isError) {
@@ -37,9 +35,6 @@ export default function ProjectsPanel() {
 
 	const onProjectSaved = () => {
 		setEditFormOpen(false);
-		queryClient.invalidateQueries({
-			queryKey: ["projects"],
-		});
 	};
 
 	return (

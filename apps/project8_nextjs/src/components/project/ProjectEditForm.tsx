@@ -2,7 +2,7 @@ import { Project } from "@project8/domain/types";
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import InputCheckbox from "../common/form/InputCheckbox";
-import { useApiClient } from "@project8/api-hooks";
+import { useCreateProjectMutation, useUpdateProjectMutation } from "@project8/api-hooks/hooks/useProjectMutations";
 
 type Props = {
 	project: Project | undefined;
@@ -11,9 +11,10 @@ type Props = {
 };
 
 export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
-	const apiClient = useApiClient();
+	const createProjectMutation = useCreateProjectMutation();
+	const updateProjectMutation = useUpdateProjectMutation();
+	const isSubmitting = createProjectMutation.isPending || updateProjectMutation.isPending;
 
-	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
 		id: project?.id.toString(),
 		name: project?.name,
@@ -24,48 +25,30 @@ export default function ProjectEditForm({ project, onCancel, onDone }: Props) {
 
 	const handleCheckboxChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.checked });
 
-	const handleFormSubmit = async (event: FormEvent) => {
+	const handleFormSubmit = (event: FormEvent) => {
 		event.preventDefault();
-		if (!formData.name?.trim()) {
+		const name = formData.name?.trim();
+		if (!name) {
 			window.alert("Project name should not be empty!"); // TODO: properly handle validation
 			return;
 		}
-		setIsSubmitting(true);
 
-		try {
-			const response = project
-				? await apiClient.api.projects[":id"].$put({
-						param: {
-							id: String(project.id),
-						},
-						json: {
-							name: formData.name,
-							bookmarked: formData.bookmarked,
-						},
-					})
-				: await apiClient.api.projects.$post({
-						json: {
-							name: formData.name,
-							bookmarked: formData.bookmarked,
-						},
-					});
-
-			if (!response.ok) {
-				const error = await response.json();
-
+		const payload = {
+			name,
+			bookmarked: formData.bookmarked,
+		};
+		const callbacks = {
+			onSuccess: () => onDone(),
+			onError: (error: Error) => {
 				console.error("Failed to submit project form", error);
-				window.alert("error" in error ? error.error : "Failed to save project");
-				return; // TODO rethrow ApiError
-			}
+				window.alert(error.message); // TODO: properly handle error
+			},
+		};
 
-			const data = await response.json();
-
-			onDone();
-		} catch (error) {
-			console.error("Failed to submit project form", error);
-			window.alert(JSON.stringify(error)); // TODO: properly handle error
-		} finally {
-			setIsSubmitting(false);
+		if (project) {
+			updateProjectMutation.mutate({ id: project.id, ...payload }, callbacks);
+		} else {
+			createProjectMutation.mutate(payload, callbacks);
 		}
 	};
 
