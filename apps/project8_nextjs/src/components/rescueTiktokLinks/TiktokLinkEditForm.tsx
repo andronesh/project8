@@ -1,7 +1,7 @@
 "use client";
 
-import { insertLink } from "@/server-actions/tiktokActions";
-import { useEffect, useState } from "react";
+import { useCreateTiktokLinkMutation } from "@project8/api-hooks/hooks/useTiktokLinkMutations";
+import { FormEvent, useEffect, useState } from "react";
 import ImagePasteZone from "./ImagePasteZone";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import { TiktokLink } from "@project8/domain/types";
@@ -13,6 +13,9 @@ type Props = {
 };
 
 export default function TiktokLinkEditForm(props: Props) {
+	const createTiktokLinkMutation = useCreateTiktokLinkMutation();
+	const isSubmitting = createTiktokLinkMutation.isPending;
+
 	const [formData, setFormData] = useState({
 		id: props.link?.id.toString(),
 		url: props.link?.url ? props.link.url : "",
@@ -37,38 +40,45 @@ export default function TiktokLinkEditForm(props: Props) {
 
 	const handleCheckboxChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.checked });
 
-	const saveLink = async () => {
+	const handleFormSubmit = (event: FormEvent) => {
+		event.preventDefault();
 		if (props.link) {
 			// TODO
 			alert("Updating is not implemented yet :(");
-		} else {
-			const result = await insertLink(
-				formData.url,
-				formData.thumbnail,
-				formData.isRecipe,
-				formData.descriptionImage,
-				formData.tgSavedAt
-			);
-			if (result) {
-				if (props.onSaved) {
-					props.onSaved();
-				}
-			} else {
-				console.error("failed to save link", formData);
-			}
+			return;
 		}
+
+		createTiktokLinkMutation.mutate(
+			{
+				url: formData.url.trim() || undefined,
+				thumbnail: formData.thumbnail,
+				isRecipe: formData.isRecipe,
+				descriptionImage: formData.descriptionImage,
+				tgSavedAt: formData.tgSavedAt.trim() || null,
+			},
+			{
+				onSuccess: () => {
+					props.onSaved?.();
+				},
+				onError: (error: Error) => {
+					console.error("Failed to save TikTok link", error);
+					window.alert(error.message); // TODO: properly handle error
+				},
+			}
+		);
 	};
 
 	return (
 		<div className="bg-card border-primary w-full rounded-lg border p-4 pt-0 shadow-sm">
-			<div className="space-y-4">
-				<input type="text" id="id" name="id" value={formData.id} className="hidden" />
+			<form className="space-y-4" onSubmit={handleFormSubmit}>
+				<input type="text" id="id" name="id" value={formData.id} className="hidden" readOnly />
 				<InputTextLabeled
 					label={"URL"}
 					name={"url"}
 					value={formData.url}
 					placeholder={"https://..."}
 					onChange={handleChange}
+					disabled={isSubmitting}
 				/>
 				<div className="flex flex-row justify-between">
 					<div className="flex flex-row items-center justify-evenly">
@@ -81,6 +91,7 @@ export default function TiktokLinkEditForm(props: Props) {
 							name="isRecipe"
 							type="checkbox"
 							onChange={handleCheckboxChange}
+							disabled={isSubmitting}
 							className="h-4 w-4 rounded-sm border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
 						/>
 					</div>
@@ -90,6 +101,7 @@ export default function TiktokLinkEditForm(props: Props) {
 						value={formData.tgSavedAt}
 						placeholder={"23.04.22 14:56"}
 						onChange={handleChange}
+						disabled={isSubmitting}
 						className="flex flex-row items-center justify-evenly"
 					/>
 				</div>
@@ -113,15 +125,20 @@ export default function TiktokLinkEditForm(props: Props) {
 					<div className="flex">
 						<button
 							type="reset"
-							className="hover:bg-accent w-full rounded-sm px-4 py-2 font-bold text-white"
+							className="hover:bg-accent w-full rounded-sm px-4 py-2 font-bold text-white disabled:text-gray-400 disabled:hover:bg-transparent"
 							onClick={props.onCancel}
+							disabled={isSubmitting}
 						>
 							Cancel
 						</button>
 					</div>
 					{props.link && (
 						<div className="flex">
-							<button className="w-full rounded-sm px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white">
+							<button
+								type="button"
+								className="w-full rounded-sm px-4 py-2 font-bold text-red-400 hover:bg-red-700 hover:text-white disabled:text-red-900 disabled:hover:bg-transparent"
+								disabled={isSubmitting}
+							>
 								Delete
 							</button>
 						</div>
@@ -129,14 +146,14 @@ export default function TiktokLinkEditForm(props: Props) {
 					<div className="flex">
 						<button
 							type="submit"
-							className="bg-primary hover:bg-accent w-full rounded-sm px-4 py-2 font-bold text-white"
-							onClick={() => saveLink()}
+							className="bg-primary hover:bg-accent w-full rounded-sm px-4 py-2 font-bold text-white disabled:bg-blue-900 disabled:text-gray-400 disabled:hover:bg-blue-900"
+							disabled={isSubmitting}
 						>
-							Save
+							{isSubmitting ? "Saving..." : "Save"}
 						</button>
 					</div>
 				</div>
-			</div>
+			</form>
 		</div>
 	);
 }
