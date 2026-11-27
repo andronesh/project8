@@ -1,5 +1,6 @@
 import { useApiClient } from "@project8/api-hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { readApiResponseErrorMessage } from "../utils";
 
 export type ProjectMutationPayload = {
 	name: string;
@@ -9,18 +10,6 @@ export type ProjectMutationPayload = {
 export type UpdateProjectInput = ProjectMutationPayload & {
 	id: number;
 };
-
-async function readErrorMessage(response: Response, fallbackMessage: string): Promise<string> {
-	try {
-		const body: unknown = await response.json();
-		if (body && typeof body === "object" && "error" in body && typeof body.error === "string") {
-			return body.error;
-		}
-		return `${fallbackMessage} (${response.status}): ${JSON.stringify(body)}`;
-	} catch {
-		return `${fallbackMessage} (${response.status})`;
-	}
-}
 
 export function useCreateProjectMutation() {
 	const apiClient = useApiClient();
@@ -33,7 +22,7 @@ export function useCreateProjectMutation() {
 			});
 
 			if (!response.ok) {
-				throw new Error(await readErrorMessage(response, "Failed to create project"));
+				throw new Error(await readApiResponseErrorMessage(response, "Failed to create project"));
 			}
 
 			return response.json();
@@ -56,7 +45,7 @@ export function useUpdateProjectMutation() {
 			});
 
 			if (!response.ok) {
-				throw new Error(await readErrorMessage(response, "Failed to update project"));
+				throw new Error(await readApiResponseErrorMessage(response, "Failed to update project"));
 			}
 
 			return response.json();

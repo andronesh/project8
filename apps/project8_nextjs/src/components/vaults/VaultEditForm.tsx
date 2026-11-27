@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import InputTextLabeled from "../common/form/InputTextLabeled";
 import { Vault } from "@project8/domain/daos/vaultsDAO";
-import { addVault, updateVault } from "@/server-actions/vaultsActions";
+import { useCreateVaultMutation, useUpdateVaultMutation } from "@project8/api-hooks/hooks/useVaultMutations";
 import { v4 } from "uuid";
 
 type Props = {
@@ -11,7 +11,10 @@ type Props = {
 };
 
 export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const createVaultMutation = useCreateVaultMutation();
+	const updateVaultMutation = useUpdateVaultMutation();
+	const isSubmitting = createVaultMutation.isPending || updateVaultMutation.isPending;
+
 	const [formData, setFormData] = useState({
 		id: vault?.id.toString(),
 		name: vault?.name,
@@ -21,28 +24,36 @@ export default function VaultEditForm({ vault, onCancel, onDone }: Props) {
 
 	const handleChange = (e: any) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-	const handleFormSubmit = async (event: FormEvent) => {
+	const handleFormSubmit = (event: FormEvent) => {
 		event.preventDefault();
-		if (!formData.name) {
+		const name = formData.name?.trim();
+		const token = formData.token?.trim();
+		if (!name) {
 			window.alert("Vault name should not be empty!"); // TODO: properly handle validation
 			return;
 		}
-		if (!formData.token) {
+		if (!token) {
 			window.alert("Vault token should not be empty!"); // TODO: properly handle validation
 			return;
 		}
-		setIsSubmitting(true);
-		try {
-			if (vault) {
-				await updateVault(vault.id, formData.name, formData.token, formData.url);
-			} else {
-				await addVault(formData.name, formData.token, formData.url);
-			}
-			setIsSubmitting(false);
-			onDone();
-		} catch (error) {
-			setIsSubmitting(false);
-			window.alert(error);
+
+		const payload = {
+			name,
+			token,
+			url: formData.url?.trim() || undefined,
+		};
+		const callbacks = {
+			onSuccess: () => onDone(),
+			onError: (error: Error) => {
+				console.error("Failed to submit vault form", error);
+				window.alert(error.message); // TODO: properly handle error
+			},
+		};
+
+		if (vault) {
+			updateVaultMutation.mutate({ id: vault.id, ...payload }, callbacks);
+		} else {
+			createVaultMutation.mutate(payload, callbacks);
 		}
 	};
 

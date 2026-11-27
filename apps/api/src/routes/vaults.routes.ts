@@ -63,6 +63,8 @@ export const vaultsRoutes = new Hono<{
 	.post("/", zValidator("json", vaultEditableDtoSchema), async (c) => {
 		try {
 			const body = c.req.valid("json");
+
+			// TODO only authed user can add vaults, and store vaults.owner
 			const createdVault = await insertVault(body.name, body.token, body.url ?? undefined);
 			return c.json(createdVault, 201);
 		} catch (error) {
@@ -80,6 +82,7 @@ export const vaultsRoutes = new Hono<{
 				return c.json({ error: "Vault not found" }, 404);
 			}
 
+			// TODO only owner can update vaults
 			const updatedVault = await updateVault(id, body.name, body.token, body.url ?? undefined);
 			return c.json(updatedVault);
 		} catch (error) {

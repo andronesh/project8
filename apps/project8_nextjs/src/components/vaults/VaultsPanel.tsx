@@ -4,7 +4,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import PlusIcon from "../common/icons/PlusIcon";
 import LoadingSpinner from "../common/LoadingSpinner";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAllVaultsQuery } from "@project8/api-hooks/hooks/useAllVaultsQuery";
 import { Vault } from "@project8/domain/daos/vaultsDAO";
 import VaultEditForm from "./VaultEditForm";
@@ -15,7 +14,6 @@ export default function VaultsPanel() {
 	const [selectedVault, selectVault] = useState<Vault>();
 	const [isEditFormOpen, setEditFormOpen] = useState(false);
 
-	const queryClient = useQueryClient();
 	const { data, isFetching, isError } = useAllVaultsQuery();
 
 	if (isError) {
@@ -38,9 +36,6 @@ export default function VaultsPanel() {
 
 	const onVaultSaved = () => {
 		setEditFormOpen(false);
-		queryClient.invalidateQueries({
-			queryKey: ["vaults"],
-		});
 		selectVault(undefined); // TODO update selectedVault instead of closing panel
 	};
 
